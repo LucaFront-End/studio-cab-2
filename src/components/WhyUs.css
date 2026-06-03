@@ -1,0 +1,266 @@
+/* ============================================
+   WHY US SECTION — Exploded Blueprint View
+   ============================================ */
+
+.whyus-section {
+  position: relative;
+  /* Scroll track length for 4 phases */
+  height: 340vh;
+  background-color: var(--colors--theme-white);
+  padding: 100px 0;
+  border-top: 1px solid rgba(13, 15, 18, 0.08);
+}
+
+/* Sticky wrapper container */
+.whyus-sticky-container {
+  position: sticky;
+  top: 90px;
+  height: calc(100vh - 130px);
+  display: flex;
+  gap: 64px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ---------- Left Column (Differentiators Card Stack) ---------- */
+.whyus-left-column {
+  width: 38%;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.whyus-eyebrow {
+  display: inline-block;
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--colors--theme-orange);
+  margin-bottom: 12px;
+}
+
+.whyus-heading {
+  font-size: clamp(28px, 2.5vw, 42px);
+  font-weight: 800;
+  line-height: 1.12;
+  color: var(--colors--theme-black);
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+}
+
+.whyus-heading em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--colors--theme-gray);
+}
+
+.whyus-dot {
+  color: var(--colors--theme-orange);
+}
+
+/* Slideshow Container (fixes vertical clipping bug) */
+.whyus-cards-container {
+  position: relative;
+  min-height: 200px; /* Reserves space so height doesn't collapse */
+  width: 100%;
+}
+
+/* Slideshow Pane (fades in/out on the same spot) */
+.whyus-card-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px 20px 16px 24px;
+  border-radius: 0 12px 12px 0;
+  background-color: #ffffff;
+  border-left: 3px solid var(--colors--theme-orange);
+  box-shadow: 0 15px 35px rgba(13, 15, 18, 0.03);
+  border: 1px solid rgba(13, 15, 18, 0.05);
+  border-left: 3px solid var(--colors--theme-orange);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(15px);
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+}
+
+/* Active Highlighted State */
+.whyus-card-pane.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  box-shadow: 0 20px 45px rgba(13, 15, 18, 0.05);
+}
+
+.whyus-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.whyus-card-num {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--colors--theme-orange);
+}
+
+.whyus-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--colors--theme-black);
+}
+
+.whyus-card-body {
+  padding-left: 0; /* Aligns text with header */
+}
+
+.whyus-card-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--colors--theme-orange);
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.whyus-card-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--colors--theme-gray);
+}
+
+/* ---------- Right Column (Exploded SVG Model Canvas) ---------- */
+.whyus-right-column {
+  width: 62%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whyus-blueprint-canvas {
+  width: 100%;
+  aspect-ratio: 16 / 13;
+  max-width: 600px;
+  background-color: #ffffff;
+  border: 1px solid rgba(13, 15, 18, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(13, 15, 18, 0.05);
+  overflow: hidden;
+  position: relative;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Blueprint graph grid dot background */
+.canvas-grid-dots {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image: radial-gradient(rgba(13, 15, 18, 0.25) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.exploded-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 2;
+  overflow: visible; /* Allows coordinates floating slightly out of viewBox */
+}
+
+/* Animating Layers (GPU accelerated) */
+.svg-layer {
+  will-change: transform, opacity;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+/* Dynamic SVG annotations pointing to layers */
+.svg-annotations {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transform-origin: center;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.svg-annotations.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* ---------- Responsive Layout ---------- */
+@media (max-width: 1024px) {
+  .whyus-section {
+    height: auto !important;
+    padding: 80px 0;
+  }
+
+  .whyus-sticky-container {
+    flex-direction: column;
+    height: auto;
+    gap: 48px;
+    padding: 0 24px;
+    overflow: visible;
+  }
+
+  .whyus-left-column {
+    width: 100%;
+    height: auto;
+  }
+
+  .whyus-heading {
+    margin-bottom: 24px;
+  }
+
+  .whyus-cards-container {
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .whyus-card-pane {
+    position: relative;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(13, 15, 18, 0.03);
+    border-radius: 12px;
+  }
+
+  .whyus-right-column {
+    width: 100%;
+    height: auto;
+  }
+
+  .whyus-blueprint-canvas {
+    max-width: 500px;
+    padding: 16px;
+  }
+
+  .svg-layer {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .svg-annotations {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

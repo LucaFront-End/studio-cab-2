@@ -1,0 +1,739 @@
+/* ============================================
+   CTA CONFIGURATOR SECTION (LIGHT THEME OVERHAUL)
+   Theme: Technical Cream, Clean Architect Blueprint
+   ============================================ */
+
+.cta-configurator-section {
+  position: relative;
+  background-color: var(--colors--theme-white);
+  color: var(--colors--theme-black);
+  padding: 120px 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Background blueprint grid pattern (Soft dark/naranja lines) */
+.cta-blueprint-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(13, 15, 18, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 15, 18, 0.02) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fine tech layout lines crossing the section */
+.cta-blueprint-line-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(13, 15, 18, 0.04);
+  z-index: 1;
+  pointer-events: none;
+}
+.cta-blueprint-line-h.top { top: 15%; }
+.cta-blueprint-line-h.bottom { bottom: 15%; }
+
+.cta-blueprint-line-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(13, 15, 18, 0.04);
+  z-index: 1;
+  pointer-events: none;
+}
+.cta-blueprint-line-v.left { left: 10%; }
+.cta-blueprint-line-v.right { right: 10%; }
+
+.cta-container {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* --- Typography --- */
+.cta-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--colors--theme-orange);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.cta-title-main {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  color: var(--colors--theme-black);
+}
+
+.cta-desc-main {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--colors--theme-gray);
+  max-width: 580px;
+  margin: 0 auto 48px auto;
+}
+
+/* --- Card Configurator --- */
+.cta-card {
+  background: #ffffff;
+  border: 1px solid rgba(13, 15, 18, 0.08);
+  border-radius: 20px;
+  padding: 48px;
+  box-shadow: 0 30px 70px rgba(13, 15, 18, 0.05);
+  text-align: left;
+  position: relative;
+  overflow: visible; /* to allow crosshairs to stick out */
+  transition: all 0.4s ease;
+}
+
+/* Outer layout ticks on card corners */
+.cta-card-corner {
+  position: absolute;
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(13, 15, 18, 0.15);
+  line-height: 1;
+  pointer-events: none;
+  font-family: monospace;
+}
+.cta-card-corner.top-left     { top: -8px; left: -5px; }
+.cta-card-corner.top-right    { top: -8px; right: -5px; }
+.cta-card-corner.bottom-left  { bottom: -8px; left: -5px; }
+.cta-card-corner.bottom-right { bottom: -8px; right: -5px; }
+
+/* Scale label on card side */
+.cta-card-side-label {
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(13, 15, 18, 0.25);
+  font-family: monospace;
+  pointer-events: none;
+}
+
+/* --- Header / Progress --- */
+.cta-card-header {
+  margin-bottom: 36px;
+}
+
+.cta-progress-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--colors--theme-gray);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cta-progress-track {
+  height: 3px;
+  background: rgba(13, 15, 18, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cta-progress-fill {
+  height: 100%;
+  background: var(--colors--theme-orange);
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.cta-step-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  letter-spacing: -0.01em;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+/* --- Wizard Slides --- */
+.cta-step-content {
+  min-height: 240px;
+  position: relative;
+}
+
+/* --- Option Grids --- */
+.cta-grid-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.cta-option-btn {
+  background: #ffffff;
+  border: 1px solid rgba(13, 15, 18, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+  color: var(--colors--theme-black);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cta-option-btn:hover {
+  background: #fafafa;
+  border-color: rgba(13, 15, 18, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(13, 15, 18, 0.02);
+}
+
+.cta-option-btn.selected {
+  background: #ffffff;
+  border-color: var(--colors--theme-orange);
+  box-shadow: 0 12px 30px rgba(255, 135, 25, 0.06);
+}
+
+.cta-option-icon {
+  font-size: 20px;
+  color: rgba(13, 15, 18, 0.3);
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.cta-option-btn.selected .cta-option-icon {
+  color: var(--colors--theme-orange);
+}
+
+.cta-option-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cta-option-desc {
+  font-size: 14px;
+  color: var(--colors--theme-gray);
+  line-height: 1.5;
+}
+
+/* Technical annotations / ticks inside option button */
+.cta-option-tech-tag {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 8px;
+  font-family: monospace;
+  color: rgba(13, 15, 18, 0.25);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.cta-option-btn.selected .cta-option-tech-tag {
+  color: var(--colors--theme-orange);
+}
+
+/* Corner crosses on button hover or select */
+.corner-cross {
+  position: absolute;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--colors--theme-orange);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.corner-cross.top-left     { top: -7px; left: -4px; }
+.corner-cross.top-right    { top: -7px; right: -4px; }
+.corner-cross.bottom-left  { bottom: -7px; left: -4px; }
+.corner-cross.bottom-right { bottom: -7px; right: -4px; }
+
+.cta-option-btn:hover .corner-cross,
+.cta-option-btn.selected .corner-cross {
+  opacity: 1;
+}
+
+/* --- Step 3: Ruler & Form --- */
+.cta-step3-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Custom Ruler Slider Track */
+.cta-slider-wrapper {
+  background: #fafafa;
+  border: 1px solid rgba(13, 15, 18, 0.06);
+  padding: 28px 24px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.cta-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cta-slider-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--colors--theme-gray);
+  letter-spacing: 0.05em;
+}
+
+.cta-slider-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--colors--theme-orange);
+  font-family: monospace;
+}
+
+.cta-slider-input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Range input styling */
+.cta-range-input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(13, 15, 18, 0.05);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+/* Range Thumb custom technical style (Target/Crosshair) */
+.cta-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid var(--colors--theme-orange);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 135, 25, 0.25);
+  transition: transform 0.1s ease;
+  position: relative;
+}
+
+.cta-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.cta-range-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid var(--colors--theme-orange);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 135, 25, 0.25);
+  transition: transform 0.1s ease;
+}
+
+.cta-range-input::-moz-range-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Custom Ruler Ticks (millimeter scale line) */
+.cta-ruler-ticks {
+  position: relative;
+  height: 12px;
+  width: 98%;
+  margin: 4px auto 0 auto;
+  /* Repeating line pattern for tape measure ticks */
+  background-image: 
+    repeating-linear-gradient(90deg, rgba(13, 15, 18, 0.15) 0px, rgba(13, 15, 18, 0.15) 1px, transparent 1px, transparent 10px),
+    repeating-linear-gradient(90deg, rgba(13, 15, 18, 0.3) 0px, rgba(13, 15, 18, 0.3) 1px, transparent 1px, transparent 50px);
+  background-size: 100% 6px, 100% 12px;
+  background-repeat: no-repeat;
+  background-position: 0 0, 0 0;
+  pointer-events: none;
+}
+
+.cta-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(13, 15, 18, 0.35);
+  font-weight: 700;
+  font-family: monospace;
+  margin-top: 4px;
+}
+
+/* Technical Contact Form */
+.cta-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.cta-input-group {
+  position: relative;
+}
+
+/* Modern minimalist labels & outline */
+.cta-input-field {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(13, 15, 18, 0.1);
+  border-radius: 8px;
+  padding: 16px 20px;
+  color: var(--colors--theme-black);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.cta-input-field:focus {
+  border-color: var(--colors--theme-orange);
+  box-shadow: 0 8px 24px rgba(255, 135, 25, 0.05);
+}
+
+.cta-input-field::placeholder {
+  color: rgba(13, 15, 18, 0.3);
+}
+
+.cta-input-tech-label {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  background: #ffffff;
+  padding: 0 6px;
+  font-size: 8px;
+  font-family: monospace;
+  color: rgba(13, 15, 18, 0.4);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* --- Bottom Summary Panel --- */
+.cta-card-footer {
+  margin-top: 40px;
+  border-top: 1px solid rgba(13, 15, 18, 0.06);
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.cta-summary-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cta-summary-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--colors--theme-gray);
+  opacity: 0.6;
+}
+
+.cta-summary-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--colors--theme-black);
+}
+
+.cta-summary-text strong {
+  color: var(--colors--theme-orange);
+  font-weight: 800;
+}
+
+/* Action Buttons */
+.cta-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cta-btn-nav {
+  padding: 14px 28px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cta-btn-prev {
+  background: transparent;
+  border: 1px solid rgba(13, 15, 18, 0.15);
+  color: var(--colors--theme-gray);
+}
+
+.cta-btn-prev:hover {
+  border-color: var(--colors--theme-black);
+  color: var(--colors--theme-black);
+  transform: translateX(-3px);
+}
+
+.cta-btn-next {
+  background: var(--colors--theme-orange);
+  border: 1px solid var(--colors--theme-orange);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 135, 25, 0.15);
+}
+
+.cta-btn-next:hover:not(:disabled) {
+  background: #ff9738;
+  border-color: #ff9738;
+  transform: translateX(3px);
+  box-shadow: 0 6px 18px rgba(255, 135, 25, 0.25);
+}
+
+.cta-btn-next:disabled {
+  background: rgba(13, 15, 18, 0.03);
+  border-color: transparent;
+  color: rgba(13, 15, 18, 0.2);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.cta-btn-submit {
+  background: var(--colors--theme-black);
+  border: 1px solid var(--colors--theme-black);
+  color: var(--colors--theme-white);
+  box-shadow: 0 4px 14px rgba(13, 15, 18, 0.1);
+}
+
+.cta-btn-submit:hover:not(:disabled) {
+  background: #1e2229;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13, 15, 18, 0.2);
+}
+
+.cta-btn-submit:disabled {
+  background: rgba(13, 15, 18, 0.03);
+  border-color: transparent;
+  color: rgba(13, 15, 18, 0.2);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* --- Success State: Certified blueprint document --- */
+.cta-success-screen {
+  text-align: center;
+  padding: 40px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  border: 1px dashed rgba(13, 15, 18, 0.15);
+  border-radius: 12px;
+  background: #fafafa;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-success-screen::before {
+  content: 'STUDIO CAB • DISEÑO REGISTRADO';
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 8px;
+  font-family: monospace;
+  font-weight: 700;
+  color: rgba(13, 15, 18, 0.3);
+  letter-spacing: 0.1em;
+}
+
+.cta-success-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--colors--theme-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.cta-success-svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--colors--theme-orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawCheck 0.8s ease forwards 0.3s;
+}
+
+@keyframes drawCheck {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.cta-success-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--colors--theme-black);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.cta-success-desc {
+  font-size: 16px;
+  color: var(--colors--theme-gray);
+  line-height: 1.65;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+/* Simulated signature lines at bottom of success card */
+.cta-signature-block {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 32px;
+  border-top: 1px solid rgba(13, 15, 18, 0.08);
+  padding-top: 20px;
+}
+
+.cta-sig-line {
+  text-align: center;
+  font-family: monospace;
+}
+
+.cta-sig-name {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--colors--theme-black);
+  margin-bottom: 4px;
+}
+
+.cta-sig-title {
+  font-size: 7px;
+  color: rgba(13, 15, 18, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.cta-btn-reset {
+  background: transparent;
+  border: 1px solid rgba(13, 15, 18, 0.15);
+  color: var(--colors--theme-gray);
+  padding: 10px 20px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.cta-btn-reset:hover {
+  border-color: var(--colors--theme-black);
+  color: var(--colors--theme-black);
+  background: rgba(13, 15, 18, 0.02);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .cta-configurator-section {
+    padding: 80px 15px;
+  }
+  
+  .cta-card {
+    padding: 30px 20px;
+    border-radius: 16px;
+  }
+
+  .cta-grid-options {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cta-option-btn {
+    padding: 16px;
+  }
+
+  .cta-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cta-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    margin-top: 32px;
+    padding-top: 20px;
+  }
+
+  .cta-summary-details {
+    text-align: center;
+  }
+
+  .cta-actions-wrapper {
+    justify-content: space-between;
+  }
+
+  .cta-btn-nav {
+    flex: 1;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .cta-card-side-label {
+    display: none;
+  }
+
+  .cta-signature-block {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+}

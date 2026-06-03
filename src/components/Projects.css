@@ -1,0 +1,465 @@
+/* ============================================
+   PROJECTS SECTION — Before/After Swipe Slider
+   ============================================ */
+
+.projects-section {
+  position: relative;
+  /* Scroll track length for 3 sequential projects */
+  height: 540vh;
+  background-color: var(--colors--theme-white);
+  padding: 100px 0;
+}
+
+/* Sticky wrapper container */
+.projects-sticky-container {
+  position: sticky;
+  top: 90px;
+  height: calc(100vh - 130px);
+  display: flex;
+  gap: 64px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ---------- Left Column (Storytelling Narrative) ---------- */
+.projects-overlay-narrative {
+  width: 32%;
+  display: flex;
+  flex-direction: column;
+  height: 80%; /* Centered container height */
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  padding-bottom: 60px; /* Leaves room for absolute CTA */
+}
+
+.project-narrative-group {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-narrative-group.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%);
+}
+
+.project-info-header {
+  margin-bottom: 24px;
+}
+
+.project-eyebrow {
+  display: inline-block;
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--colors--theme-orange);
+  margin-bottom: 12px;
+}
+
+.project-title {
+  font-size: clamp(32px, 2.8vw, 44px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--colors--theme-black);
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.project-location {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--colors--theme-gray);
+  letter-spacing: 0.02em;
+}
+
+/* Narrative Cards Stack */
+.narrative-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  opacity: 0.12;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+  margin-bottom: 12px;
+}
+
+/* Active Highlight state */
+.narrative-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  background-color: #ffffff;
+  border-color: rgba(13, 15, 18, 0.06);
+  box-shadow: 0 10px 30px rgba(13, 15, 18, 0.03);
+}
+
+.narrative-num {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(13, 15, 18, 0.15);
+  transition: color 0.4s ease;
+}
+
+.narrative-card.active .narrative-num {
+  color: var(--colors--theme-orange);
+  font-weight: 700;
+}
+
+.narrative-content h4 {
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--colors--theme-black);
+  margin-bottom: 4px;
+}
+
+.narrative-content p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--colors--theme-gray);
+}
+
+/* Bottom CTA block */
+.projects-cta-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.project-site-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--colors--theme-black);
+  border-bottom: 1.5px solid rgba(13, 15, 18, 0.2);
+  padding-bottom: 6px;
+  transition: color 0.3s ease, border-color 0.3s ease, gap 0.3s ease;
+}
+
+.project-site-cta:hover {
+  color: var(--colors--theme-orange);
+  border-color: var(--colors--theme-orange);
+  gap: 16px;
+}
+
+/* ---------- Right Column (Visual Slider Frame) ---------- */
+.projects-slider-frame {
+  width: 68%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-slider-inner {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(13, 15, 18, 0.08);
+  box-shadow: 0 30px 60px rgba(13, 15, 18, 0.06);
+}
+
+/* Stacking the sliders absolutely to allow crossfading */
+.project-slider-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-slider-wrapper.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.project-image-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base image (finished space) */
+.layer-after {
+  z-index: 1;
+}
+
+/* Sliding layer (CAD blueprint space) */
+.layer-before {
+  z-index: 2;
+  will-change: clip-path;
+}
+
+.slider-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Image Labels */
+.image-label {
+  position: absolute;
+  bottom: 24px;
+  padding: 6px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  z-index: 5;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.after-label {
+  right: 24px;
+  background-color: rgba(255, 255, 255, 0.85);
+  color: var(--colors--theme-black);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.before-label {
+  left: 24px;
+  background-color: rgba(13, 15, 18, 0.85);
+  color: #f7f2e2;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ---------- Slider Dividing Line ---------- */
+.slider-divider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--colors--theme-orange);
+  z-index: 10;
+  pointer-events: none;
+  left: 100%;
+  will-change: left;
+}
+
+/* Center Handle circle */
+.slider-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--colors--theme-orange);
+  border: 4px solid var(--colors--theme-white);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--colors--theme-white);
+  cursor: ew-resize;
+  pointer-events: auto;
+}
+
+.handle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Hotspots ---------- */
+.hotspot {
+  position: absolute;
+  z-index: 15;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Revealed class triggered when wipe line passes */
+.hotspot.revealed {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hotspot-dot {
+  width: 16px;
+  height: 16px;
+  background-color: var(--colors--theme-orange);
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.hotspot-dot:hover {
+  transform: scale(1.25);
+}
+
+/* Ring pulse animation */
+.hotspot-dot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid var(--colors--theme-orange);
+  animation: hotspot-pulse 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes hotspot-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Tooltip popup card */
+.hotspot-tooltip {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 220px;
+  padding: 12px 16px;
+  background: rgba(13, 15, 18, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #f7f2e2;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 30;
+  text-align: center;
+}
+
+.hotspot-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(13, 15, 18, 0.95) transparent transparent transparent;
+}
+
+.hotspot-tooltip p {
+  font-size: 12px;
+  line-height: 1.45;
+  margin: 0;
+  color: rgba(247, 242, 226, 0.9);
+  font-weight: 500;
+}
+
+/* Hover show trigger */
+.hotspot:hover .hotspot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Responsive Layout ---------- */
+@media (max-width: 1024px) {
+  .projects-section {
+    height: auto !important;
+    padding: 80px 0;
+  }
+
+  .projects-sticky-container {
+    flex-direction: column;
+    height: auto;
+    gap: 48px;
+    padding: 0 24px;
+    overflow: visible;
+  }
+
+  .projects-overlay-narrative {
+    width: 100%;
+    height: auto;
+    padding-bottom: 0;
+  }
+
+  .project-narrative-group {
+    position: relative;
+    top: 0;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+    margin-bottom: 48px;
+  }
+
+  .project-narrative-group:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .narrative-card {
+    opacity: 1 !important;
+    transform: none !important;
+    background-color: #ffffff;
+    border-color: rgba(13, 15, 18, 0.06);
+    box-shadow: 0 10px 30px rgba(13, 15, 18, 0.03);
+  }
+
+  .projects-cta-box {
+    position: relative;
+    margin-top: 32px;
+  }
+
+  .projects-slider-frame {
+    width: 100%;
+    height: auto;
+  }
+
+  .project-slider-wrapper {
+    position: relative;
+    opacity: 1 !important;
+    pointer-events: auto;
+    margin-bottom: 32px;
+  }
+
+  .project-slider-wrapper:last-child {
+    margin-bottom: 0;
+  }
+
+  .layer-before {
+    width: 50% !important;
+    clip-path: none !important;
+  }
+  .slider-divider-line {
+    left: 50% !important;
+  }
+}

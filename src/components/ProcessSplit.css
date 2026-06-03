@@ -1,0 +1,511 @@
+/* ============================================
+   PROCESS SPLIT SECTION — Negative Margin Technique
+   Shutters: position sticky (pins while opening)
+   Timeline: margin-top -100vh (overlaps behind shutters)
+   Right column: position sticky (native column sticky)
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&display=swap');
+
+.process-split-section {
+  position: relative;
+  background-color: var(--colors--theme-white);
+  margin: 0;
+  padding: 0;
+}
+
+/* =============================================
+   LAYER 1: Shutters — sticky, stays pinned
+   ============================================= */
+.process-shutters-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  z-index: 10;
+}
+
+.process-shutter {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  z-index: 10;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #0d0f12;
+  will-change: transform, width;
+  transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shutter-left {
+  left: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.shutter-right {
+  right: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.shutter-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.shutter-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1) contrast(1.1) brightness(0.4) opacity(0.4);
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), filter 0.9s ease;
+}
+
+.design-bg {
+  background-image: url('/process_design.png');
+}
+
+.fabrication-bg {
+  background-image: url('/process_fabrication.png');
+}
+
+.shutter-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(13, 15, 18, 0.45);
+  z-index: 2;
+  transition: background-color 0.7s ease;
+}
+
+.shutter-border-frame {
+  position: absolute;
+  inset: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 4;
+  pointer-events: none;
+  transition: border-color 0.6s ease;
+}
+
+.cross-hair {
+  position: absolute;
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.2);
+  line-height: 1;
+  transition: color 0.6s ease;
+}
+.cross-hair.top-left    { top: -9px; left: -5px; }
+.cross-hair.top-right   { top: -9px; right: -5px; }
+.cross-hair.bottom-left { bottom: -9px; left: -5px; }
+.cross-hair.bottom-right{ bottom: -9px; right: -5px; }
+
+.tech-coord {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: monospace;
+}
+
+.shutter-num-bg {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(120px, 12vw, 180px);
+  font-weight: 900;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: rgba(255, 255, 255, 0.035);
+  line-height: 1;
+  pointer-events: none;
+  z-index: -1;
+  transition: color 0.6s ease, transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shutter-content {
+  position: relative;
+  z-index: 3;
+  width: 80%;
+  max-width: 440px;
+  text-align: center;
+  color: #ffffff;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.shutter-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--colors--theme-orange);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.shutter-title {
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.shutter-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 24px;
+}
+
+.shutter-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--colors--theme-orange);
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+  transition: border-color 0.3s ease, gap 0.3s ease;
+}
+
+/* --- Hover States --- */
+.shutter-left.hover-left  { width: 65%; }
+.shutter-right.hover-left { width: 35%; }
+.shutter-right.hover-right { width: 65%; }
+.shutter-left.hover-right  { width: 35%; }
+
+.shutter-left.hover-left .shutter-bg,
+.shutter-right.hover-right .shutter-bg {
+  filter: grayscale(0) contrast(1.05) brightness(0.45);
+  transform: scale(1.06);
+}
+.shutter-left.hover-left .shutter-overlay,
+.shutter-right.hover-right .shutter-overlay {
+  background-color: rgba(13, 15, 18, 0.5);
+}
+.shutter-left.hover-left .shutter-border-frame,
+.shutter-right.hover-right .shutter-border-frame {
+  border-color: rgba(255, 135, 25, 0.3);
+}
+.shutter-left.hover-left .cross-hair,
+.shutter-right.hover-right .cross-hair {
+  color: var(--colors--theme-orange);
+}
+.shutter-left.hover-left .shutter-num-bg,
+.shutter-right.hover-right .shutter-num-bg {
+  color: rgba(255, 135, 25, 0.08);
+  transform: translateX(-50%) scale(1.05);
+}
+.shutter-left.hover-left .shutter-indicator,
+.shutter-right.hover-right .shutter-indicator {
+  gap: 16px;
+  border-color: var(--colors--theme-orange);
+}
+
+/* --- Shrink state --- */
+.process-shutters-wrapper .shutter-left.shrink .shutter-bg,
+.process-shutters-wrapper .shutter-right.shrink .shutter-bg {
+  filter: grayscale(1) contrast(1) brightness(0.2);
+  opacity: 0.3;
+  transform: scale(0.98);
+}
+.process-shutters-wrapper .shutter-left.shrink .shutter-border-frame,
+.process-shutters-wrapper .shutter-right.shrink .shutter-border-frame {
+  border-color: rgba(255, 255, 255, 0.03);
+}
+
+/* =============================================
+   LAYER 2: Timeline — overlaps via negative margin
+   ============================================= */
+.timeline-split-wrapper {
+  /*
+   * KEY: margin-top -100vh pulls the timeline up to sit
+   * directly behind the shutters wrapper. As we scroll,
+   * the shutters open (sticky) and the timeline is revealed.
+   */
+  margin-top: -100vh;
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 40px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 80px;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+/* Left Column: Natural scroll */
+.timeline-left-col {
+  width: 44%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pushes content down past the 100vh shutter area */
+.timeline-top-spacer {
+  height: 110vh;
+  flex-shrink: 0;
+}
+
+.timeline-bottom-spacer {
+  height: 30vh;
+  flex-shrink: 0;
+}
+
+.process-text-intro {
+  color: var(--colors--theme-black);
+  margin-bottom: 64px;
+}
+
+.process-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--colors--theme-orange);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.process-title-main {
+  font-size: clamp(26px, 2.5vw, 38px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  color: var(--colors--theme-black);
+}
+
+.process-desc-main {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--colors--theme-gray);
+}
+
+.process-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.process-step-card {
+  background: #ffffff;
+  border: 1px solid rgba(13, 15, 18, 0.04);
+  box-shadow: 0 10px 30px rgba(13, 15, 18, 0.03);
+  border-radius: 16px;
+  padding: 32px 36px;
+  opacity: 0.2;
+  transform: scale(0.96);
+  transform-origin: left center;
+  border-left: 4px solid transparent;
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.6s ease;
+}
+
+.process-step-card.active {
+  opacity: 1;
+  transform: scale(1.02);
+  border-left-color: var(--colors--theme-orange);
+  box-shadow: 0 25px 50px rgba(13, 15, 18, 0.06);
+}
+
+.step-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.step-card-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--colors--theme-orange);
+}
+
+.step-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--colors--theme-black);
+}
+
+.step-card-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--colors--theme-orange);
+  margin-bottom: 12px;
+}
+
+.step-card-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--colors--theme-gray);
+}
+
+/* =============================================
+   Right Column: Native CSS sticky inside timeline
+   ============================================= */
+.timeline-right-col {
+  width: 48%;
+  position: sticky;
+  top: 130px;
+  height: calc(100vh - 180px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Offset to align with the card content (past the top spacer) */
+  margin-top: 110vh;
+}
+
+.timeline-image-viewport {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 520px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(13, 15, 18, 0.06);
+  border: 1px solid rgba(13, 15, 18, 0.05);
+  background-color: rgba(13, 15, 18, 0.03);
+}
+
+.timeline-reveal-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.timeline-reveal-img.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+.frame-tech-lines {
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.frame-tech-lines .tech-cross {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1;
+}
+.frame-tech-lines .tech-cross.top-left    { top: -6px; left: -4px; }
+.frame-tech-lines .tech-cross.top-right   { top: -6px; right: -4px; }
+.frame-tech-lines .tech-cross.bottom-left { bottom: -6px; left: -4px; }
+.frame-tech-lines .tech-cross.bottom-right{ bottom: -6px; right: -4px; }
+
+.frame-scale {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+}
+
+/* =============================================
+   Responsive — Mobile
+   ============================================= */
+@media (max-width: 1024px) {
+  .process-shutters-wrapper {
+    position: relative !important;
+    height: auto !important;
+    flex-direction: column !important;
+  }
+
+  .process-shutter {
+    position: relative !important;
+    width: 100% !important;
+    height: 280px !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  .shutter-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .timeline-split-wrapper {
+    margin-top: 0 !important;
+    flex-direction: column-reverse !important;
+    gap: 40px !important;
+    padding: 64px 24px !important;
+    max-width: 100% !important;
+  }
+
+  .timeline-top-spacer,
+  .timeline-bottom-spacer {
+    display: none !important;
+  }
+
+  .timeline-right-col {
+    width: 100% !important;
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+    margin-top: 0 !important;
+  }
+
+  .timeline-image-viewport {
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  .timeline-reveal-img { opacity: 0 !important; }
+  .timeline-reveal-img:first-child {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .timeline-left-col { width: 100% !important; }
+
+  .process-step-card {
+    opacity: 1 !important;
+    transform: none !important;
+    padding: 24px 28px !important;
+    border-left: 3px solid var(--colors--theme-orange) !important;
+  }
+}

@@ -1,0 +1,98 @@
+/* ============================================
+   GLOBAL RESET & BASE STYLES
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --colors--theme-black: #0d0f12;
+  --colors--theme-white: #F7F2E2;
+  --colors--theme-orange: #FF8719;
+  --colors--theme-gray: #50555e;
+  --color-border: rgba(13, 15, 18, 0.1);
+  
+  /* Typography */
+  --font-family: 'Urbanist', Arial, sans-serif;
+  
+  /* Spacing */
+  --container-max-width: 960px;
+  --section-padding: 0 15px;
+  
+  /* Transitions */
+  --transition-default: all 0.4s ease;
+  --transition-fast: all 0.2s ease;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--colors--theme-black);
+  background-color: var(--colors--theme-white);
+  min-height: 100%;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: visible;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  vertical-align: middle;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  margin: 0;
+  font-weight: 400;
+}
+
+p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--colors--theme-gray);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container-default {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.main-wrapper {
+  overflow: visible;
+}
