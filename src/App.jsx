@@ -6,6 +6,7 @@ import WhyUs from './components/WhyUs';
 import ProcessSplit from './components/ProcessSplit';
 import CTAConfigurator from './components/CTAConfigurator';
 import Footer from './components/Footer';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <ProcessSplit />
       <CTAConfigurator />
       <Footer />
+      <ThemeSwitcher />
     </main>
   );
 }
