@@ -53,7 +53,11 @@ export default function Header() {
       <div className="header-nav-container">
         {/* Logo */}
         <a href="#" className="header-logo-link">
-          <span className="header-logo-text">STUDIO CAB<span className="logo-dot">.</span></span>
+          <img
+            src="/logo-cab.png"
+            alt="Grupo CAB Studio"
+            className="header-logo-image"
+          />
         </a>
 
         {/* Desktop Nav List */}

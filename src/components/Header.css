@@ -44,27 +44,21 @@
   text-decoration: none;
 }
 
-.header-logo-text {
-  font-family: var(--font-family);
-  font-size: 19px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  color: var(--colors--theme-black);
-  text-transform: uppercase;
-  user-select: none;
-  transition: opacity 0.3s ease, font-size 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+/* Logo image */
+.header-logo-image {
+  height: 80px;
+  width: auto;
+  display: block;
+  mix-blend-mode: multiply;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
 }
 
-.header-logo-text:hover {
-  opacity: 0.85;
+.header-logo-image:hover {
+  opacity: 0.8;
 }
 
-.logo-dot {
-  color: var(--colors--theme-orange);
-}
-
-.header-scrolled .header-logo-text {
-  font-size: 17px;
+.header-scrolled .header-logo-image {
+  height: 60px;
 }
 
 /* Desktop Nav links */

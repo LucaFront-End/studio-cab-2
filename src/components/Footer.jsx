@@ -10,7 +10,11 @@ export default function Footer() {
           {/* Col 1: Brand Info */}
           <div className="footer-brand-col">
             <a href="#" className="footer-logo-wrapper">
-              <span className="footer-logo-text">STUDIO CAB<span className="logo-dot">.</span></span>
+              <img
+                src="/logo-cab.png"
+                alt="Grupo CAB Studio"
+                className="footer-logo-image"
+              />
             </a>
             <p className="footer-brand-desc">
               Espacios comerciales y residencias premium que integran arquitectura interior de alto nivel y carpintería fina manufacturada en nuestro propio taller en la Ciudad de México.

@@ -51,14 +51,17 @@
   text-decoration: none;
 }
 
-.footer-logo-text {
-  font-family: var(--font-family);
-  font-size: 19px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  color: var(--colors--theme-white);
-  text-transform: uppercase;
-  user-select: none;
+.footer-logo-image {
+  height: 100px;
+  width: auto;
+  display: block;
+  filter: invert(1);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.footer-logo-image:hover {
+  opacity: 1;
 }
 
 .footer-brand-desc {
