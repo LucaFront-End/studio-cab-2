@@ -45,7 +45,7 @@
   z-index: 1010;
   text-decoration: none;
   /* Reserve horizontal space for the logo so nav links don't overlap */
-  width: 160px;
+  width: 200px;
   height: 30px;
 }
 
@@ -55,7 +55,7 @@
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  height: 90px;
+  height: 120px;
   width: auto;
   display: block;
   mix-blend-mode: multiply;
@@ -67,7 +67,7 @@
 }
 
 .header-scrolled .header-logo-image {
-  height: 65px;
+  height: 85px;
 }
 
 /* Desktop Nav links */
