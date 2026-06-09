@@ -39,22 +39,27 @@
 
 /* Logo */
 .header-logo-link {
+  position: relative;
   display: flex;
   align-items: center;
   z-index: 1010;
   text-decoration: none;
-  overflow: visible;
+  /* Reserve horizontal space for the logo so nav links don't overlap */
+  width: 160px;
+  height: 30px;
 }
 
 /* Logo image */
 .header-logo-image {
-  height: 160px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 90px;
   width: auto;
   display: block;
   mix-blend-mode: multiply;
-  transform: scale(2);
-  transform-origin: left center;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
 }
 
 .header-logo-image:hover {
@@ -62,9 +67,7 @@
 }
 
 .header-scrolled .header-logo-image {
-  height: 120px;
-  transform: scale(1.6);
-  transform-origin: left center;
+  height: 65px;
 }
 
 /* Desktop Nav links */
