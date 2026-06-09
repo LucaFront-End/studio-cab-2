@@ -16,6 +16,7 @@
   padding: 24px 0;
   transition: padding 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
   box-sizing: border-box;
+  overflow: visible;
 }
 
 /* Scrolled state (compact) */
@@ -42,6 +43,7 @@
   align-items: center;
   z-index: 1010;
   text-decoration: none;
+  overflow: visible;
 }
 
 /* Logo image */
@@ -50,7 +52,9 @@
   width: auto;
   display: block;
   mix-blend-mode: multiply;
-  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  transform: scale(2);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
 }
 
 .header-logo-image:hover {
@@ -59,6 +63,8 @@
 
 .header-scrolled .header-logo-image {
   height: 120px;
+  transform: scale(1.6);
+  transform-origin: left center;
 }
 
 /* Desktop Nav links */
