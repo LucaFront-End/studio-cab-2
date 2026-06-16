@@ -182,10 +182,25 @@
 }
 
 .sd-benefit-icon {
-  display: block;
-  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
   color: var(--colors--theme-orange);
   margin-bottom: 16px;
+}
+
+.sd-benefit-svg {
+  color: var(--colors--theme-orange);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sd-benefit-card:hover .sd-benefit-svg {
+  transform: scale(1.18) rotate(8deg);
+}
+
+.sd-benefit-card.in-view .anim-draw-on {
+  stroke-dashoffset: 0;
 }
 
 .sd-benefit-title {

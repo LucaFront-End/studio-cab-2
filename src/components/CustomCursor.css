@@ -1,0 +1,139 @@
+/* Custom Cursor Base Styles */
+.custom-cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--colors--theme-orange);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 99999;
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+}
+
+.custom-cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--colors--theme-orange);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+              height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+              background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+              border-radius 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: left, top, width, height;
+}
+
+/* Blend difference for default cursor */
+.custom-cursor-dot.type-default {
+  background-color: #fff;
+  mix-blend-mode: difference;
+}
+.custom-cursor-ring.type-default {
+  border-color: rgba(255, 255, 255, 0.6);
+  mix-blend-mode: difference;
+}
+
+/* Clicking State */
+.custom-cursor-dot.clicking {
+  width: 4px;
+  height: 4px;
+}
+.custom-cursor-ring.clicking {
+  width: 24px;
+  height: 24px;
+}
+
+/* Hovering Interactive elements (pointers) */
+.custom-cursor-ring.hovered.type-pointer {
+  width: 48px;
+  height: 48px;
+  border-color: var(--colors--theme-orange);
+  background-color: rgba(255, 135, 25, 0.08);
+}
+.custom-cursor-dot.type-pointer {
+  background-color: var(--colors--theme-orange);
+}
+
+/* View Mode Hover (for project items/details) */
+.custom-cursor-ring.type-view {
+  width: 70px;
+  height: 70px;
+  background-color: var(--colors--theme-orange);
+  border-color: var(--colors--theme-orange);
+  border-radius: 50%;
+}
+.custom-cursor-dot.type-view {
+  opacity: 0;
+}
+.custom-cursor-ring.type-view .cursor-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+  animation: scaleInText 0.3s forwards;
+}
+
+/* Drag Mode Hover (for sliders, carousels) */
+.custom-cursor-ring.type-drag {
+  width: 75px;
+  height: 75px;
+  background-color: var(--colors--theme-black);
+  border-color: var(--colors--theme-black);
+}
+.custom-cursor-dot.type-drag {
+  opacity: 0;
+}
+.custom-cursor-ring.type-drag .cursor-text {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--colors--theme-white);
+  animation: scaleInText 0.3s forwards;
+}
+
+/* Zoom Mode Hover */
+.custom-cursor-ring.type-zoom {
+  width: 70px;
+  height: 70px;
+  background-color: var(--colors--theme-orange);
+  border-color: var(--colors--theme-orange);
+}
+.custom-cursor-dot.type-zoom {
+  opacity: 0;
+}
+.custom-cursor-ring.type-zoom .cursor-text {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #fff;
+  animation: scaleInText 0.3s forwards;
+}
+
+@keyframes scaleInText {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Disable native cursor on desktop */
+@media (pointer: fine) {
+  body, 
+  a, 
+  button, 
+  select, 
+  input, 
+  textarea, 
+  [role="button"], 
+  .clickable,
+  .slider-handle,
+  .accordion-trigger {
+    cursor: none !important;
+  }
+}

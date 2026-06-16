@@ -29,10 +29,48 @@ const comparisons = [
 ];
 
 export default function ServicesPage() {
-  /* Section 1: Marquee */
+  /* Section 1: Marquee with scroll velocity speed control */
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
+  const marqueeTrackRef = useRef(null);
 
-  /* Section 2: Service Cards with magnetic hover */
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let velocity = 0;
+    
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      const diff = Math.abs(currentScroll - lastScrollY);
+      velocity = Math.min(diff, 120); // clamp velocity
+      lastScrollY = currentScroll;
+      
+      // High velocity = faster duration (shorter animationDuration)
+      const newDuration = Math.max(4, 25 - velocity * 0.2);
+      
+      if (marqueeTrackRef.current) {
+        marqueeTrackRef.current.style.animationDuration = `${newDuration}s`;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Gradually restore base speed of 25s
+    const interval = setInterval(() => {
+      if (marqueeTrackRef.current) {
+        const currentDur = parseFloat(marqueeTrackRef.current.style.animationDuration || '25');
+        if (currentDur < 25) {
+          const restoredDur = Math.min(25, currentDur + 0.6);
+          marqueeTrackRef.current.style.animationDuration = `${restoredDur}s`;
+        }
+      }
+    }, 150);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(interval);
+    };
+  }, []);
+
+  /* Section 2: Service Cards with magnetic tilt and glow follow */
   const [cardsRefs, cardsVis] = useStaggerInView(servicesData.length, { staggerDelay: 150 });
   const cardContainerRefs = useRef([]);
 
@@ -42,12 +80,20 @@ export default function ServicesPage() {
     const rect = card.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 12;
-    card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.02)`;
+    card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg) scale3d(1.02, 1.02, 1.02)`;
+    
+    // Set mouse glow coordinate parameters
+    const glowX = e.clientX - rect.left;
+    const glowY = e.clientY - rect.top;
+    card.style.setProperty('--glow-x', `${glowX}px`);
+    card.style.setProperty('--glow-y', `${glowY}px`);
   };
 
   const handleMouseLeave = (index) => {
     const card = cardContainerRefs.current[index];
-    if (card) card.style.transform = 'perspective(800px) rotateY(0) rotateX(0) scale(1)';
+    if (card) {
+      card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) scale3d(1, 1, 1)';
+    }
   };
 
   /* Section 3: Process Steps */
@@ -86,7 +132,7 @@ export default function ServicesPage() {
           </h1>
         </div>
         <div className="sp-marquee-wrapper">
-          <div className="sp-marquee-track">
+          <div className="sp-marquee-track" ref={marqueeTrackRef}>
             {[...servicesData, ...servicesData, ...servicesData].map((s, i) => (
               <span key={i} className="sp-marquee-item">
                 {s.title} <span className="sp-marquee-sep">✦</span>
@@ -104,9 +150,10 @@ export default function ServicesPage() {
               <Link to={`/servicios/${service.id}`} key={service.id} className="sp-card-link">
                 <div
                   ref={el => { cardsRefs.current[i] = el; cardContainerRefs.current[i] = el; }}
-                  className={`sp-service-card ${cardsVis[i] ? 'in-view' : ''}`}
+                  className={`sp-service-card hover-glow ${cardsVis[i] ? 'in-view' : ''}`}
                   onMouseMove={(e) => handleMouseMove(e, i)}
                   onMouseLeave={() => handleMouseLeave(i)}
+                  data-cursor="view"
                 >
                   <div className="sp-card-image-wrapper">
                     <img src={service.image} alt={service.title} className="sp-card-image" />

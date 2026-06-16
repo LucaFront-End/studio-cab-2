@@ -209,7 +209,8 @@
   border-color: var(--colors--theme-orange);
   color: var(--colors--theme-orange);
   background: rgba(255, 135, 25, 0.05);
-  transform: translateY(-3px);
+  transform: translateY(-4px) rotate(8deg);
+  box-shadow: 0 5px 15px rgba(255, 135, 25, 0.15);
 }
 
 /* --- Bottom Bar --- */

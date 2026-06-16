@@ -38,7 +38,16 @@ export default function AboutPage() {
   /* ── Section 2: Timeline ── */
   const [timelineRef, timelineVisible] = useInView({ threshold: 0.1 });
   const [activeTimeline, setActiveTimeline] = useState(0);
+  const [timelineUserInteracted, setTimelineUserInteracted] = useState(false);
   const timelineTrackRef = useRef(null);
+
+  useEffect(() => {
+    if (!timelineVisible || timelineUserInteracted) return;
+    const interval = setInterval(() => {
+      setActiveTimeline(prev => (prev + 1) % timelineData.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [timelineVisible, timelineUserInteracted]);
 
   /* ── Section 3: Philosophy ── */
   const [philRef, philVisible] = useInView({ threshold: 0.2 });
@@ -54,6 +63,24 @@ export default function AboutPage() {
       else next.add(index);
       return next;
     });
+  };
+
+  // 3D Card Tilt Effect
+  const handleCardMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    const rotateY = ((x - xc) / xc) * 15; // range -15 to 15 deg
+    const rotateX = -((y - yc) / yc) * 15; // range -15 to 15 deg
+    card.style.transform = `perspective(1000px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale3d(1.03, 1.03, 1.03)`;
+  };
+
+  const handleCardMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)`;
   };
 
   /* ── Section 5: Workshop Gallery ── */
@@ -137,7 +164,7 @@ export default function AboutPage() {
             Un camino de <em>precisión</em> y <em>pasión</em>.
           </h2>
 
-          <div className="timeline-track" ref={timelineTrackRef}>
+          <div className="timeline-track">
             <div className="timeline-line">
               <div className="timeline-line-fill" style={{ width: `${((activeTimeline + 1) / timelineData.length) * 100}%` }} />
             </div>
@@ -145,8 +172,11 @@ export default function AboutPage() {
               {timelineData.map((item, i) => (
                 <button
                   key={i}
-                  className={`timeline-dot ${i === activeTimeline ? 'active' : ''} ${i <= activeTimeline ? 'past' : ''}`}
-                  onClick={() => setActiveTimeline(i)}
+                  className={`timeline-dot ${i === activeTimeline ? 'active' : ''} ${i <= activeTimeline ? 'past' : ''} clickable`}
+                  onClick={() => {
+                    setActiveTimeline(i);
+                    setTimelineUserInteracted(true);
+                  }}
                 >
                   <span className="timeline-dot-year">{item.year}</span>
                   <span className="timeline-dot-circle" />
@@ -228,7 +258,9 @@ export default function AboutPage() {
               <div
                 key={i}
                 ref={el => teamRefs.current[i] = el}
-                className={`team-card-wrapper ${teamVisible[i] ? 'in-view' : ''}`}
+                className={`team-card-wrapper ${teamVisible[i] ? 'in-view' : ''} tilt-card`}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
                 onClick={() => toggleFlip(i)}
               >
                 <div className={`team-card ${flippedCards.has(i) ? 'flipped' : ''}`}>
@@ -277,6 +309,7 @@ export default function AboutPage() {
                 ref={el => galleryRefs.current[i] = el}
                 className={`workshop-item ${galleryVisible[i] ? 'in-view' : ''}`}
                 onClick={() => setLightboxIndex(i)}
+                data-cursor="view"
               >
                 <img src={img.src} alt={img.alt} className="workshop-image" />
                 <div className="workshop-item-overlay">

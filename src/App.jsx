@@ -3,6 +3,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import ScrollToTop from './components/ScrollToTop';
+import CustomCursor from './components/CustomCursor';
+import PageTransition from './components/PageTransition';
+import CartDrawer from './components/CartDrawer';
+import { CartProvider } from './context/CartContext';
 
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -16,24 +20,33 @@ import ProductPage from './pages/ProductPage';
 
 function App() {
   return (
-    <main className="main-wrapper">
-      <ScrollToTop />
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/nosotros" element={<AboutPage />} />
-        <Route path="/servicios" element={<ServicesPage />} />
-        <Route path="/servicios/:id" element={<ServiceDetailPage />} />
-        <Route path="/proyectos" element={<ProjectsPage />} />
-        <Route path="/proyectos/:id" element={<ProjectDetailPage />} />
-        <Route path="/contacto" element={<ContactPage />} />
-        <Route path="/tienda" element={<StorePage />} />
-        <Route path="/tienda/:id" element={<ProductPage />} />
-      </Routes>
-      <Footer />
-      <ThemeSwitcher />
-    </main>
+    <CartProvider>
+      <div className="app-container">
+        <div className="grain-overlay" />
+        <CustomCursor />
+        <PageTransition />
+        <CartDrawer />
+        <main className="main-wrapper">
+          <ScrollToTop />
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/nosotros" element={<AboutPage />} />
+            <Route path="/servicios" element={<ServicesPage />} />
+            <Route path="/servicios/:id" element={<ServiceDetailPage />} />
+            <Route path="/proyectos" element={<ProjectsPage />} />
+            <Route path="/proyectos/:id" element={<ProjectDetailPage />} />
+            <Route path="/contacto" element={<ContactPage />} />
+            <Route path="/tienda" element={<StorePage />} />
+            <Route path="/tienda/:id" element={<ProductPage />} />
+          </Routes>
+          <Footer />
+          <ThemeSwitcher />
+        </main>
+      </div>
+    </CartProvider>
   );
 }
 
 export default App;
+

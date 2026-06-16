@@ -16,16 +16,43 @@
 
 /* FILTERS */
 .st-filters-section { padding: 40px 20px 20px; background: var(--colors--theme-white); }
-.st-filters { display: flex; gap: 10px; flex-wrap: wrap; }
-.st-filter-btn { padding: 8px 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--color-border); border-radius: 24px; background: transparent; color: var(--colors--theme-gray); cursor: pointer; transition: all 0.3s ease; }
-.st-filter-btn.active { background: var(--colors--theme-black); color: var(--colors--theme-white); border-color: var(--colors--theme-black); }
+.st-filters { display: flex; gap: 10px; flex-wrap: wrap; position: relative; }
+
+.st-filter-indicator {
+  position: absolute;
+  height: 100%;
+  background-color: var(--colors--theme-black);
+  border-radius: 24px;
+  top: 0;
+  z-index: 0;
+  transition: left 0.38s cubic-bezier(0.25, 1, 0.5, 1), width 0.38s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+.st-filter-btn {
+  position: relative;
+  z-index: 1;
+  padding: 8px 20px;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background: transparent;
+  color: var(--colors--theme-gray);
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.st-filter-btn.active {
+  color: var(--colors--theme-white);
+  border-color: transparent;
+}
 .st-filter-btn:hover:not(.active) { border-color: var(--colors--theme-orange); color: var(--colors--theme-orange); }
 
 /* PRODUCT GRID */
 .st-grid-section { padding: 40px 20px 100px; background: var(--colors--theme-white); }
 .st-product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 
-.st-product-card { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border); text-decoration: none; opacity: 0; transform: translateY(25px); transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease; }
+.st-product-card { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border); text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; opacity: 0; transform: translateY(25px); transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease; }
 .st-product-card.in-view { opacity: 1; transform: translateY(0); }
 .st-product-card:hover { box-shadow: 0 15px 40px color-mix(in srgb, var(--colors--theme-black) 10%, transparent); }
 
@@ -35,12 +62,43 @@
 .st-product-card:hover .st-img-primary { opacity: 0; }
 .st-product-card:hover .st-img-secondary { opacity: 1; transform: scale(1.05); }
 
-.st-product-info { padding: 16px 20px; }
+.st-product-info { padding: 16px 20px 10px; }
 .st-product-name { font-size: 15px; font-weight: 800; color: var(--colors--theme-black); margin-bottom: 4px; }
 .st-product-price { font-size: 14px; font-weight: 700; color: var(--colors--theme-orange); }
 
-.st-product-view { position: absolute; bottom: 16px; right: 20px; font-size: 11px; font-weight: 700; color: var(--colors--theme-orange); opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; }
-.st-product-card:hover .st-product-view { opacity: 1; transform: translateX(0); }
+.st-product-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 20px;
+}
+
+.st-product-view {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--colors--theme-gray);
+  transition: color 0.3s ease;
+}
+.st-product-card:hover .st-product-view {
+  color: var(--colors--theme-orange);
+}
+
+.st-product-add-btn {
+  padding: 7px 12px;
+  background-color: var(--colors--theme-black);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 4px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.st-product-add-btn:hover {
+  background-color: var(--colors--theme-orange);
+  transform: scale(1.05);
+}
 
 /* FEATURED */
 .st-featured { padding: 0 20px 100px; }

@@ -183,10 +183,89 @@
 
 /* --- Magnetic hover utility (JS sets --mx, --my custom properties) --- */
 .magnetic-hover {
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* --- Parallax scroll utility --- */
 .parallax-slow {
   will-change: transform;
 }
+
+/* --- Noise Grain Overlay --- */
+.grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") repeat;
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 999999;
+  animation: grainShift 8s steps(10) infinite;
+}
+
+/* --- 3D perspective and Tilt --- */
+.perspective-container {
+  perspective: 1000px;
+}
+
+.tilt-card {
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* --- Hover Glow Follower Utility --- */
+.hover-glow {
+  position: relative;
+  overflow: hidden;
+}
+.hover-glow::before {
+  content: '';
+  position: absolute;
+  top: var(--glow-y, 0);
+  left: var(--glow-x, 0);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 135, 25, 0.12) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+.hover-glow:hover::before {
+  opacity: 1;
+}
+
+@keyframes grainShift {
+  0%, 100% { transform:translate(0, 0); }
+  10% { transform:translate(-5%, -10%); }
+  20% { transform:translate(-15%, 5%); }
+  30% { transform:translate(7%, -25%); }
+  40% { transform:translate(-5%, 25%); }
+  50% { transform:translate(-15%, 10%); }
+  60% { transform:translate(15%, 0%); }
+  70% { transform:translate(0%, 15%); }
+  80% { transform:translate(3%, 35%); }
+  90% { transform:translate(-10%, 10%); }
+}
+
+/* Word-by-word reveal */
+.reveal-text-wrapper {
+  overflow: hidden;
+  display: inline-block;
+}
+.reveal-text-word {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: calc(var(--word-index) * 0.05s);
+}
+.reveal-text-wrapper.in-view .reveal-text-word {
+  transform: translateY(0);
+}
+

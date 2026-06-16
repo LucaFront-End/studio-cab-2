@@ -20,6 +20,20 @@ const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
+  
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const filterRefs = useRef([]);
+  
+  useEffect(() => {
+    const activeIndex = filters.indexOf(activeFilter);
+    const activeBtn = filterRefs.current[activeIndex];
+    if (activeBtn) {
+      setIndicatorStyle({
+        left: activeBtn.offsetLeft,
+        width: activeBtn.offsetWidth,
+      });
+    }
+  }, [activeFilter]);
 
   const filteredProjects = activeFilter === 'Todos'
     ? projectsData
@@ -36,6 +50,26 @@ export default function ProjectsPage() {
 
   const featuredProject = projectsData.find(p => p.featured);
 
+  // Parallax Inner Image Hover Effect
+  const handleCardMouseMove = (e) => {
+    const card = e.currentTarget;
+    const img = card.querySelector('.pp-card-image');
+    if (!img) return;
+    const rect = card.getBoundingClientRect();
+    // Shift image in opposite direction of mouse
+    const x = -((e.clientX - rect.left) / rect.width - 0.5) * 20; 
+    const y = -((e.clientY - rect.top) / rect.height - 0.5) * 20;
+    img.style.transform = `scale3d(1.15, 1.15, 1.15) translate3d(${x}px, ${y}px, 0)`;
+  };
+
+  const handleCardMouseLeave = (e) => {
+    const card = e.currentTarget;
+    const img = card.querySelector('.pp-card-image');
+    if (img) {
+      img.style.transform = 'scale3d(1.05, 1.05, 1.05) translate3d(0, 0, 0)';
+    }
+  };
+
   return (
     <div className="projects-page page-enter">
 
@@ -47,10 +81,12 @@ export default function ProjectsPage() {
             Nuestros Proyectos<span className="sp-dot">.</span>
           </h1>
           <div className={`pp-filters ${heroVis ? 'in-view' : ''}`}>
-            {filters.map(f => (
+            <div className="pp-filter-indicator" style={indicatorStyle} />
+            {filters.map((f, i) => (
               <button
                 key={f}
-                className={`pp-filter-btn ${activeFilter === f ? 'active' : ''}`}
+                ref={el => filterRefs.current[i] = el}
+                className={`pp-filter-btn ${activeFilter === f ? 'active' : ''} clickable`}
                 onClick={() => setActiveFilter(f)}
               >
                 {f}
@@ -70,6 +106,9 @@ export default function ProjectsPage() {
                 key={project.id}
                 ref={el => gridRefs.current[i] = el}
                 className={`pp-project-card ${gridVis[i] ? 'in-view' : ''}`}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
+                data-cursor="view"
               >
                 <div className="pp-card-image-wrapper">
                   <img src={project.image} alt={project.title} className="pp-card-image" />

@@ -335,6 +335,74 @@
   background-color: var(--colors--theme-orange);
 }
 
+/* Header Cart Toggle Button */
+.header-cart-toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--colors--theme-black);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.header-cart-toggle:hover {
+  border-color: var(--colors--theme-orange);
+  color: var(--colors--theme-orange);
+  background: rgba(255, 135, 25, 0.03);
+}
+
+.header-cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--colors--theme-orange);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--colors--theme-white);
+  animation: countPulse 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  pointer-events: none;
+}
+
+/* Mobile Nav Stagger Animation */
+.mobile-nav-item {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.header-mobile-drawer.open .mobile-nav-item {
+  animation: slideInRightMobile 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.header-mobile-drawer.open .mobile-nav-item:nth-child(1) { animation-delay: 0.15s; }
+.header-mobile-drawer.open .mobile-nav-item:nth-child(2) { animation-delay: 0.2s; }
+.header-mobile-drawer.open .mobile-nav-item:nth-child(3) { animation-delay: 0.25s; }
+.header-mobile-drawer.open .mobile-nav-item:nth-child(4) { animation-delay: 0.3s; }
+.header-mobile-drawer.open .mobile-nav-item:nth-child(5) { animation-delay: 0.35s; }
+.header-mobile-drawer.open .mobile-nav-item:nth-child(6) { animation-delay: 0.4s; }
+
+@keyframes slideInRightMobile {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* ============================================
    RESPONSIVE LAYOUT
    ============================================ */

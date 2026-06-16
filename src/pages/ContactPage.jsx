@@ -173,7 +173,9 @@ export default function ContactPage() {
                   <span className="cp-faq-icon">{openFaq === i ? '−' : '+'}</span>
                 </button>
                 <div className="cp-faq-answer">
-                  <p>{faq.a}</p>
+                  <div className="cp-faq-answer-inner">
+                    <p>{faq.a}</p>
+                  </div>
                 </div>
               </div>
             ))}

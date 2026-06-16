@@ -30,11 +30,25 @@
 
 .pp-filters {
   display: flex; gap: 12px; flex-wrap: wrap;
+  position: relative;
   opacity: 0; transform: translateY(15px); transition: all 0.6s ease 0.4s;
 }
 .pp-filters.in-view { opacity: 1; transform: translateY(0); }
 
+.pp-filter-indicator {
+  position: absolute;
+  height: 100%;
+  background-color: var(--colors--theme-black);
+  border-radius: 24px;
+  top: 0;
+  z-index: 0;
+  transition: left 0.38s cubic-bezier(0.25, 1, 0.5, 1), width 0.38s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
 .pp-filter-btn {
+  position: relative;
+  z-index: 1;
   padding: 8px 20px;
   font-size: 12px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
@@ -43,12 +57,11 @@
   background: transparent;
   color: var(--colors--theme-gray);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 .pp-filter-btn.active {
-  background: var(--colors--theme-black);
   color: var(--colors--theme-white);
-  border-color: var(--colors--theme-black);
+  border-color: transparent;
 }
 .pp-filter-btn:hover:not(.active) {
   border-color: var(--colors--theme-orange);
