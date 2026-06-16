@@ -1,48 +1,50 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import './PageTransition.css';
 
-export default function PageTransition() {
+export default function PageTransition({ children }) {
   const location = useLocation();
-  const [displayPath, setDisplayPath] = useState(location.pathname);
-  const [animating, setAnimating] = useState(false);
-  const [phase, setPhase] = useState('idle'); // 'idle', 'entering', 'exiting'
-  const prevPathRef = useRef(location.pathname);
+  const [displayLocation, setDisplayLocation] = useState(location);
+  const [transitionStage, setTransitionStage] = useState('idle');
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (location.pathname !== prevPathRef.current) {
-      // Route changed! Trigger page wipe animation
-      prevPathRef.current = location.pathname;
-      setAnimating(true);
-      setPhase('entering');
-
-      // Phase 1: Wipe covers the screen (450ms)
-      const enterTimer = setTimeout(() => {
-        setDisplayPath(location.pathname);
-        setPhase('exiting');
-      }, 500);
-
-      // Phase 2: Wipe reveals the new page (500ms)
-      const exitTimer = setTimeout(() => {
-        setPhase('idle');
-        setAnimating(false);
-      }, 1000);
-
-      return () => {
-        clearTimeout(enterTimer);
-        clearTimeout(exitTimer);
-      };
+    // Skip transition on first render
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
     }
-  }, [location.pathname]);
 
-  if (phase === 'idle') return null;
+    if (location.pathname !== displayLocation.pathname) {
+      setTransitionStage('exit');
+      
+      const timer = setTimeout(() => {
+        setDisplayLocation(location);
+        setTransitionStage('enter');
+        
+        const enterTimer = setTimeout(() => {
+          setTransitionStage('idle');
+        }, 600);
+
+        return () => clearTimeout(enterTimer);
+      }, 400);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location, displayLocation]);
 
   return (
-    <div className={`page-transition-overlay ${phase}`}>
-      <div className="wipe-panel primary-panel">
-        <div className="panel-logo">CAB</div>
+    <>
+      {/* Wipe overlay */}
+      <div className={`page-transition-overlay ${transitionStage}`}>
+        <div className="pt-wipe" />
+        <div className="pt-wipe-accent" />
       </div>
-      <div className="wipe-panel secondary-panel"></div>
-    </div>
+
+      {/* Content */}
+      <div className={`page-transition-content ${transitionStage}`}>
+        {children}
+      </div>
+    </>
   );
 }

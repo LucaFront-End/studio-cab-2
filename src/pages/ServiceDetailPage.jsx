@@ -14,10 +14,10 @@ const allServices = {
       'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80',
     ],
     benefits: [
-      { icon: 'focus', title: 'Diseño centrado en ventas', text: 'Layouts que optimizan recorridos y elevan conversiones.' },
-      { icon: 'identity', title: 'Identidad de marca espacial', text: 'Tu marca vive en cada pared, mostrador y textura.' },
-      { icon: 'quality', title: 'Materialidad premium', text: 'Piedra, madera y metal de primer nivel con acabados de lujo.' },
-      { icon: 'delivery', title: 'Plazos garantizados', text: 'Entrega en tiempo contractual o ajustamos presupuesto.' },
+      { icon: '◎', title: 'Diseño centrado en ventas', text: 'Layouts que optimizan recorridos y elevan conversiones.' },
+      { icon: '◈', title: 'Identidad de marca espacial', text: 'Tu marca vive en cada pared, mostrador y textura.' },
+      { icon: '◇', title: 'Materialidad premium', text: 'Piedra, madera y metal de primer nivel con acabados de lujo.' },
+      { icon: '△', title: 'Plazos garantizados', text: 'Entrega en tiempo contractual o ajustamos presupuesto.' },
     ],
   },
   residencial: {
@@ -31,10 +31,10 @@ const allServices = {
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
     ],
     benefits: [
-      { icon: 'focus', title: 'Diseño personalizado', text: 'Cada proyecto es único, adaptado a tu estilo de vida.' },
-      { icon: 'quality', title: 'Materiales nobles', text: 'Mármol, nogal, roble y piedra natural de primera calidad.' },
-      { icon: 'identity', title: 'Iluminación escénica', text: 'Diseño lumínico integrado para cada ambiente y hora del día.' },
-      { icon: 'delivery', title: 'Carpintería a medida', text: 'Mobiliario fabricado en nuestro taller, milimétrico.' },
+      { icon: '◎', title: 'Diseño personalizado', text: 'Cada proyecto es único, adaptado a tu estilo de vida.' },
+      { icon: '◈', title: 'Materiales nobles', text: 'Mármol, nogal, roble y piedra natural de primera calidad.' },
+      { icon: '◇', title: 'Iluminación escénica', text: 'Diseño lumínico integrado para cada ambiente y hora del día.' },
+      { icon: '△', title: 'Carpintería a medida', text: 'Mobiliario fabricado en nuestro taller, milimétrico.' },
     ],
   },
   carpinteria: {
@@ -48,10 +48,10 @@ const allServices = {
       'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
     ],
     benefits: [
-      { icon: 'focus', title: 'Taller propio', text: 'Control total de fabricación sin intermediarios.' },
-      { icon: 'identity', title: 'CNC + artesanía', text: 'Precisión digital combinada con acabado manual.' },
-      { icon: 'quality', title: 'Materiales certificados', text: 'Maderas FSC, herrajes Blum, lacas Sherwin-Williams.' },
-      { icon: 'delivery', title: 'Garantía extendida', text: '5 años de garantía en estructura y mecanismos.' },
+      { icon: '◎', title: 'Taller propio', text: 'Control total de fabricación sin intermediarios.' },
+      { icon: '◈', title: 'CNC + artesanía', text: 'Precisión digital combinada con acabado manual.' },
+      { icon: '◇', title: 'Materiales certificados', text: 'Maderas FSC, herrajes Blum, lacas Sherwin-Williams.' },
+      { icon: '△', title: 'Garantía extendida', text: '5 años de garantía en estructura y mecanismos.' },
     ],
   },
   produccion: {
@@ -65,46 +65,12 @@ const allServices = {
       'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80',
     ],
     benefits: [
-      { icon: 'focus', title: 'Llave en mano', text: 'Un solo punto de contacto para todo el proyecto.' },
-      { icon: 'identity', title: 'Supervisión en sitio', text: 'Presencia diaria de nuestro equipo en la obra.' },
-      { icon: 'quality', title: 'Control de costos', text: 'Presupuesto cerrado con desglose transparente.' },
-      { icon: 'delivery', title: 'Acabados premium', text: 'Cada detalle ejecutado con estándar de alta costura.' },
+      { icon: '◎', title: 'Llave en mano', text: 'Un solo punto de contacto para todo el proyecto.' },
+      { icon: '◈', title: 'Supervisión en sitio', text: 'Presencia diaria de nuestro equipo en la obra.' },
+      { icon: '◇', title: 'Control de costos', text: 'Presupuesto cerrado con desglose transparente.' },
+      { icon: '△', title: 'Acabados premium', text: 'Cada detalle ejecutado con estándar de alta costura.' },
     ],
   },
-};
-
-const renderBenefitIcon = (iconName) => {
-  switch (iconName) {
-    case 'focus':
-      return (
-        <svg className="sd-benefit-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <circle cx="12" cy="12" r="10" className="anim-draw-on" />
-          <circle cx="12" cy="12" r="6" className="anim-draw-on" />
-          <circle cx="12" cy="12" r="2" className="anim-draw-on" />
-        </svg>
-      );
-    case 'identity':
-      return (
-        <svg className="sd-benefit-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" className="anim-draw-on" />
-        </svg>
-      );
-    case 'quality':
-      return (
-        <svg className="sd-benefit-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 2L2 12l10 10 10-10L12 2z" className="anim-draw-on" />
-        </svg>
-      );
-    case 'delivery':
-      return (
-        <svg className="sd-benefit-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <circle cx="12" cy="12" r="10" className="anim-draw-on" />
-          <polyline points="12 6 12 12 16 14" className="anim-draw-on" />
-        </svg>
-      );
-    default:
-      return <span>◎</span>;
-  }
 };
 
 export default function ServiceDetailPage() {
@@ -172,7 +138,7 @@ export default function ServiceDetailPage() {
         <div className="container-default">
           <div className={`sd-gallery-grid ${galVis ? 'in-view' : ''}`}>
             {service.gallery.map((img, i) => (
-              <div key={i} className="sd-gallery-item" style={{ transitionDelay: `${i * 0.15}s` }} data-cursor="view">
+              <div key={i} className="sd-gallery-item" style={{ transitionDelay: `${i * 0.15}s` }}>
                 <img src={img} alt={`${service.title} ${i + 1}`} />
               </div>
             ))}
@@ -192,7 +158,7 @@ export default function ServiceDetailPage() {
                 ref={el => benRefs.current[i] = el}
                 className={`sd-benefit-card ${benVis[i] ? 'in-view' : ''}`}
               >
-                <span className="sd-benefit-icon">{renderBenefitIcon(b.icon)}</span>
+                <span className="sd-benefit-icon">{b.icon}</span>
                 <h3 className="sd-benefit-title">{b.title}</h3>
                 <p className="sd-benefit-text">{b.text}</p>
               </div>

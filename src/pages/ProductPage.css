@@ -7,23 +7,13 @@
 .prp-hero-grid.in-view { opacity: 1; transform: translateY(0); }
 
 /* Gallery */
-.prp-main-image { position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 16px; background: color-mix(in srgb, var(--colors--theme-white) 90%, var(--colors--theme-black)); }
-.prp-main-img { width: 100%; height: 480px; object-fit: cover; transition: transform 0.5s ease; }
-.prp-main-image:hover .prp-main-img { transform: scale(1.02); }
+.prp-main-image { border-radius: 14px; overflow: hidden; margin-bottom: 16px; background: color-mix(in srgb, var(--colors--theme-white) 90%, var(--colors--theme-black)); position: relative; }
+.prp-main-img { width: 100%; height: 480px; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.prp-main-image:hover .prp-main-img { transform: scale(1.06); }
 
-.prp-magnifier {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 2px solid var(--colors--theme-orange);
-  box-shadow: 0 8px 25px rgba(13, 15, 18, 0.3);
-  pointer-events: none;
-  background-repeat: no-repeat;
-  background-size: 200% 200%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-}
+/* Zoom hint overlay */
+.prp-main-image::after { content: '⊕'; position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); color: var(--colors--theme-orange); display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.prp-main-image:hover::after { opacity: 1; }
 
 .prp-thumbnails { display: flex; gap: 10px; }
 .prp-thumb { width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 2px solid var(--color-border); cursor: pointer; padding: 0; background: none; transition: border-color 0.3s ease; }
@@ -39,17 +29,9 @@
 .prp-desc { font-size: 15px; color: var(--colors--theme-gray); line-height: 1.7; margin-bottom: 28px; }
 
 /* Tabs */
-.prp-tabs { display: flex; position: relative; border-bottom: 1px solid var(--color-border); margin-bottom: 20px; }
-.prp-tab-indicator {
-  position: absolute;
-  bottom: -1px;
-  height: 2px;
-  background-color: var(--colors--theme-orange);
-  transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1), width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 1;
-}
-.prp-tab { padding: 12px 20px; font-size: 13px; font-weight: 700; color: var(--colors--theme-gray); background: none; border: none; cursor: pointer; transition: color 0.3s ease; font-family: var(--font-family); position: relative; z-index: 2; }
-.prp-tab.active { color: var(--colors--theme-orange); }
+.prp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--color-border); margin-bottom: 20px; }
+.prp-tab { padding: 12px 20px; font-size: 13px; font-weight: 700; color: var(--colors--theme-gray); background: none; border: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s ease; font-family: var(--font-family); }
+.prp-tab.active { color: var(--colors--theme-orange); border-bottom-color: var(--colors--theme-orange); }
 
 .prp-tab-content { min-height: 160px; margin-bottom: 32px; }
 .prp-desc-content p { font-size: 15px; color: var(--colors--theme-gray); line-height: 1.7; margin-bottom: 16px; }
@@ -62,8 +44,10 @@
 .prp-spec-label { font-size: 13px; font-weight: 700; color: var(--colors--theme-gray); }
 .prp-spec-value { font-size: 13px; font-weight: 700; color: var(--colors--theme-black); }
 
-.prp-cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; background: var(--colors--theme-black); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 8px; border: none; transition: all 0.3s ease; }
-.prp-cta-btn:hover { background: var(--colors--theme-orange); transform: translateY(-2px); }
+.prp-cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: linear-gradient(135deg, var(--colors--theme-black), color-mix(in srgb, var(--colors--theme-black) 85%, var(--colors--theme-orange))); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; text-decoration: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+.prp-cta-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent); transform: translateX(-100%); transition: transform 0.6s ease; }
+.prp-cta-btn:hover::before { transform: translateX(100%); }
+.prp-cta-btn:hover { background: var(--colors--theme-orange); transform: translateY(-3px); box-shadow: 0 14px 32px color-mix(in srgb, var(--colors--theme-orange) 40%, transparent); }
 
 /* Related */
 .prp-related { padding: 80px 20px; background: color-mix(in srgb, var(--colors--theme-white) 95%, var(--colors--theme-black)); }

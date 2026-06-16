@@ -1,116 +1,77 @@
+/* ============================================
+   PAGE TRANSITION
+   ============================================ */
+
 .page-transition-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 999999;
-  pointer-events: all;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
 }
 
-.wipe-panel {
+.pt-wipe {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  transform: translateY(100%);
-  will-change: transform;
+  background: var(--colors--theme-black);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
 }
 
-.primary-panel {
-  background-color: var(--colors--theme-black);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.pt-wipe-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--colors--theme-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
 }
 
-.panel-logo {
-  font-family: var(--font-family);
-  font-size: 80px;
-  font-weight: 800;
-  letter-spacing: 15px;
-  color: var(--colors--theme-orange);
+/* EXIT: wipe up to cover */
+.page-transition-overlay.exit .pt-wipe {
+  transform: scaleY(1);
+  transform-origin: bottom;
+}
+.page-transition-overlay.exit .pt-wipe-accent {
+  transform: scaleX(1);
+}
+
+/* ENTER: wipe up to reveal */
+.page-transition-overlay.enter .pt-wipe {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition-delay: 0.05s;
+}
+.page-transition-overlay.enter .pt-wipe-accent {
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+/* Content fade */
+.page-transition-content {
+  transition: opacity 0.3s ease;
+}
+.page-transition-content.exit {
   opacity: 0;
-  transform: translateY(30px);
 }
-
-.secondary-panel {
-  background-color: var(--colors--theme-orange);
-  z-index: 1;
-}
-
-/* entering phase: curtain slides up to cover screen */
-.page-transition-overlay.entering .primary-panel {
-  animation: slideInUpCurtain 0.5s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-}
-
-.page-transition-overlay.entering .secondary-panel {
-  animation: slideInUpCurtain 0.45s cubic-bezier(0.85, 0, 0.15, 1) 0.05s forwards;
-}
-
-.page-transition-overlay.entering .panel-logo {
-  animation: fadeInUpLogo 0.3s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
-}
-
-/* exiting phase: curtain slides up and out of screen */
-.page-transition-overlay.exiting .primary-panel {
-  transform: translateY(0);
-  animation: slideOutUpCurtain 0.5s cubic-bezier(0.85, 0, 0.15, 1) 0.05s forwards;
-}
-
-.page-transition-overlay.exiting .secondary-panel {
-  transform: translateY(0);
-  animation: slideOutUpCurtain 0.5s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-}
-
-.page-transition-overlay.exiting .panel-logo {
-  transform: translateY(0);
+.page-transition-content.enter {
   opacity: 1;
-  animation: fadeOutDownLogo 0.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: ptContentIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Keyframes */
-@keyframes slideInUpCurtain {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideOutUpCurtain {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes fadeInUpLogo {
+@keyframes ptContentIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes fadeOutDownLogo {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-30px);
   }
 }

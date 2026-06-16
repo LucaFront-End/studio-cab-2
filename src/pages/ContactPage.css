@@ -27,24 +27,15 @@
 .cp-field-input:focus { border-bottom-color: var(--colors--theme-orange); }
 .cp-field-select { cursor: pointer; appearance: none; }
 
-.cp-field-line {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--colors--theme-orange);
-  transition: width 0.45s cubic-bezier(0.25, 1, 0.5, 1), left 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.cp-field-input:focus ~ .cp-field-line {
-  width: 100%;
-  left: 0;
-}
+.cp-field-line { position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--colors--theme-orange); transition: width 0.4s cubic-bezier(0.25,1,0.5,1); }
+.cp-field-input:focus ~ .cp-field-line { width: 100%; }
 
 .cp-field-textarea textarea { resize: vertical; min-height: 100px; }
 
-.cp-submit-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: var(--colors--theme-black); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 8px; border: none; cursor: pointer; align-self: flex-start; transition: all 0.3s ease; font-family: var(--font-family); }
-.cp-submit-btn:hover { background: var(--colors--theme-orange); transform: translateY(-2px); }
+.cp-submit-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: linear-gradient(135deg, var(--colors--theme-black), color-mix(in srgb, var(--colors--theme-black) 85%, var(--colors--theme-orange))); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 10px; border: none; cursor: pointer; align-self: flex-start; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-family: var(--font-family); position: relative; overflow: hidden; }
+.cp-submit-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent); transform: translateX(-100%); transition: transform 0.6s ease; }
+.cp-submit-btn:hover::before { transform: translateX(100%); }
+.cp-submit-btn:hover { background: var(--colors--theme-orange); transform: translateY(-3px); box-shadow: 0 12px 30px color-mix(in srgb, var(--colors--theme-orange) 35%, transparent); }
 
 /* ═══ 3: MAP ═══ */
 .cp-map-section { background: var(--colors--theme-black); }
@@ -70,22 +61,8 @@
 .cp-faq-question:hover { color: var(--colors--theme-orange); }
 .cp-faq-icon { font-size: 22px; color: var(--colors--theme-orange); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px; }
 .cp-faq-item.open .cp-faq-icon { transform: rotate(90deg); }
-.cp-faq-answer {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.cp-faq-item.open .cp-faq-answer {
-  grid-template-rows: 1fr;
-}
-.cp-faq-answer-inner {
-  overflow: hidden;
-  padding-bottom: 0;
-  transition: padding 0.3s ease;
-}
-.cp-faq-item.open .cp-faq-answer-inner {
-  padding-bottom: 20px;
-}
+.cp-faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,1,0.5,1), padding 0.4s ease; }
+.cp-faq-item.open .cp-faq-answer { max-height: 300px; padding-bottom: 20px; }
 .cp-faq-answer p { font-size: 15px; color: var(--colors--theme-gray); line-height: 1.7; }
 
 /* ═══ 5: SOCIAL ═══ */
@@ -96,7 +73,8 @@
 .cp-social-grid { display: flex; justify-content: center; gap: 24px; }
 .cp-social-card { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 36px 32px; border: 1px solid var(--color-border); border-radius: 14px; text-decoration: none; min-width: 180px; transition: all 0.3s ease; background: var(--colors--theme-white); }
 .cp-social-card:hover { border-color: var(--colors--theme-orange); transform: translateY(-6px); box-shadow: 0 15px 40px color-mix(in srgb, var(--colors--theme-black) 8%, transparent); }
-.cp-social-card.cp-whatsapp:hover { border-color: #25D366; }
+.cp-social-card.cp-whatsapp:hover { border-color: #25D366; box-shadow: 0 15px 40px rgba(37, 211, 102, 0.15); animation: whatsappPulse 1.5s ease infinite; }
+@keyframes whatsappPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.3); } 50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); } }
 .cp-social-icon { color: var(--colors--theme-black); transition: color 0.3s ease; }
 .cp-social-card:hover .cp-social-icon { color: var(--colors--theme-orange); }
 .cp-whatsapp:hover .cp-social-icon { color: #25D366; }

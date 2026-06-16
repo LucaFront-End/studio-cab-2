@@ -176,59 +176,12 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {/* ═══ BEFORE/AFTER SLIDER ═══ */}
-      <section className="pd-before-after">
-        <div className="container-default">
-          <span className="section-eyebrow">Transformación</span>
-          <h2 className="section-heading">Antes y <em>después</em>.</h2>
-          <div 
-            className="ba-slider" 
-            ref={sliderRef}
-            onMouseMove={handleSliderMove}
-            onTouchMove={handleSliderMove}
-            onMouseDown={() => { dragging.current = true; }}
-            onMouseUp={() => { dragging.current = false; }}
-            onMouseLeave={() => { dragging.current = false; }}
-            onTouchStart={() => { dragging.current = true; }}
-            onTouchEnd={() => { dragging.current = false; }}
-            data-cursor="drag"
-          >
-            {/* Before Image */}
-            <div className="ba-image ba-before">
-              <img src={project.gallery[1] || project.gallery[0]} alt="Antes" />
-              <span className="ba-label ba-label-before">ANTES</span>
-            </div>
-
-            {/* After Image */}
-            <div 
-              className="ba-image ba-after" 
-              style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
-            >
-              <img src={project.gallery[0]} alt="Después" />
-              <span className="ba-label ba-label-after">DESPUÉS</span>
-            </div>
-
-            {/* Handle */}
-            <div className="ba-handle" style={{ left: `${sliderPos}%` }}>
-              <div className="ba-handle-line"></div>
-              <div className="ba-handle-button">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="8 17 3 12 8 7" />
-                  <polyline points="16 17 21 12 16 7" />
-                </svg>
-              </div>
-              <div className="ba-handle-line"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ═══ 3: GALLERY ═══ */}
       <section className="pd-gallery" ref={galRef}>
         <div className="container-default">
           <div className={`pd-gallery-grid ${galVis ? 'in-view' : ''}`}>
             {project.gallery.map((img, i) => (
-              <div key={i} className="pd-gallery-item" style={{ transitionDelay: `${i * 0.15}s` }} data-cursor="view">
+              <div key={i} className="pd-gallery-item" style={{ transitionDelay: `${i * 0.15}s` }}>
                 <img src={img} alt={`${project.title} ${i + 1}`} />
               </div>
             ))}

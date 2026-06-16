@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
-import { useCart } from '../context/CartContext';
 import './StorePage.css';
 
 const products = [
@@ -23,21 +22,6 @@ export default function StorePage() {
   const [gridRefs, gridVis] = useStaggerInView(products.length, { staggerDelay: 80 });
   const [featRef, featVis] = useInView({ threshold: 0.15 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
-  const { addToCart } = useCart();
-
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
-  const filterRefs = useRef([]);
-
-  useEffect(() => {
-    const activeIndex = filters.indexOf(activeFilter);
-    const activeBtn = filterRefs.current[activeIndex];
-    if (activeBtn) {
-      setIndicatorStyle({
-        left: activeBtn.offsetLeft,
-        width: activeBtn.offsetWidth,
-      });
-    }
-  }, [activeFilter]);
 
   const filtered = activeFilter === 'Todos'
     ? products
@@ -69,14 +53,8 @@ export default function StorePage() {
       <section className="st-filters-section">
         <div className="container-default">
           <div className="st-filters">
-            <div className="st-filter-indicator" style={indicatorStyle} />
-            {filters.map((f, i) => (
-              <button 
-                key={f} 
-                ref={el => filterRefs.current[i] = el}
-                className={`st-filter-btn ${activeFilter === f ? 'active' : ''} clickable`} 
-                onClick={() => setActiveFilter(f)}
-              >
+            {filters.map(f => (
+              <button key={f} className={`st-filter-btn ${activeFilter === f ? 'active' : ''}`} onClick={() => setActiveFilter(f)}>
                 {f}
               </button>
             ))}
@@ -98,26 +76,7 @@ export default function StorePage() {
                   <h3 className="st-product-name">{product.name}</h3>
                   <span className="st-product-price">{product.price} MXN</span>
                 </div>
-                <div className="st-product-actions">
-                  <span className="st-product-view">Detalles →</span>
-                  <button
-                    className="st-product-add-btn clickable"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      const numericPrice = parseInt(product.price.replace('$', '').replace(',', ''));
-                      addToCart({
-                        id: product.id,
-                        name: product.name,
-                        price: numericPrice,
-                        image: product.image,
-                        category: product.category
-                      });
-                    }}
-                  >
-                    + AÑADIR
-                  </button>
-                </div>
+                <span className="st-product-view">Ver Detalle →</span>
               </Link>
             ))}
           </div>
