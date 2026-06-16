@@ -8,12 +8,12 @@
 }
 
 :root {
-  /* Colors */
-  --colors--theme-black: #0d0f12;
+  /* Colors — Paleta Dorada (definitiva) */
+  --colors--theme-black: #000000;
   --colors--theme-white: #F7F2E2;
-  --colors--theme-orange: #FF8719;
-  --colors--theme-gray: #50555e;
-  --color-border: rgba(13, 15, 18, 0.1);
+  --colors--theme-orange: #EFBF04;
+  --colors--theme-gray: #444444;
+  --color-border: rgba(0, 0, 0, 0.1);
   
   /* Typography */
   --font-family: 'Urbanist', Arial, sans-serif;
