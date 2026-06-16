@@ -1,18 +1,35 @@
 import { useParams, Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
+import { useEffect, useRef, useState } from 'react';
 import './ServiceDetailPage.css';
 
 const allServices = {
   comercial: {
     title: 'Diseño Comercial', subtitle: 'Espacios que venden, experiencias que conectan.',
-    tag: 'Retail · Oficinas · Restaurantes', heroImage: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80',
-    description: 'En Studio CAB diseñamos espacios comerciales que trascienden la estética para convertirse en herramientas estratégicas de negocio. Cada proyecto se desarrolla con un enfoque en el comportamiento del consumidor, la identidad de marca y la optimización del flujo operativo.',
-    longText: 'Nuestro equipo combina arquitectura de interiores, diseño gráfico ambiental y ergonomía comercial para crear entornos que maximizan la experiencia del cliente y, en consecuencia, los ingresos. Trabajamos con restaurantes, cafés, boutiques, showrooms y oficinas corporativas.',
+    tag: 'Retail · Oficinas · Restaurantes', heroImage: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1400&q=80',
+    description: 'En Studio CAB diseñamos espacios comerciales que trascienden la estética para convertirse en herramientas estratégicas de negocio.',
+    longText: 'Nuestro equipo combina arquitectura de interiores, diseño gráfico ambiental y ergonomía comercial para crear entornos que maximizan la experiencia del cliente y, en consecuencia, los ingresos.',
     gallery: [
-      'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&q=80',
-      'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600&q=80',
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80',
+      { src: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80', caption: 'Basilio Roma — Barra principal' },
+      { src: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=800&q=80', caption: 'Café Juárez — Zona de degustación' },
+      { src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', caption: 'Restaurante Condesa — Salón principal' },
+      { src: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80', caption: 'Boutique Polanco — Exhibición' },
     ],
+    process: [
+      { num: '01', title: 'Diagnóstico', desc: 'Análisis del giro, competencia, flujo de clientes y requerimientos técnicos del espacio.', icon: '⊙' },
+      { num: '02', title: 'Concepto Creativo', desc: 'Desarrollo del concepto visual alineado a la identidad de marca y objetivos comerciales.', icon: '◎' },
+      { num: '03', title: 'Diseño Ejecutivo', desc: 'Planos constructivos, renders 3D fotorrealistas, paleta de materiales y especificaciones técnicas.', icon: '◈' },
+      { num: '04', title: 'Producción', desc: 'Fabricación de mobiliario, coordinación de obra, instalación y entrega llave en mano.', icon: '◇' },
+    ],
+    stats: [
+      { value: '40+', label: 'Proyectos comerciales' },
+      { value: '98%', label: 'Clientes satisfechos' },
+      { value: '180', label: 'Días promedio' },
+    ],
+    testimonial: {
+      quote: '"Triplicamos nuestros ingresos tras la remodelación. El diseño no solo se ve increíble, funciona."',
+      author: 'Carlos Mendoza', role: 'Dueño — Basilio Roma',
+    },
     benefits: [
       { icon: '◎', title: 'Diseño centrado en ventas', text: 'Layouts que optimizan recorridos y elevan conversiones.' },
       { icon: '◈', title: 'Identidad de marca espacial', text: 'Tu marca vive en cada pared, mostrador y textura.' },
@@ -22,14 +39,30 @@ const allServices = {
   },
   residencial: {
     title: 'Interiorismo Residencial', subtitle: 'Tu hogar, tu identidad personal.',
-    tag: 'Casas · Departamentos · Penthouses', heroImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80',
-    description: 'Diseñamos espacios habitacionales sofisticados donde cada rincón refleja la personalidad del habitante. La precisión constructiva se funde con texturas naturales de mármol, madera de nogal y acabados minerales.',
-    longText: 'Desde departamentos de diseño en la Condesa hasta residencias de lujo en Bosques de las Lomas, nuestro enfoque combina funcionalidad con sensibilidad estética. Cada detalle — desde la veta de la madera hasta la temperatura de la iluminación — está cuidadosamente curado.',
+    tag: 'Casas · Departamentos · Penthouses', heroImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=80',
+    description: 'Diseñamos espacios habitacionales sofisticados donde cada rincón refleja la personalidad del habitante.',
+    longText: 'Desde departamentos de diseño en la Condesa hasta residencias de lujo en Bosques de las Lomas, cada detalle — desde la veta de la madera hasta la temperatura de la iluminación — está cuidadosamente curado.',
     gallery: [
-      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80',
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
+      { src: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80', caption: 'Casa Condesa — Sala principal' },
+      { src: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80', caption: 'Loft Santa Fe — Cocina' },
+      { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80', caption: 'Residencia Coyoacán — Fachada' },
+      { src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80', caption: 'Penthouse Reforma — Terraza' },
     ],
+    process: [
+      { num: '01', title: 'Consulta Inicial', desc: 'Entendemos tu estilo de vida, necesidades funcionales y aspiraciones estéticas.', icon: '⊙' },
+      { num: '02', title: 'Propuesta Creativa', desc: 'Moodboards, paleta de materiales, renders 3D y presupuesto detallado.', icon: '◎' },
+      { num: '03', title: 'Desarrollo Técnico', desc: 'Planos ejecutivos, especificaciones de carpintería e iluminación.', icon: '◈' },
+      { num: '04', title: 'Ejecución', desc: 'Supervisión de obra, fabricación e instalación hasta el último detalle.', icon: '◇' },
+    ],
+    stats: [
+      { value: '60+', label: 'Hogares transformados' },
+      { value: '100%', label: 'Diseño a medida' },
+      { value: '5', label: 'Años de garantía' },
+    ],
+    testimonial: {
+      quote: '"Superó todas nuestras expectativas. Cada mañana despertamos en un espacio que realmente nos representa."',
+      author: 'Ana y Roberto Vega', role: 'Clientes — Casa Condesa',
+    },
     benefits: [
       { icon: '◎', title: 'Diseño personalizado', text: 'Cada proyecto es único, adaptado a tu estilo de vida.' },
       { icon: '◈', title: 'Materiales nobles', text: 'Mármol, nogal, roble y piedra natural de primera calidad.' },
@@ -39,14 +72,30 @@ const allServices = {
   },
   carpinteria: {
     title: 'Carpintería sobre Diseño', subtitle: 'Mobiliario hecho a medida, pieza por pieza.',
-    tag: 'Muebles · Cocinas · Closets', heroImage: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=1200&q=80',
-    description: 'Fabricamos cocinas, closets, barras, gabinetes y elementos arquitectónicos de madera con acabados premium y diseño milimétrico en nuestro taller propio en CDMX.',
-    longText: 'Con maquinaria CNC de última generación y mano de obra artesanal especializada, cada pieza que sale de nuestro taller lleva la precisión digital y el alma del trabajo manual. Utilizamos chapas naturales certificadas, herrajes europeos y acabados de laca poliuretano de alta resistencia.',
+    tag: 'Muebles · Cocinas · Closets', heroImage: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=1400&q=80',
+    description: 'Fabricamos cocinas, closets, barras y elementos arquitectónicos de madera con acabados premium y diseño milimétrico.',
+    longText: 'Con maquinaria CNC de última generación y mano de obra artesanal, cada pieza lleva la precisión digital y el alma del trabajo manual.',
     gallery: [
-      'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80',
-      'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&q=80',
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
+      { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80', caption: 'Cocina integral — Nogal americano' },
+      { src: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800&q=80', caption: 'Vestidor — Sistema modular' },
+      { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80', caption: 'Cocina Narvarte — Gabinetes superiores' },
+      { src: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&q=80', caption: 'Estantería industrial — Acero + nogal' },
     ],
+    process: [
+      { num: '01', title: 'Levantamiento', desc: 'Medición milimétrica del espacio con herramientas láser de precisión.', icon: '⊙' },
+      { num: '02', title: 'Diseño 3D', desc: 'Modelado paramétrico con selección de materiales, herrajes y acabados.', icon: '◎' },
+      { num: '03', title: 'Fabricación', desc: 'Corte CNC, ensamble manual, acabado de laca y control de calidad.', icon: '◈' },
+      { num: '04', title: 'Instalación', desc: 'Montaje profesional con ajuste perfecto y limpieza del espacio.', icon: '◇' },
+    ],
+    stats: [
+      { value: '500+', label: 'Piezas fabricadas' },
+      { value: 'CNC', label: 'Precisión digital' },
+      { value: '5', label: 'Años de garantía' },
+    ],
+    testimonial: {
+      quote: '"La cocina quedó perfecta al milímetro. La calidad es de otro nivel, mejor que cualquier marca importada."',
+      author: 'Mariana Torres', role: 'Cliente — Cocina Narvarte',
+    },
     benefits: [
       { icon: '◎', title: 'Taller propio', text: 'Control total de fabricación sin intermediarios.' },
       { icon: '◈', title: 'CNC + artesanía', text: 'Precisión digital combinada con acabado manual.' },
@@ -56,14 +105,30 @@ const allServices = {
   },
   produccion: {
     title: 'Producción e Instalación', subtitle: 'Del plano a la realidad, sin excusas.',
-    tag: 'Obra · Acabados · Supervisión', heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80',
-    description: 'Supervisión y ejecución total del proceso constructivo, garantizando acabados de alta costura arquitectónica desde la obra negra hasta la entrega llave en mano.',
-    longText: 'Nuestro equipo de producción coordina cada aspecto del proyecto: desde instalaciones eléctricas e hidráulicas hasta la colocación de acabados finales. Un solo equipo responsable de principio a fin elimina las fricciones clásicas entre diseñador y constructor.',
+    tag: 'Obra · Acabados · Supervisión', heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=80',
+    description: 'Supervisión y ejecución total del proceso constructivo, garantizando acabados de alta costura arquitectónica.',
+    longText: 'Nuestro equipo coordina cada aspecto: instalaciones, acabados y entrega llave en mano. Un solo equipo de principio a fin.',
     gallery: [
-      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80',
-      'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80',
-      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80',
+      { src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80', caption: 'Obra en proceso — Estructura' },
+      { src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80', caption: 'Instalación de acabados' },
+      { src: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80', caption: 'Supervisión en sitio' },
+      { src: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80', caption: 'Resultado final — Oficinas Reforma' },
     ],
+    process: [
+      { num: '01', title: 'Planeación', desc: 'Cronograma detallado, presupuesto cerrado y plan de contingencias.', icon: '⊙' },
+      { num: '02', title: 'Obra Civil', desc: 'Demolición, estructura, instalaciones eléctricas e hidráulicas.', icon: '◎' },
+      { num: '03', title: 'Acabados', desc: 'Pisos, muros, plafones, pintura y carpintería fina.', icon: '◈' },
+      { num: '04', title: 'Entrega', desc: 'Limpieza profunda, checklist de calidad y entrega llave en mano.', icon: '◇' },
+    ],
+    stats: [
+      { value: '12K', label: 'm² construidos' },
+      { value: '0', label: 'Retrasos en 2024' },
+      { value: '100%', label: 'Presupuesto respetado' },
+    ],
+    testimonial: {
+      quote: '"Entregaron exactamente en fecha y presupuesto. Su nivel de supervisión es impecable."',
+      author: 'Grupo Restaurantero MX', role: 'Cliente corporativo',
+    },
     benefits: [
       { icon: '◎', title: 'Llave en mano', text: 'Un solo punto de contacto para todo el proyecto.' },
       { icon: '◈', title: 'Supervisión en sitio', text: 'Presencia diaria de nuestro equipo en la obra.' },
@@ -77,19 +142,34 @@ export default function ServiceDetailPage() {
   const { id } = useParams();
   const service = allServices[id];
 
-  const [heroRef, heroVis] = useInView({ threshold: 0.1 });
-  const [descRef, descVis] = useInView({ threshold: 0.2 });
+  const [heroRef, heroVis] = useInView({ threshold: 0.05 });
+  const [introRef, introVis] = useInView({ threshold: 0.15 });
   const [galRef, galVis] = useInView({ threshold: 0.1 });
-  const [benRefs, benVis] = useStaggerInView(4, { staggerDelay: 150 });
+  const [procRefs, procVis] = useStaggerInView(4, { staggerDelay: 200 });
+  const [testRef, testVis] = useInView({ threshold: 0.2 });
+  const [benRefs, benVis] = useStaggerInView(4, { staggerDelay: 120 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
+
+  // Parallax on hero
+  const heroImgRef = useRef(null);
+  useEffect(() => {
+    const onScroll = () => {
+      if (heroImgRef.current && window.scrollY < 1200) {
+        heroImgRef.current.style.transform = `translate3d(0, ${window.scrollY * 0.3}px, 0) scale(1.15)`;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Active gallery
+  const [activeGal, setActiveGal] = useState(0);
 
   if (!service) {
     return (
-      <div className="sd-not-found page-enter">
-        <div className="container-default" style={{ padding: '200px 20px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: 48, fontWeight: 900, color: 'var(--colors--theme-black)' }}>Servicio no encontrado</h1>
-          <Link to="/servicios" style={{ color: 'var(--colors--theme-orange)', fontWeight: 700, marginTop: 20, display: 'inline-block' }}>← Volver a Servicios</Link>
-        </div>
+      <div className="page-enter" style={{ padding: '200px 20px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: 48, fontWeight: 900, color: 'var(--colors--theme-black)' }}>Servicio no encontrado</h1>
+        <Link to="/servicios" style={{ color: 'var(--colors--theme-orange)', fontWeight: 700, marginTop: 20, display: 'inline-block' }}>← Volver a Servicios</Link>
       </div>
     );
   }
@@ -99,90 +179,150 @@ export default function ServiceDetailPage() {
   return (
     <div className="service-detail page-enter">
 
-      {/* ═══ SECTION 1: HERO SPLIT ═══ */}
-      <section className="sd-hero" ref={heroRef}>
-        <div className={`sd-hero-text ${heroVis ? 'in-view' : ''}`}>
-          <span className="sd-hero-tag">{service.tag}</span>
-          <h1 className="sd-hero-title">{service.title}</h1>
-          <p className="sd-hero-subtitle">{service.subtitle}</p>
-          <Link to="/contacto" className="sd-hero-cta">
-            Cotizar Este Servicio
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-          </Link>
+      {/* ═══ 1: IMMERSIVE HERO ═══ */}
+      <section className="sdv2-hero" ref={heroRef}>
+        <div className="sdv2-hero-media">
+          <img ref={heroImgRef} src={service.heroImage} alt={service.title} className="sdv2-hero-img" />
+          <div className="sdv2-hero-overlay" />
+          <div className="sdv2-hero-grain" />
         </div>
-        <div className={`sd-hero-image-col ${heroVis ? 'in-view' : ''}`}>
-          <img src={service.heroImage} alt={service.title} className="sd-hero-image" />
+        <div className={`sdv2-hero-content ${heroVis ? 'in-view' : ''}`}>
+          <span className="sdv2-hero-tag">{service.tag}</span>
+          <h1 className="sdv2-hero-title">
+            {service.title.split('').map((char, i) => (
+              <span key={i} className="sdv2-letter" style={{ animationDelay: `${0.4 + i * 0.035}s` }}>
+                {char === ' ' ? '\u00A0' : char}
+              </span>
+            ))}
+          </h1>
+          <p className="sdv2-hero-sub">{service.subtitle}</p>
+          <div className="sdv2-hero-stats">
+            {service.stats.map((s, i) => (
+              <div key={i} className="sdv2-hero-stat">
+                <span className="sdv2-stat-val">{s.value}</span>
+                <span className="sdv2-stat-label">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="sdv2-scroll-indicator">
+          <span>Scroll</span>
+          <div className="sdv2-scroll-line" />
         </div>
       </section>
 
-      {/* ═══ SECTION 2: DESCRIPTION ═══ */}
-      <section className="sd-description" ref={descRef}>
+      {/* ═══ 2: INTRO SPLIT ═══ */}
+      <section className="sdv2-intro" ref={introRef}>
         <div className="container-default">
-          <div className={`sd-desc-grid ${descVis ? 'in-view' : ''}`}>
-            <div className="sd-desc-left">
-              <span className="section-eyebrow" style={{opacity:1,transform:'none'}}>Detalle del Servicio</span>
-              <h2 className="section-heading" style={{opacity:1,transform:'none'}}>
-                ¿Qué <em>incluye</em>?
-              </h2>
+          <div className={`sdv2-intro-grid ${introVis ? 'in-view' : ''}`}>
+            <div className="sdv2-intro-left">
+              <span className="section-eyebrow" style={{opacity:1,transform:'none'}}>Sobre el servicio</span>
+              <h2 className="sdv2-intro-title">{service.description}</h2>
             </div>
-            <div className="sd-desc-right">
-              <p className="sd-desc-text">{service.description}</p>
-              <p className="sd-desc-text">{service.longText}</p>
+            <div className="sdv2-intro-right">
+              <p className="sdv2-intro-text">{service.longText}</p>
+              <Link to="/contacto" className="sdv2-intro-cta" data-cursor="Cotizar">
+                Cotizar Este Servicio
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ SECTION 3: GALLERY ═══ */}
-      <section className="sd-gallery" ref={galRef}>
+      {/* ═══ 3: SHOWCASE GALLERY ═══ */}
+      <section className="sdv2-showcase" ref={galRef}>
+        <div className={`sdv2-showcase-inner ${galVis ? 'in-view' : ''}`}>
+          <div className="sdv2-showcase-main">
+            <img src={service.gallery[activeGal].src} alt={service.gallery[activeGal].caption} />
+            <div className="sdv2-showcase-caption">
+              <span className="sdv2-cap-num">0{activeGal + 1} / 0{service.gallery.length}</span>
+              <span className="sdv2-cap-text">{service.gallery[activeGal].caption}</span>
+            </div>
+          </div>
+          <div className="sdv2-showcase-thumbs">
+            {service.gallery.map((g, i) => (
+              <button key={i} className={`sdv2-thumb ${activeGal === i ? 'active' : ''}`} onClick={() => setActiveGal(i)}>
+                <img src={g.src.replace('w=800', 'w=300')} alt={g.caption} />
+                <div className="sdv2-thumb-overlay">
+                  <span>0{i + 1}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 4: PROCESS ═══ */}
+      <section className="sdv2-process">
         <div className="container-default">
-          <div className={`sd-gallery-grid ${galVis ? 'in-view' : ''}`}>
-            {service.gallery.map((img, i) => (
-              <div key={i} className="sd-gallery-item" style={{ transitionDelay: `${i * 0.15}s` }}>
-                <img src={img} alt={`${service.title} ${i + 1}`} />
+          <span className="section-eyebrow anim-fade-up in-view">Metodología</span>
+          <h2 className="section-heading anim-fade-up in-view">Nuestro <em>proceso</em>.</h2>
+          <div className="sdv2-process-grid">
+            {service.process.map((step, i) => (
+              <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
+                <div className="sdv2-proc-header">
+                  <span className="sdv2-proc-icon">{step.icon}</span>
+                  <span className="sdv2-proc-num">{step.num}</span>
+                </div>
+                <h3 className="sdv2-proc-title">{step.title}</h3>
+                <p className="sdv2-proc-desc">{step.desc}</p>
+                {i < 3 && <div className="sdv2-proc-connector" />}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ SECTION 4: BENEFITS ═══ */}
-      <section className="sd-benefits">
+      {/* ═══ 5: TESTIMONIAL ═══ */}
+      <section className="sdv2-testimonial" ref={testRef}>
+        <div className={`container-default sdv2-test-inner ${testVis ? 'in-view' : ''}`}>
+          <div className="sdv2-test-quote-mark">"</div>
+          <blockquote className="sdv2-test-quote">{service.testimonial.quote}</blockquote>
+          <div className="sdv2-test-author">
+            <div className="sdv2-test-line" />
+            <div>
+              <span className="sdv2-test-name">{service.testimonial.author}</span>
+              <span className="sdv2-test-role">{service.testimonial.role}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 6: BENEFITS ═══ */}
+      <section className="sdv2-benefits">
         <div className="container-default">
-          <span className="section-eyebrow anim-fade-up in-view">Beneficios</span>
-          <h2 className="section-heading anim-fade-up in-view">¿Por qué elegirnos para <em>{service.title.toLowerCase()}</em>?</h2>
-          <div className="sd-benefits-grid">
+          <span className="section-eyebrow anim-fade-up in-view">Ventajas</span>
+          <h2 className="section-heading anim-fade-up in-view">¿Por qué <em>Studio CAB</em>?</h2>
+          <div className="sdv2-benefits-grid">
             {service.benefits.map((b, i) => (
-              <div
-                key={i}
-                ref={el => benRefs.current[i] = el}
-                className={`sd-benefit-card ${benVis[i] ? 'in-view' : ''}`}
-              >
-                <span className="sd-benefit-icon">{b.icon}</span>
-                <h3 className="sd-benefit-title">{b.title}</h3>
-                <p className="sd-benefit-text">{b.text}</p>
+              <div key={i} ref={el => benRefs.current[i] = el} className={`sdv2-benefit ${benVis[i] ? 'in-view' : ''}`}>
+                <span className="sdv2-ben-num">0{i + 1}</span>
+                <h3 className="sdv2-ben-title">{b.title}</h3>
+                <p className="sdv2-ben-text">{b.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ SECTION 5: CTA ═══ */}
-      <section className="sd-cta" ref={ctaRef}>
-        <div className={`container-default sd-cta-inner ${ctaVis ? 'in-view' : ''}`}>
-          <div className="sd-cta-card">
-            <h2 className="sd-cta-title">¿Interesado en {service.title.toLowerCase()}?</h2>
-            <p className="sd-cta-text">Dejanos tus datos y te contactamos en menos de 24 horas.</p>
-            <Link to="/contacto" className="sd-cta-btn">Contactar Ahora</Link>
+      {/* ═══ 7: CTA + OTHER SERVICES ═══ */}
+      <section className="sdv2-cta" ref={ctaRef}>
+        <div className={`container-default sdv2-cta-inner ${ctaVis ? 'in-view' : ''}`}>
+          <div className="sdv2-cta-card">
+            <h2 className="sdv2-cta-title">¿Listo para transformar tu espacio?</h2>
+            <p className="sdv2-cta-text">Agendá una consulta gratuita y recibí tu propuesta en menos de 7 días.</p>
+            <Link to="/contacto" className="sdv2-cta-btn">
+              Agendar Consulta
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </Link>
           </div>
-
-          {/* Other Services */}
-          <div className="sd-other-services">
-            <h3 className="sd-other-title">Otros Servicios</h3>
+          <div className="sdv2-other">
+            <h3 className="sdv2-other-title">También ofrecemos</h3>
             {otherServices.map(([key, s]) => (
-              <Link to={`/servicios/${key}`} key={key} className="sd-other-link">
+              <Link to={`/servicios/${key}`} key={key} className="sdv2-other-link">
                 <span>{s.title}</span>
-                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M7 1L11 5L7 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <svg width="16" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </Link>
             ))}
           </div>
