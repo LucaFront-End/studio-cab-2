@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   // Close menu on resize to desktop width
   useEffect(() => {
@@ -42,32 +49,36 @@ export default function Header() {
   }, [menuOpen]);
 
   const navItems = [
-    { label: 'Inicio', href: '#', num: '01' },
-    { label: 'Proyectos', href: '#projects', num: '02' },
-    { label: 'Servicios', href: '#services', num: '03' },
-    { label: 'Nosotros', href: '#about', num: '04' }
+    { label: 'Proyectos', to: '/proyectos', num: '01' },
+    { label: 'Servicios', to: '/servicios', num: '02' },
+    { label: 'Nosotros', to: '/nosotros', num: '03' },
+    { label: 'Tienda', to: '/tienda', num: '04' },
+    { label: 'Contacto', to: '/contacto', num: '05' },
   ];
 
   return (
     <header className={`header-technical ${scrolled ? 'header-scrolled' : ''}`}>
       <div className="header-nav-container">
-        {/* Logo */}
-        <a href="#" className="header-logo-link">
+        {/* Logo — links to Home */}
+        <Link to="/" className="header-logo-link">
           <img
             src="/logo-cab.png"
             alt="Grupo CAB Studio"
             className="header-logo-image"
           />
-        </a>
+        </Link>
 
         {/* Desktop Nav List */}
         <nav className="header-desktop-nav">
           <ul className="header-nav-list">
             {navItems.map((item, index) => (
               <li key={index} className="header-nav-item">
-                <a href={item.href} className="header-nav-link">
+                <Link
+                  to={item.to}
+                  className={`header-nav-link ${location.pathname.startsWith(item.to) ? 'active' : ''}`}
+                >
                   <span className="header-nav-num">[{item.num}]</span> {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -75,10 +86,10 @@ export default function Header() {
 
         {/* CTA & Burger Wrapper */}
         <div className="header-actions">
-          <a href="#cta-configurator" className="header-cta-btn">
+          <Link to="/contacto" className="header-cta-btn">
             COTIZAR PROYECTO
             <span className="cta-btn-coord">[CAB-101]</span>
-          </a>
+          </Link>
 
           {/* Technical Hamburger Menu Toggle */}
           <button
@@ -106,24 +117,24 @@ export default function Header() {
         <ul className="mobile-nav-list">
           {navItems.map((item, index) => (
             <li key={index} className="mobile-nav-item">
-              <a 
-                href={item.href} 
+              <Link 
+                to={item.to} 
                 className="mobile-nav-link"
                 onClick={() => setMenuOpen(false)}
               >
                 <span className="mobile-nav-num">[{item.num}]</span>
                 <span className="mobile-nav-txt">{item.label}</span>
-              </a>
+              </Link>
             </li>
           ))}
           <li className="mobile-nav-item cta-item">
-            <a 
-              href="#cta-configurator" 
+            <Link 
+              to="/contacto" 
               className="mobile-nav-cta-link"
               onClick={() => setMenuOpen(false)}
             >
               COTIZAR PROYECTO
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

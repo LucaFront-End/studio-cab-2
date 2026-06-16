@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 export default function Footer() {
@@ -9,13 +10,13 @@ export default function Footer() {
         <div className="footer-top-grid">
           {/* Col 1: Brand Info */}
           <div className="footer-brand-col">
-            <a href="#" className="footer-logo-wrapper">
+            <Link to="/" className="footer-logo-wrapper">
               <img
                 src="/logo-cab.png"
                 alt="Grupo CAB Studio"
                 className="footer-logo-image"
               />
-            </a>
+            </Link>
             <p className="footer-brand-desc">
               Espacios comerciales y residencias premium que integran arquitectura interior de alto nivel y carpintería fina manufacturada en nuestro propio taller en la Ciudad de México.
             </p>
@@ -29,10 +30,12 @@ export default function Footer() {
           <div className="footer-links-col">
             <h4 className="footer-col-title">Navegación</h4>
             <ul className="footer-links-list">
-              <li><a href="#" className="footer-link"><span className="link-num">01 //</span> Inicio</a></li>
-              <li><a href="#projects" className="footer-link"><span className="link-num">02 //</span> Proyectos</a></li>
-              <li><a href="#services" className="footer-link"><span className="link-num">03 //</span> Servicios</a></li>
-              <li><a href="#about" className="footer-link"><span className="link-num">04 //</span> Nosotros</a></li>
+              <li><Link to="/" className="footer-link"><span className="link-num">01 //</span> Inicio</Link></li>
+              <li><Link to="/proyectos" className="footer-link"><span className="link-num">02 //</span> Proyectos</Link></li>
+              <li><Link to="/servicios" className="footer-link"><span className="link-num">03 //</span> Servicios</Link></li>
+              <li><Link to="/nosotros" className="footer-link"><span className="link-num">04 //</span> Nosotros</Link></li>
+              <li><Link to="/tienda" className="footer-link"><span className="link-num">05 //</span> Tienda</Link></li>
+              <li><Link to="/contacto" className="footer-link"><span className="link-num">06 //</span> Contacto</Link></li>
             </ul>
           </div>
 

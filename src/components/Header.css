@@ -123,6 +123,14 @@
   color: var(--colors--theme-orange);
 }
 
+.header-nav-link.active {
+  color: var(--colors--theme-orange);
+}
+
+.header-nav-link.active::after {
+  width: 100%;
+}
+
 .header-nav-link:hover::after {
   width: 100%;
 }
