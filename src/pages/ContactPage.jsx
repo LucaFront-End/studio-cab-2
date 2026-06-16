@@ -39,9 +39,17 @@ export default function ContactPage() {
         <div className={`cp-hero-content ${heroVis ? 'in-view' : ''}`}>
           <span className="cp-hero-eyebrow">Contacto</span>
           <h1 className="cp-hero-title">
-            {'Hablemos de tu próximo proyecto.'.split('').map((char, i) => (
-              <span key={i} className="cp-hero-letter" style={{ animationDelay: `${0.3 + i * 0.03}s` }}>
-                {char === ' ' ? '\u00A0' : char}
+            {'Hablemos de tu próximo proyecto.'.split(' ').map((word, wi, arr) => (
+              <span key={wi} className="cp-hero-word">
+                {word.split('').map((char, ci) => {
+                  const idx = arr.slice(0, wi).join(' ').length + (wi > 0 ? 1 : 0) + ci;
+                  return (
+                    <span key={ci} className="cp-hero-letter" style={{ animationDelay: `${0.3 + idx * 0.03}s` }}>
+                      {char}
+                    </span>
+                  );
+                })}
+                {wi < arr.length - 1 && <span className="cp-hero-letter">&nbsp;</span>}
               </span>
             ))}
           </h1>

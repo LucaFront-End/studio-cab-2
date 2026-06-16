@@ -95,9 +95,17 @@ export default function AboutPage() {
         <div className="about-hero-content">
           <span className={`about-hero-eyebrow ${heroVisible ? 'in-view' : ''}`}>Quiénes Somos</span>
           <h1 className={`about-hero-title ${heroVisible ? 'in-view' : ''}`}>
-            {'Somos Studio CAB.'.split('').map((char, i) => (
-              <span key={i} className="about-hero-letter" style={{ animationDelay: `${0.6 + i * 0.04}s` }}>
-                {char === ' ' ? '\u00A0' : char}
+            {'Somos Studio CAB.'.split(' ').map((word, wi, arr) => (
+              <span key={wi} className="about-hero-word">
+                {word.split('').map((char, ci) => {
+                  const idx = arr.slice(0, wi).join(' ').length + (wi > 0 ? 1 : 0) + ci;
+                  return (
+                    <span key={ci} className="about-hero-letter" style={{ animationDelay: `${0.6 + idx * 0.04}s` }}>
+                      {char}
+                    </span>
+                  );
+                })}
+                {wi < arr.length - 1 && <span className="about-hero-letter">&nbsp;</span>}
               </span>
             ))}
           </h1>

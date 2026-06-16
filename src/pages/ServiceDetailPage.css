@@ -16,6 +16,7 @@
 
 .sdv2-hero-title { font-size: clamp(40px, 7vw, 80px); font-weight: 900; color: #fff; line-height: 1.05; margin-bottom: 16px; perspective: 600px; }
 .sdv2-letter { display: inline-block; opacity: 0; transform: translateY(60px) rotateX(50deg); animation: heroLetterIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.sdv2-word { display: inline-block; white-space: nowrap; }
 
 .sdv2-hero-sub { font-size: 18px; color: rgba(255,255,255,0.6); font-style: italic; margin-bottom: 40px; max-width: 550px; }
 

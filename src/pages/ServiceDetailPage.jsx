@@ -189,9 +189,17 @@ export default function ServiceDetailPage() {
         <div className={`sdv2-hero-content ${heroVis ? 'in-view' : ''}`}>
           <span className="sdv2-hero-tag">{service.tag}</span>
           <h1 className="sdv2-hero-title">
-            {service.title.split('').map((char, i) => (
-              <span key={i} className="sdv2-letter" style={{ animationDelay: `${0.4 + i * 0.035}s` }}>
-                {char === ' ' ? '\u00A0' : char}
+            {service.title.split(' ').map((word, wi, arr) => (
+              <span key={wi} className="sdv2-word">
+                {word.split('').map((char, ci) => {
+                  const idx = arr.slice(0, wi).join(' ').length + (wi > 0 ? 1 : 0) + ci;
+                  return (
+                    <span key={ci} className="sdv2-letter" style={{ animationDelay: `${0.4 + idx * 0.035}s` }}>
+                      {char}
+                    </span>
+                  );
+                })}
+                {wi < arr.length - 1 && <span className="sdv2-letter">&nbsp;</span>}
               </span>
             ))}
           </h1>

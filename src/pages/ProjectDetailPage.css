@@ -16,6 +16,7 @@
 
 .pdv2-hero-title { font-size: clamp(42px, 8vw, 90px); font-weight: 900; color: #fff; line-height: 1.0; margin-bottom: 12px; perspective: 600px; }
 .pdv2-letter { display: inline-block; opacity: 0; transform: translateY(80px) rotateX(60deg); animation: heroLetterIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.pdv2-word { display: inline-block; white-space: nowrap; }
 
 .pdv2-hero-location { font-size: 15px; color: rgba(255,255,255,0.5); font-weight: 500; }
 

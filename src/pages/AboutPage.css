@@ -130,6 +130,10 @@
   transform: translateY(50px) rotateX(40deg);
   animation: heroLetterIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
+.about-hero-word {
+  display: inline-block;
+  white-space: nowrap;
+}
 
 @keyframes heroLetterIn {
   to {

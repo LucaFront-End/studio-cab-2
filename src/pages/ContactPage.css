@@ -10,6 +10,7 @@
 .cp-hero-eyebrow { display: block; font-size: 10px; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; color: var(--colors--theme-orange); margin-bottom: 16px; }
 .cp-hero-title { font-size: clamp(32px, 5vw, 56px); font-weight: 900; color: #fff; line-height: 1.15; }
 .cp-hero-letter { display: inline-block; opacity: 0; transform: translateY(30px); animation: heroLetterIn 0.5s cubic-bezier(0.25,1,0.5,1) forwards; }
+.cp-hero-word { display: inline-block; white-space: nowrap; }
 
 /* ═══ 2: FORM ═══ */
 .cp-form-section { padding: 100px 20px; background: var(--colors--theme-white); }

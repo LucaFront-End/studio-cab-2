@@ -158,9 +158,17 @@ export default function ProjectDetailPage() {
         <div className={`pdv2-hero-content ${heroVis ? 'in-view' : ''}`}>
           <span className="pdv2-hero-category">{project.category}</span>
           <h1 className="pdv2-hero-title">
-            {project.title.split('').map((char, i) => (
-              <span key={i} className="pdv2-letter" style={{ animationDelay: `${0.5 + i * 0.04}s` }}>
-                {char === ' ' ? '\u00A0' : char}
+            {project.title.split(' ').map((word, wi, arr) => (
+              <span key={wi} className="pdv2-word">
+                {word.split('').map((char, ci) => {
+                  const idx = arr.slice(0, wi).join(' ').length + (wi > 0 ? 1 : 0) + ci;
+                  return (
+                    <span key={ci} className="pdv2-letter" style={{ animationDelay: `${0.5 + idx * 0.04}s` }}>
+                      {char}
+                    </span>
+                  );
+                })}
+                {wi < arr.length - 1 && <span className="pdv2-letter">&nbsp;</span>}
               </span>
             ))}
           </h1>
