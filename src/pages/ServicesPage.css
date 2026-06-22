@@ -1,5 +1,5 @@
 /* ============================================
-   SERVICES PAGE STYLES
+   SERVICES PAGE STYLES — OVERHAULED
    ============================================ */
 
 /* ═══ SECTION 1: HERO MARQUEE ═══ */
@@ -63,18 +63,32 @@
   color: var(--colors--theme-orange);
 }
 
-.sp-marquee-wrapper {
+.sp-marquee-wrapper.double {
   width: 100%;
   overflow: hidden;
   border-top: 1px solid color-mix(in srgb, var(--colors--theme-white) 8%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--colors--theme-white) 8%, transparent);
-  padding: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0;
+  position: relative;
+  z-index: 2;
 }
 
 .sp-marquee-track {
   display: flex;
   white-space: nowrap;
+  gap: 32px;
+  width: max-content;
+}
+
+.sp-marquee-track.ltr {
   animation: marquee 25s linear infinite;
+}
+
+.sp-marquee-track.rtl {
+  animation: marqueeReverse 25s linear infinite;
 }
 
 .sp-marquee-item {
@@ -83,13 +97,17 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--colors--theme-white) 40%, transparent);
-  margin-right: 32px;
   flex-shrink: 0;
+}
+
+.sp-marquee-item.italic {
+  font-style: italic;
+  color: color-mix(in srgb, var(--colors--theme-orange) 50%, transparent);
 }
 
 .sp-marquee-sep {
   color: var(--colors--theme-orange);
-  margin: 0 16px;
+  margin-left: 32px;
   font-size: 10px;
 }
 
@@ -117,11 +135,13 @@
   background: var(--colors--theme-white);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
   opacity: 0;
+  transform: translateY(40px);
   cursor: pointer;
   position: relative;
 }
 .sp-service-card.in-view {
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* Top accent line */
@@ -218,77 +238,129 @@
   gap: 14px;
 }
 
-/* ═══ SECTION 3: PROCESS ═══ */
+/* ═══ SECTION 3: INTERACTIVE PROCESS ═══ */
 .sp-process-section {
   padding: 120px 20px;
   background: color-mix(in srgb, var(--colors--theme-white) 95%, var(--colors--theme-black));
 }
 
-.sp-process-timeline {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.sp-process-step {
-  display: flex;
-  gap: 32px;
+.sp-interactive-process {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 50px;
   opacity: 0;
-  transform: translateX(-30px);
-  transition: all 0.6s ease;
-}
-.sp-process-step.in-view {
-  opacity: 1;
-  transform: translateX(0);
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.sp-step-line {
+.sp-interactive-process.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sp-process-tabs {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.sp-process-tab-btn {
+  display: flex;
   align-items: center;
-  flex-shrink: 0;
+  gap: 20px;
+  padding: 20px 24px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  text-align: left;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.sp-step-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--colors--theme-orange);
-  border: 3px solid var(--colors--theme-white);
-  box-shadow: 0 0 0 2px var(--colors--theme-orange);
-  flex-shrink: 0;
-  margin-top: 4px;
+.sp-process-tab-btn .sp-tab-num {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--colors--theme-gray);
+  transition: color 0.3s ease;
 }
 
-.sp-step-connector {
-  width: 2px;
-  flex: 1;
-  background: var(--color-border);
-  min-height: 40px;
-}
-
-.sp-step-content {
-  padding-bottom: 48px;
-}
-
-.sp-step-num {
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--colors--theme-orange);
-  font-family: monospace;
-  letter-spacing: 0.1em;
-}
-
-.sp-step-title {
-  font-size: 22px;
+.sp-process-tab-btn .sp-tab-title {
+  font-size: 18px;
   font-weight: 800;
   color: var(--colors--theme-black);
-  margin: 6px 0 10px;
+  transition: color 0.3s ease;
 }
 
-.sp-step-text {
-  font-size: 15px;
+.sp-process-tab-btn:hover {
+  border-color: var(--colors--theme-orange);
+  transform: translateX(5px);
+}
+
+.sp-process-tab-btn.active {
+  background: var(--colors--theme-black);
+  border-color: var(--colors--theme-black);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.sp-process-tab-btn.active .sp-tab-num {
+  color: var(--colors--theme-orange);
+}
+
+.sp-process-tab-btn.active .sp-tab-title {
+  color: var(--colors--theme-white);
+}
+
+.sp-process-display {
+  display: flex;
+  align-items: center;
+}
+
+.sp-display-card {
+  width: 100%;
+  padding: 48px;
+  background: var(--colors--theme-white);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.03);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.4s ease;
+}
+
+.sp-display-num {
+  font-size: 72px;
+  font-weight: 900;
+  color: rgba(239, 191, 4, 0.08);
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  line-height: 1;
+}
+
+.sp-display-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--colors--theme-black);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.sp-display-text {
+  font-size: 16px;
   color: var(--colors--theme-gray);
-  line-height: 1.7;
+  line-height: 1.75;
+  position: relative;
+  z-index: 2;
+}
+
+.sp-display-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--colors--theme-orange);
 }
 
 /* ═══ SECTION 4: COMPARISON ═══ */
@@ -361,7 +433,81 @@
 .sp-comp-check.yes { color: var(--colors--theme-orange); }
 .sp-comp-check.no { color: color-mix(in srgb, var(--colors--theme-gray) 40%, transparent); }
 
-/* ═══ SECTION 5: CTA ═══ */
+/* ═══ SECTION 5: SERVICES FAQ ═══ */
+.sp-faq-section {
+  padding: 120px 20px;
+  background: var(--colors--theme-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.sp-faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sp-faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--colors--theme-white);
+  transition: border-color 0.3s ease;
+}
+
+.sp-faq-item:hover {
+  border-color: var(--colors--theme-orange);
+}
+
+.sp-faq-question {
+  width: 100%;
+  padding: 24px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sp-faq-icon {
+  font-size: 20px;
+  color: var(--colors--theme-orange);
+  transition: transform 0.3s ease;
+}
+
+.sp-faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s ease;
+  padding: 0 30px;
+}
+
+.sp-faq-item.open {
+  border-color: var(--colors--theme-black);
+}
+
+.sp-faq-item.open .sp-faq-answer {
+  max-height: 250px;
+  padding-bottom: 24px;
+}
+
+.sp-faq-item.open .sp-faq-icon {
+  transform: rotate(180deg);
+}
+
+.sp-faq-answer p {
+  font-size: 15px;
+  color: var(--colors--theme-gray);
+  line-height: 1.65;
+}
+
+/* ═══ SECTION 6: CTA ═══ */
 .sp-cta {
   position: relative;
   height: 500px;
@@ -457,8 +603,16 @@
 }
 
 /* ═══ RESPONSIVE ═══ */
+@media (max-width: 991px) {
+  .sp-interactive-process {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 @media (max-width: 768px) {
   .sp-service-grid { grid-template-columns: 1fr; }
   .sp-comp-header, .sp-comp-row { grid-template-columns: 1fr 80px 80px; padding: 12px 16px; }
   .sp-comp-feature { font-size: 12px; }
+  .sp-display-card { padding: 32px; }
 }

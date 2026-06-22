@@ -1,5 +1,5 @@
 /* ============================================
-   STORE PAGE STYLES
+   STORE PAGE STYLES — OVERHAULED
    ============================================ */
 
 .st-hero { position: relative; height: 50vh; min-height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--colors--theme-black); overflow: hidden; }
@@ -62,6 +62,120 @@
 .st-featured-cta { display: inline-block; padding: 12px 28px; background: var(--colors--theme-black); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; text-decoration: none; align-self: flex-start; transition: all 0.3s ease; }
 .st-featured-cta:hover { background: var(--colors--theme-orange); transform: translateY(-2px); }
 
+/* ═══ CRAFTSMANSHIP SECTION ═══ */
+.st-craftsmanship {
+  padding: 120px 20px;
+  background: var(--colors--theme-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.st-craft-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.st-craft-grid.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.st-craft-image-box {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 480px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.05);
+}
+
+.st-craft-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.st-craft-image-box:hover img {
+  transform: scale(1.05);
+}
+
+.st-craft-image-badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  padding: 8px 16px;
+  background: var(--colors--theme-orange);
+  color: var(--colors--theme-white);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(239, 191, 4, 0.2);
+}
+
+.st-craft-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.st-craft-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  color: var(--colors--theme-black);
+  margin: 10px 0 20px;
+}
+
+.st-craft-text {
+  font-size: 16px;
+  color: var(--colors--theme-gray);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+
+.st-craft-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.st-craft-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 20px;
+}
+
+.st-craft-detail-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.st-craft-icon {
+  font-size: 18px;
+  color: var(--colors--theme-orange);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.st-craft-detail-item h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  margin-bottom: 6px;
+}
+
+.st-craft-detail-item p {
+  font-size: 14px;
+  color: var(--colors--theme-gray);
+  line-height: 1.5;
+}
+
 /* NEWSLETTER */
 .st-newsletter { padding: 100px 20px; background: color-mix(in srgb, var(--colors--theme-white) 95%, var(--colors--theme-black)); text-align: center; }
 .st-newsletter-inner { opacity: 0; transform: translateY(20px); transition: all 0.7s ease; }
@@ -74,5 +188,11 @@
 .st-newsletter-btn { padding: 14px 28px; background: var(--colors--theme-black); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; border: none; cursor: pointer; font-family: var(--font-family); transition: all 0.3s ease; }
 .st-newsletter-btn:hover { background: var(--colors--theme-orange); }
 
-@media (max-width: 991px) { .st-product-grid { grid-template-columns: repeat(2, 1fr); } .st-featured-inner { grid-template-columns: 1fr; } .st-featured-image-wrapper { height: 300px; } }
+@media (max-width: 991px) { 
+  .st-product-grid { grid-template-columns: repeat(2, 1fr); } 
+  .st-featured-inner { grid-template-columns: 1fr; } 
+  .st-featured-image-wrapper { height: 300px; } 
+  .st-craft-grid { grid-template-columns: 1fr; gap: 40px; }
+  .st-craft-image-box { height: 350px; }
+}
 @media (max-width: 600px) { .st-product-grid { grid-template-columns: 1fr; } .st-newsletter-form { flex-direction: column; } }

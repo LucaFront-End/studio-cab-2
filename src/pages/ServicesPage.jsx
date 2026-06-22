@@ -28,8 +28,15 @@ const comparisons = [
   { feature: 'Materiales certificados', us: true, others: false },
 ];
 
+const servicesFAQs = [
+  { q: '¿Qué incluye la consulta inicial?', a: 'Incluye una reunión para entender tu idea, levantamiento fotográfico y de medidas con láser, y un análisis preliminar de viabilidad del proyecto.' },
+  { q: '¿Los renders 3D tienen costo adicional?', a: 'No, los renders fotorrealistas están incluidos en el costo del proyecto de diseño conceptual.' },
+  { q: '¿Puedo contratar solo la fabricación de carpintería?', a: 'Sí, trabajamos con planos ejecutivos provistos por tu arquitecto o diseñador independiente, fabricando a medida en nuestro taller.' },
+  { q: '¿Cómo se manejan los tiempos y plazos de entrega?', a: 'Todos nuestros contratos especifican fechas exactas de entrega por etapas. Si hay demoras no justificadas por cambios de obra, asumimos penalizaciones contractuales.' }
+];
+
 export default function ServicesPage() {
-  /* Section 1: Marquee */
+  /* Section 1: Hero & Marquees */
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
 
   /* Section 2: Service Cards with magnetic hover */
@@ -51,13 +58,18 @@ export default function ServicesPage() {
   };
 
   /* Section 3: Process Steps */
-  const [stepsRefs, stepsVis] = useStaggerInView(processSteps.length, { staggerDelay: 200 });
+  const [activeStep, setActiveStep] = useState(0);
+  const [processRef, processVis] = useInView({ threshold: 0.1 });
 
   /* Section 4: Comparison */
   const [compRef, compVis] = useInView({ threshold: 0.2 });
   const [compRefs, compRowVis] = useStaggerInView(comparisons.length, { staggerDelay: 120 });
 
-  /* Section 5: CTA */
+  /* Section 5: FAQ Section (NUEVA) */
+  const [faqRef, faqVis] = useInView({ threshold: 0.1 });
+  const [openFAQ, setOpenFAQ] = useState(-1);
+
+  /* Section 6: CTA */
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
   const ctaBgRef = useRef(null);
 
@@ -76,7 +88,7 @@ export default function ServicesPage() {
   return (
     <div className="services-page page-enter">
 
-      {/* ═══ SECTION 1: HERO MARQUEE ═══ */}
+      {/* ═══ SECTION 1: HERO DOUBLE MARQUEE ═══ */}
       <section className="sp-hero" ref={heroRef}>
         <div className="sp-hero-bg" />
         <div className="sp-hero-content">
@@ -85,11 +97,19 @@ export default function ServicesPage() {
             Lo que hacemos<span className="sp-dot">.</span>
           </h1>
         </div>
-        <div className="sp-marquee-wrapper">
-          <div className="sp-marquee-track">
+        
+        <div className="sp-marquee-wrapper double">
+          <div className="sp-marquee-track ltr">
             {[...servicesData, ...servicesData, ...servicesData].map((s, i) => (
-              <span key={i} className="sp-marquee-item">
+              <span key={`ltr-${i}`} className="sp-marquee-item">
                 {s.title} <span className="sp-marquee-sep">✦</span>
+              </span>
+            ))}
+          </div>
+          <div className="sp-marquee-track rtl">
+            {[...servicesData, ...servicesData, ...servicesData].map((s, i) => (
+              <span key={`rtl-${i}`} className="sp-marquee-item italic">
+                {s.subtitle} <span className="sp-marquee-sep">✦</span>
               </span>
             ))}
           </div>
@@ -129,32 +149,36 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ═══ SECTION 3: PROCESS STEPS ═══ */}
-      <section className="sp-process-section">
+      {/* ═══ SECTION 3: INTERACTIVE PROCESS ═══ */}
+      <section className="sp-process-section" ref={processRef}>
         <div className="container-default">
-          <span className="section-eyebrow anim-fade-up in-view">Nuestro Proceso</span>
-          <h2 className="section-heading anim-fade-up in-view">
+          <span className={`section-eyebrow ${processVis ? 'in-view' : ''}`}>Nuestro Proceso</span>
+          <h2 className={`section-heading ${processVis ? 'in-view' : ''}`}>
             Cinco pasos hacia tu espacio <em>ideal</em>.
           </h2>
 
-          <div className="sp-process-timeline">
-            {processSteps.map((step, i) => (
-              <div
-                key={i}
-                ref={el => stepsRefs.current[i] = el}
-                className={`sp-process-step ${stepsVis[i] ? 'in-view' : ''}`}
-              >
-                <div className="sp-step-line">
-                  <span className="sp-step-dot" />
-                  {i < processSteps.length - 1 && <div className="sp-step-connector" />}
-                </div>
-                <div className="sp-step-content">
-                  <span className="sp-step-num">{step.num}</span>
-                  <h3 className="sp-step-title">{step.title}</h3>
-                  <p className="sp-step-text">{step.text}</p>
-                </div>
+          <div className={`sp-interactive-process ${processVis ? 'in-view' : ''}`}>
+            <div className="sp-process-tabs">
+              {processSteps.map((step, i) => (
+                <button
+                  key={i}
+                  className={`sp-process-tab-btn ${i === activeStep ? 'active' : ''}`}
+                  onClick={() => setActiveStep(i)}
+                >
+                  <span className="sp-tab-num">{step.num}</span>
+                  <span className="sp-tab-title">{step.title}</span>
+                </button>
+              ))}
+            </div>
+            
+            <div className="sp-process-display">
+              <div className="sp-display-card">
+                <span className="sp-display-num">{processSteps[activeStep].num}</span>
+                <h3 className="sp-display-title">{processSteps[activeStep].title}</h3>
+                <p className="sp-display-text">{processSteps[activeStep].text}</p>
+                <div className="sp-display-accent" />
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -192,7 +216,31 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ═══ SECTION 5: CTA FULLWIDTH ═══ */}
+      {/* ═══ SECTION 5: SERVICES FAQ (NUEVA) ═══ */}
+      <section className="sp-faq-section" ref={faqRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${faqVis ? 'in-view' : ''}`}>FAQ de Servicios</span>
+          <h2 className={`section-heading ${faqVis ? 'in-view' : ''}`}>
+            Dudas comunes sobre <em>diseño y obra</em>.
+          </h2>
+
+          <div className="sp-faq-list">
+            {servicesFAQs.map((faq, i) => (
+              <div key={i} className={`sp-faq-item ${openFAQ === i ? 'open' : ''}`}>
+                <button className="sp-faq-question" onClick={() => setOpenFAQ(openFAQ === i ? -1 : i)}>
+                  <span>{faq.q}</span>
+                  <span className="sp-faq-icon">{openFAQ === i ? '−' : '+'}</span>
+                </button>
+                <div className="sp-faq-answer">
+                  <p>{faq.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 6: CTA FULLWIDTH ═══ */}
       <section className="sp-cta" ref={ctaRef}>
         <div className="sp-cta-bg" ref={ctaBgRef} />
         <div className="sp-cta-overlay" />

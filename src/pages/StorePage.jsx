@@ -21,6 +21,7 @@ export default function StorePage() {
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [gridRefs, gridVis] = useStaggerInView(products.length, { staggerDelay: 80 });
   const [featRef, featVis] = useInView({ threshold: 0.15 });
+  const [craftRef, craftVis] = useInView({ threshold: 0.15 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
   const filtered = activeFilter === 'Todos'
@@ -99,7 +100,53 @@ export default function StorePage() {
         </div>
       </section>
 
-      {/* ═══ 5: NEWSLETTER CTA ═══ */}
+      {/* ═══ 5: EL ALMA DEL TALLER (NUEVA) ═══ */}
+      <section className="st-craftsmanship" ref={craftRef}>
+        <div className="container-default">
+          <div className={`st-craft-grid ${craftVis ? 'in-view' : ''}`}>
+            <div className="st-craft-image-box">
+              <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80" alt="Carpintería Artesanal" />
+              <div className="st-craft-image-badge">100% Hecho a Mano</div>
+            </div>
+            
+            <div className="st-craft-info">
+              <span className="section-eyebrow">Manufactura</span>
+              <h2 className="st-craft-title">El Alma del <em>Taller</em>.</h2>
+              <p className="st-craft-text">
+                Cada pieza de nuestra tienda es concebida y fabricada íntegramente en nuestro taller en la CDMX. Fusionamos la precisión del corte CNC con el oficio tradicional de la carpintería artesanal.
+              </p>
+              
+              <div className="st-craft-details">
+                <div className="st-craft-detail-item">
+                  <span className="st-craft-icon">✦</span>
+                  <div>
+                    <h4>Madera Sustentable Certificada</h4>
+                    <p>Utilizamos exclusivamente Nogal Americano y Roble Europeo con certificación FSC.</p>
+                  </div>
+                </div>
+                
+                <div className="st-craft-detail-item">
+                  <span className="st-craft-icon">✦</span>
+                  <div>
+                    <h4>Acabados Ecológicos</h4>
+                    <p>Protegemos la madera con aceites naturales y ceras orgánicas libres de plomo.</p>
+                  </div>
+                </div>
+                
+                <div className="st-craft-detail-item">
+                  <span className="st-craft-icon">✦</span>
+                  <div>
+                    <h4>Precisión Milimétrica</h4>
+                    <p>Corte por computadora CNC combinado con ensamble y lijado final a mano.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 6: NEWSLETTER CTA ═══ */}
       <section className="st-newsletter" ref={ctaRef}>
         <div className={`container-default st-newsletter-inner ${ctaVis ? 'in-view' : ''}`}>
           <h2 className="st-newsletter-title">Recibí novedades y lanzamientos</h2>

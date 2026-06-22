@@ -1,5 +1,5 @@
 /* ============================================
-   PROJECT DETAIL PAGE v2 — CASE STUDY REDESIGN
+   PROJECT DETAIL PAGE v2 — CASE STUDY REDESIGN — OVERHAULED
    ============================================ */
 
 /* ═══ 1: CINEMATIC HERO ═══ */
@@ -93,7 +93,77 @@
 .pdv2-nar-title { font-size: 20px; font-weight: 800; color: var(--colors--theme-black); margin-bottom: 8px; }
 .pdv2-nar-text { font-size: 15px; color: var(--colors--theme-gray); line-height: 1.7; }
 
-/* ═══ 5: TESTIMONIAL ═══ */
+/* ═══ 5: PALETA DE MATERIALES ═══ */
+.pdv2-materials-section {
+  padding: 120px 20px;
+  background: var(--colors--theme-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.pdv2-materials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 50px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pdv2-materials-grid.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pdv2-material-card {
+  background: var(--colors--theme-white);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  transition: all 0.4s ease;
+}
+
+.pdv2-material-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--colors--theme-orange);
+  box-shadow: 0 15px 35px rgba(239, 191, 4, 0.08);
+}
+
+.pdv2-mat-img-box {
+  height: 200px;
+  overflow: hidden;
+}
+
+.pdv2-mat-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.pdv2-material-card:hover .pdv2-mat-img-box img {
+  transform: scale(1.06);
+}
+
+.pdv2-mat-info {
+  padding: 24px;
+}
+
+.pdv2-mat-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  margin-bottom: 8px;
+}
+
+.pdv2-mat-desc {
+  font-size: 14px;
+  color: var(--colors--theme-gray);
+  line-height: 1.6;
+}
+
+/* ═══ 6: TESTIMONIAL ═══ */
 .pdv2-testimonial { padding: 120px 20px; background: var(--colors--theme-black); position: relative; overflow: hidden; }
 .pdv2-testimonial::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--colors--theme-orange) 5%, transparent), transparent 50%); }
 
@@ -108,7 +178,7 @@
 .pdv2-test-name { display: block; font-size: 16px; font-weight: 800; color: var(--colors--theme-white); }
 .pdv2-test-role { display: block; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 3px; }
 
-/* ═══ 6: RELATED ═══ */
+/* ═══ 7: RELATED ═══ */
 .pdv2-related { padding: 100px 20px; background: var(--colors--theme-white); }
 .pdv2-related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .pdv2-related-grid.in-view .pdv2-rel-card { opacity: 1; transform: translateY(0); }
@@ -133,6 +203,7 @@
   .pdv2-bento-1 { grid-column: 1; grid-row: 2; }
   .pdv2-bento-2 { grid-column: 2; grid-row: 2; }
   .pdv2-bento-3 { display: none; }
+  .pdv2-materials-grid { grid-template-columns: repeat(2, 1fr); }
   .pdv2-nar-timeline { max-width: 100%; }
   .pdv2-nar-line { left: 20px; }
   .pdv2-nar-step.left, .pdv2-nar-step.right { padding-left: 52px; padding-right: 0; justify-content: flex-start; }
@@ -141,8 +212,10 @@
   .pdv2-related-grid { grid-template-columns: 1fr; }
   .pdv2-rel-img { height: 280px; }
 }
+
 @media (max-width: 600px) {
   .pdv2-hero { min-height: 500px; }
   .pdv2-gallery-bento { grid-template-columns: 1fr; grid-template-rows: auto; }
   .pdv2-bento-0, .pdv2-bento-1, .pdv2-bento-2 { grid-column: 1; grid-row: auto; height: 260px; }
+  .pdv2-materials-grid { grid-template-columns: 1fr; }
 }

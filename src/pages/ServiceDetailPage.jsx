@@ -15,6 +15,11 @@ const allServices = {
       { src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', caption: 'Restaurante Condesa — Salón principal' },
       { src: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80', caption: 'Boutique Polanco — Exhibición' },
     ],
+    materials: [
+      { name: 'Mármol Travertino', desc: 'Aporta sofisticación e inercia térmica en barras de alto tránsito.', src: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
+      { name: 'Acero Cepillado', desc: 'Tratado con lacas protectoras para un look industrial e imperecedero.', src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300&q=80' },
+      { name: 'Vidrio Estriado', desc: 'Filtra la luz natural dividiendo espacios sin bloquear visuales.', src: 'https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=300&q=80' },
+    ],
     process: [
       { num: '01', title: 'Diagnóstico', desc: 'Análisis del giro, competencia, flujo de clientes y requerimientos técnicos del espacio.', icon: '⊙' },
       { num: '02', title: 'Concepto Creativo', desc: 'Desarrollo del concepto visual alineado a la identidad de marca y objetivos comerciales.', icon: '◎' },
@@ -47,6 +52,11 @@ const allServices = {
       { src: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80', caption: 'Loft Santa Fe — Cocina' },
       { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80', caption: 'Residencia Coyoacán — Fachada' },
       { src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80', caption: 'Penthouse Reforma — Terraza' },
+    ],
+    materials: [
+      { name: 'Nogal Americano', desc: 'Madera noble de veta profunda para aportar calidez en salas.', src: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Piedra Volcánica', desc: 'Textura rugosa y oscura para muros de acento que dialogan con el exterior.', src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&q=80' },
+      { name: 'Latón Cepillado', desc: 'Detalles dorados en luminarias y herrajes para destellos elegantes.', src: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=300&q=80' },
     ],
     process: [
       { num: '01', title: 'Consulta Inicial', desc: 'Entendemos tu estilo de vida, necesidades funcionales y aspiraciones estéticas.', icon: '⊙' },
@@ -81,6 +91,11 @@ const allServices = {
       { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80', caption: 'Cocina Narvarte — Gabinetes superiores' },
       { src: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&q=80', caption: 'Estantería industrial — Acero + nogal' },
     ],
+    materials: [
+      { name: 'Encinos Selectos', desc: 'Maderas duras ideales para cubiertas y puertas macizas de alta resistencia.', src: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=300&q=80' },
+      { name: 'Lacas Poliuretano', desc: 'Capas satinadas impermeables y resistentes al rayado.', src: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&q=80' },
+      { name: 'Herrajes Blum', desc: 'Sistemas de cierre suave alemanes ocultos de precisión.', src: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=300&q=80' },
+    ],
     process: [
       { num: '01', title: 'Levantamiento', desc: 'Medición milimétrica del espacio con herramientas láser de precisión.', icon: '⊙' },
       { num: '02', title: 'Diseño 3D', desc: 'Modelado paramétrico con selección de materiales, herrajes y acabados.', icon: '◎' },
@@ -114,6 +129,11 @@ const allServices = {
       { src: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80', caption: 'Supervisión en sitio' },
       { src: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80', caption: 'Resultado final — Oficinas Reforma' },
     ],
+    materials: [
+      { name: 'Concreto Texturizado', desc: 'Acabado contemporáneo texturizado a mano con selladores ópticos.', src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&q=80' },
+      { name: 'Acero Estructural', desc: 'Acero al carbón para soportar dobles alturas y volados.', src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300&q=80' },
+      { name: 'Piedra Caliza', desc: 'Revestimiento térmico ideal para exteriores y fachadas ventiladas.', src: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=300&q=80' },
+    ],
     process: [
       { num: '01', title: 'Planeación', desc: 'Cronograma detallado, presupuesto cerrado y plan de contingencias.', icon: '⊙' },
       { num: '02', title: 'Obra Civil', desc: 'Demolición, estructura, instalaciones eléctricas e hidráulicas.', icon: '◎' },
@@ -144,10 +164,12 @@ export default function ServiceDetailPage() {
 
   const [heroRef, heroVis] = useInView({ threshold: 0.05 });
   const [introRef, introVis] = useInView({ threshold: 0.15 });
+  const [materialsRef, materialsVis] = useInView({ threshold: 0.15 });
   const [galRef, galVis] = useInView({ threshold: 0.1 });
   const [procRefs, procVis] = useStaggerInView(4, { staggerDelay: 200 });
   const [testRef, testVis] = useInView({ threshold: 0.2 });
   const [benRefs, benVis] = useStaggerInView(4, { staggerDelay: 120 });
+  const [calcRef, calcVis] = useInView({ threshold: 0.15 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
   // Parallax on hero
@@ -165,6 +187,13 @@ export default function ServiceDetailPage() {
   // Active gallery
   const [activeGal, setActiveGal] = useState(0);
 
+  // Materials active state
+  const [activeMaterial, setActiveMaterial] = useState(0);
+
+  // Budget Planner State
+  const [calcArea, setCalcArea] = useState(60);
+  const [calcQuality, setCalcQuality] = useState('premium');
+
   if (!service) {
     return (
       <div className="page-enter" style={{ padding: '200px 20px', textAlign: 'center' }}>
@@ -175,6 +204,41 @@ export default function ServiceDetailPage() {
   }
 
   const otherServices = Object.entries(allServices).filter(([key]) => key !== id).slice(0, 3);
+
+  // Calculate dynamic budget range
+  const calculateBudget = () => {
+    let pricePerM2 = 5000;
+    let timeLabel = '4 meses';
+
+    if (id === 'comercial') {
+      if (calcQuality === 'standard') { pricePerM2 = 4200; timeLabel = '3 meses'; }
+      else if (calcQuality === 'premium') { pricePerM2 = 7500; timeLabel = '5 meses'; }
+      else { pricePerM2 = 13000; timeLabel = '8 meses'; }
+    } else if (id === 'residencial') {
+      if (calcQuality === 'standard') { pricePerM2 = 5500; timeLabel = '4 meses'; }
+      else if (calcQuality === 'premium') { pricePerM2 = 9500; timeLabel = '6 meses'; }
+      else { pricePerM2 = 16000; timeLabel = '9 meses'; }
+    } else if (id === 'carpinteria') {
+      if (calcQuality === 'standard') { pricePerM2 = 8500; timeLabel = '6 semanas'; }
+      else if (calcQuality === 'premium') { pricePerM2 = 16000; timeLabel = '10 semanas'; }
+      else { pricePerM2 = 27000; timeLabel = '16 semanas'; }
+    } else { // produccion
+      if (calcQuality === 'standard') { pricePerM2 = 3200; timeLabel = '3 meses'; }
+      else if (calcQuality === 'premium') { pricePerM2 = 6000; timeLabel = '5 meses'; }
+      else { pricePerM2 = 10000; timeLabel = '7 meses'; }
+    }
+
+    const minBudget = calcArea * pricePerM2;
+    const maxBudget = Math.round(minBudget * 1.25);
+
+    return {
+      min: minBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
+      max: maxBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
+      time: timeLabel
+    };
+  };
+
+  const budgetResult = calculateBudget();
 
   return (
     <div className="service-detail page-enter">
@@ -238,7 +302,42 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 3: SHOWCASE GALLERY ═══ */}
+      {/* ═══ 3: MUESTRARIO DE MATERIALES (NUEVA) ═══ */}
+      <section className="sdv2-materials" ref={materialsRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${materialsVis ? 'in-view' : ''}`}>Materiales del Estudio</span>
+          <h2 className={`section-heading ${materialsVis ? 'in-view' : ''}`}>Muestrario de <em>texturas sugeridas</em>.</h2>
+          
+          <div className={`sdv2-materials-grid ${materialsVis ? 'in-view' : ''}`}>
+            <div className="sdv2-materials-list">
+              {service.materials.map((mat, i) => (
+                <button
+                  key={i}
+                  className={`sdv2-material-item ${activeMaterial === i ? 'active' : ''}`}
+                  onClick={() => setActiveMaterial(i)}
+                >
+                  <span className="sdv2-mat-num">0{i + 1}</span>
+                  <span className="sdv2-mat-name">{mat.name}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="sdv2-materials-preview">
+              <div className="sdv2-mat-preview-card">
+                <div className="sdv2-mat-image-wrapper">
+                  <img src={service.materials[activeMaterial].src} alt={service.materials[activeMaterial].name} />
+                </div>
+                <div className="sdv2-mat-content">
+                  <h3 className="sdv2-mat-title">{service.materials[activeMaterial].name}</h3>
+                  <p className="sdv2-mat-desc">{service.materials[activeMaterial].desc}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 4: SHOWCASE GALLERY ═══ */}
       <section className="sdv2-showcase" ref={galRef}>
         <div className={`sdv2-showcase-inner ${galVis ? 'in-view' : ''}`}>
           <div className="sdv2-showcase-main">
@@ -261,7 +360,7 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 4: PROCESS ═══ */}
+      {/* ═══ 5: PROCESS ═══ */}
       <section className="sdv2-process">
         <div className="container-default">
           <span className="section-eyebrow anim-fade-up in-view">Metodología</span>
@@ -282,7 +381,7 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 5: TESTIMONIAL ═══ */}
+      {/* ═══ 6: TESTIMONIAL ═══ */}
       <section className="sdv2-testimonial" ref={testRef}>
         <div className={`container-default sdv2-test-inner ${testVis ? 'in-view' : ''}`}>
           <div className="sdv2-test-quote-mark">"</div>
@@ -297,7 +396,7 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 6: BENEFITS ═══ */}
+      {/* ═══ 7: BENEFITS ═══ */}
       <section className="sdv2-benefits">
         <div className="container-default">
           <span className="section-eyebrow anim-fade-up in-view">Ventajas</span>
@@ -314,7 +413,79 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 7: CTA + OTHER SERVICES ═══ */}
+      {/* ═══ 8: PLANIFICADOR DE PROYECTO (NUEVA) ═══ */}
+      <section className="sdv2-planner" ref={calcRef}>
+        <div className="container-default">
+          <div className={`sdv2-planner-inner ${calcVis ? 'in-view' : ''}`}>
+            <div className="sdv2-planner-info">
+              <span className="section-eyebrow">Presupuesto</span>
+              <h2 className="sdv2-planner-title">Planificá tu inversión.</h2>
+              <p className="sdv2-planner-text">
+                Utilizá nuestra calculadora interactiva para estimar de forma preliminar el costo y tiempo de desarrollo basado en los metros cuadrados de tu espacio.
+              </p>
+              
+              <div className="sdv2-calc-inputs">
+                <div className="sdv2-calc-range">
+                  <div className="sdv2-range-labels">
+                    <label>Superficie:</label>
+                    <span className="sdv2-range-val">{calcArea} m²</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="10"
+                    max="500"
+                    step="5"
+                    value={calcArea}
+                    onChange={(e) => setCalcArea(parseInt(e.target.value))}
+                    className="sdv2-range-slider"
+                  />
+                </div>
+
+                <div className="sdv2-calc-options">
+                  <label>Nivel de Acabados:</label>
+                  <div className="sdv2-option-pills">
+                    {[
+                      { id: 'standard', name: 'Estándar' },
+                      { id: 'premium', name: 'Premium' },
+                      { id: 'coleccion', name: 'Colección CAB' }
+                    ].map(opt => (
+                      <button
+                        key={opt.id}
+                        className={`sdv2-pill-btn ${calcQuality === opt.id ? 'active' : ''}`}
+                        onClick={() => setCalcQuality(opt.id)}
+                      >
+                        {opt.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="sdv2-planner-result">
+              <div className="sdv2-result-card">
+                <span className="sdv2-result-label">[INVERSIÓN ESTIMADA]</span>
+                <span className="sdv2-result-price">{budgetResult.min} – {budgetResult.max}</span>
+                <span className="sdv2-result-currency">Pesos Mexicanos (MXN)</span>
+                
+                <div className="sdv2-result-divider" />
+                
+                <div className="sdv2-result-time">
+                  <span className="sdv2-time-label">Plazo de entrega estimado:</span>
+                  <span className="sdv2-time-value">{budgetResult.time}</span>
+                </div>
+
+                <p className="sdv2-result-disclaimer">
+                  *Esta es una estimación conceptual sujeta a levantamiento físico y plano ejecutivo.
+                </p>
+                <Link to="/contacto" className="sdv2-result-btn">Iniciar Proyecto</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 9: CTA + OTHER SERVICES ═══ */}
       <section className="sdv2-cta" ref={ctaRef}>
         <div className={`container-default sdv2-cta-inner ${ctaVis ? 'in-view' : ''}`}>
           <div className="sdv2-cta-card">

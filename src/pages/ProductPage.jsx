@@ -14,6 +14,12 @@ const productsDB = {
   'lampara-mesa': { name: 'Lámpara Mesa Onyx', price: '$7,600', material: 'Onyx + latón', dimensions: '30 × 45 cm', weight: '4 kg', finish: 'Onyx translúcido', images: ['https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=800&q=80','https://images.unsplash.com/photo-1507473885765-e6ed057ab3fe?w=800&q=80','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80'], description: 'Lámpara de mesa con cuerpo de onyx mexicano translúcido que proyecta una luz cálida ambiental. Base de latón con dimmer táctil integrado.', related: ['lampara-arco','espejo-arco'] },
 };
 
+const careTips = [
+  { title: 'Madera de Nogal / Roble', text: 'Limpiar con un paño seco o levemente húmedo. Evitar productos abrasivos con silicona. Re-encerar cada 6 meses con ceras orgánicas naturales.' },
+  { title: 'Latón y Metales', text: 'Limpiar con microfibra suave. El latón oxidado o cepillado adquirirá una pátina natural con el tiempo. Evitar humedad estancada.' },
+  { title: 'Mármoles y Onyx', text: 'Piedras altamente porosas. Limpiar de inmediato cualquier derrame de líquidos ácidos (limón, café, vino) para evitar manchas permanentes.' }
+];
+
 export default function ProductPage() {
   const { id } = useParams();
   const product = productsDB[id];
@@ -21,7 +27,8 @@ export default function ProductPage() {
   const [showSpecs, setShowSpecs] = useState(false);
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
-  const [specRef, specVis] = useInView({ threshold: 0.1 });
+  const [careRef, careVis] = useInView({ threshold: 0.15 });
+  const [customRef, customVis] = useInView({ threshold: 0.15 });
   const [relRef, relVis] = useInView({ threshold: 0.1 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
@@ -102,7 +109,63 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* ═══ 2-3: Combined specs already in tab above ═══ */}
+      {/* ═══ 2: GUÍA DE CUIDADOS (NUEVA) ═══ */}
+      <section className="prp-care-section" ref={careRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${careVis ? 'in-view' : ''}`}>Mantenimiento</span>
+          <h2 className={`section-heading ${careVis ? 'in-view' : ''}`}>Guía de <em>cuidado y longevidad</em>.</h2>
+          
+          <div className={`prp-care-grid ${careVis ? 'in-view' : ''}`}>
+            {careTips.map((tip, i) => (
+              <div key={i} className="prp-care-card" style={{ transitionDelay: `${i * 0.15}s` }}>
+                <span className="prp-care-num">0{i + 1}</span>
+                <h4 className="prp-care-title">{tip.title}</h4>
+                <p className="prp-care-text">{tip.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 3: PROCESO DE PERSONALIZACIÓN (NUEVA) ═══ */}
+      <section className="prp-custom-section" ref={customRef}>
+        <div className="container-default">
+          <div className={`prp-custom-inner ${customVis ? 'in-view' : ''}`}>
+            <div className="prp-custom-info">
+              <span className="section-eyebrow">A Medida</span>
+              <h2 className="prp-custom-title">Personalizá tu <em>pieza</em>.</h2>
+              <p className="prp-custom-text">
+                ¿Necesitás otra medida, madera o acabado? Todas nuestras piezas de catálogo pueden fabricarse adaptadas a las dimensiones de tu espacio.
+              </p>
+              <Link to="/contacto" className="prp-custom-btn">Pedir Presupuesto a Medida</Link>
+            </div>
+            
+            <div className="prp-custom-steps">
+              <div className="prp-c-step">
+                <span className="prp-c-num">01</span>
+                <div>
+                  <h4>Selección de Medidas</h4>
+                  <p>Ajustamos largo, ancho y altura al milímetro según tus necesidades arquitectónicas.</p>
+                </div>
+              </div>
+              <div className="prp-c-step">
+                <span className="prp-c-num">02</span>
+                <div>
+                  <h4>Materialidad a Elección</h4>
+                  <p>Elegí entre Nogal Americano, Roble Europeo, Encino Nacional o terminaciones de Laca.</p>
+                </div>
+              </div>
+              <div className="prp-c-step">
+                <span className="prp-c-num">03</span>
+                <div>
+                  <h4>Desarrollo y Envío</h4>
+                  <p>Fabricamos en 4-6 semanas y enviamos con embalaje de alta seguridad.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ═══ 4: RELATED PRODUCTS ═══ */}
       <section className="prp-related" ref={relRef}>

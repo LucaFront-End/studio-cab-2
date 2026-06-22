@@ -1,5 +1,5 @@
 /* ============================================
-   PRODUCT PAGE STYLES
+   PRODUCT PAGE STYLES — OVERHAULED
    ============================================ */
 
 .prp-hero { padding: 140px 20px 80px; background: var(--colors--theme-white); }
@@ -49,6 +49,170 @@
 .prp-cta-btn:hover::before { transform: translateX(100%); }
 .prp-cta-btn:hover { background: var(--colors--theme-orange); transform: translateY(-3px); box-shadow: 0 14px 32px color-mix(in srgb, var(--colors--theme-orange) 40%, transparent); }
 
+/* ═══ 2: CARE GUIDE ═══ */
+.prp-care-section {
+  padding: 120px 20px;
+  background: var(--colors--theme-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.prp-care-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prp-care-grid.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prp-care-card {
+  padding: 40px 30px;
+  background: var(--colors--theme-white);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.prp-care-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--colors--theme-orange);
+  box-shadow: 0 15px 35px rgba(239, 191, 4, 0.08);
+}
+
+.prp-care-num {
+  font-size: 36px;
+  font-weight: 900;
+  color: rgba(239, 191, 4, 0.15);
+  display: block;
+  font-family: monospace;
+  margin-bottom: 12px;
+}
+
+.prp-care-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  margin-bottom: 12px;
+}
+
+.prp-care-text {
+  font-size: 14px;
+  color: var(--colors--theme-gray);
+  line-height: 1.65;
+}
+
+/* ═══ 3: CUSTOMIZATION ═══ */
+.prp-custom-section {
+  padding: 120px 20px;
+  background: var(--colors--theme-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.prp-custom-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prp-custom-inner.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prp-custom-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prp-custom-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  color: var(--colors--theme-black);
+  margin: 10px 0 20px;
+}
+
+.prp-custom-text {
+  font-size: 16px;
+  color: var(--colors--theme-gray);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+
+.prp-custom-btn {
+  display: inline-block;
+  padding: 16px 36px;
+  background: var(--colors--theme-black);
+  color: var(--colors--theme-white);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: all 0.3s ease;
+}
+
+.prp-custom-btn:hover {
+  background: var(--colors--theme-orange);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(239, 191, 4, 0.25);
+}
+
+.prp-custom-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.prp-c-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 24px;
+}
+
+.prp-c-step:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.prp-c-num {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--colors--theme-orange);
+  font-family: monospace;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.prp-c-step h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  margin-bottom: 8px;
+}
+
+.prp-c-step p {
+  font-size: 14px;
+  color: var(--colors--theme-gray);
+  line-height: 1.6;
+}
+
 /* Related */
 .prp-related { padding: 80px 20px; background: color-mix(in srgb, var(--colors--theme-white) 95%, var(--colors--theme-black)); }
 .prp-related-grid { display: flex; gap: 24px; }
@@ -71,5 +235,10 @@
 .prp-cta-link { display: inline-block; padding: 14px 32px; background: var(--colors--theme-black); color: var(--colors--theme-white); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 8px; text-decoration: none; transition: all 0.3s ease; }
 .prp-cta-link:hover { background: var(--colors--theme-orange); transform: translateY(-3px); }
 
-@media (max-width: 991px) { .prp-hero-grid { grid-template-columns: 1fr; gap: 40px; } .prp-main-img { height: 350px; } }
-@media (max-width: 600px) { .prp-related-grid { flex-direction: column; } }
+@media (max-width: 991px) { 
+  .prp-hero-grid { grid-template-columns: 1fr; gap: 40px; } 
+  .prp-main-img { height: 350px; } 
+  .prp-care-grid { grid-template-columns: 1fr; gap: 20px; }
+  .prp-custom-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 600px) { .prp-related-grid { flex-direction: column; gap: 20px; } }

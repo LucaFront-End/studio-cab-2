@@ -17,6 +17,17 @@ const projectsData = [
 
 const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 
+const mapHotspots = [
+  { id: 'basilio', name: 'Basilio Roma', lat: '35%', lng: '45%', zone: 'Roma Norte', tag: 'Restaurante & Bar' },
+  { id: 'condesa', name: 'Casa Condesa', lat: '45%', lng: '35%', zone: 'Condesa', tag: 'Residencial' },
+  { id: 'polanco', name: 'Boutique Polanco', lat: '25%', lng: '25%', zone: 'Polanco', tag: 'Retail de Alta Gama' },
+  { id: 'santafe', name: 'Loft Santa Fe', lat: '65%', lng: '15%', zone: 'Santa Fe', tag: 'Penthouse' },
+  { id: 'juarez', name: 'Café Juárez', lat: '20%', lng: '55%', zone: 'Juárez', tag: 'Cafetería' },
+  { id: 'coyoacan', name: 'Residencia Coyoacán', lat: '85%', lng: '60%', zone: 'Coyoacán', tag: 'Casa Unifamiliar' },
+  { id: 'reforma', name: 'Oficinas Reforma', lat: '30%', lng: '40%', zone: 'Reforma', tag: 'Oficinas Corporativas' },
+  { id: 'narvarte', name: 'Cocina Narvarte', lat: '60%', lng: '50%', zone: 'Narvarte', tag: 'Residencial' },
+];
+
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
@@ -27,6 +38,10 @@ export default function ProjectsPage() {
 
   const [gridRefs, gridVis] = useStaggerInView(projectsData.length, { staggerDelay: 100 });
   const [featRef, featVis] = useInView({ threshold: 0.15 });
+
+  /* Map State (NUEVA) */
+  const [activeHotspot, setActiveHotspot] = useState(mapHotspots[0]);
+  const [mapRef, mapVis] = useInView({ threshold: 0.15 });
 
   const [c1Ref, c1] = useCountUp(150, { suffix: '+' });
   const [c2Ref, c2] = useCountUp(12000, { suffix: '' });
@@ -106,7 +121,64 @@ export default function ProjectsPage() {
         </section>
       )}
 
-      {/* ═══ SECTION 4: STATS ═══ */}
+      {/* ═══ SECTION 4: CDMX PROJECTS MAP (NUEVA) ═══ */}
+      <section className="pp-map-section" ref={mapRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${mapVis ? 'in-view' : ''}`}>Ubicaciones</span>
+          <h2 className={`section-heading ${mapVis ? 'in-view' : ''}`}>Proyectos en la <em>Ciudad de México</em>.</h2>
+          
+          <div className={`pp-map-container ${mapVis ? 'in-view' : ''}`}>
+            <div className="pp-map-visual">
+              {/* Styled background grid representing the map */}
+              <div className="pp-map-grid-overlay" />
+              
+              {/* Hotspots */}
+              {mapHotspots.map(spot => (
+                <button
+                  key={spot.id}
+                  className={`pp-map-pin ${activeHotspot?.id === spot.id ? 'active' : ''}`}
+                  style={{ top: spot.lat, left: spot.lng }}
+                  onClick={() => setActiveHotspot(spot)}
+                  onMouseEnter={() => setActiveHotspot(spot)}
+                >
+                  <span className="pp-pin-dot" />
+                  <span className="pp-pin-pulse" />
+                </button>
+              ))}
+
+              {/* Tooltip detail card */}
+              {activeHotspot && (
+                <div className="pp-map-tooltip" style={{ top: `calc(${activeHotspot.lat} - 10px)`, left: activeHotspot.lng }}>
+                  <span className="pp-tooltip-zone">{activeHotspot.zone}</span>
+                  <h4 className="pp-tooltip-name">{activeHotspot.name}</h4>
+                  <span className="pp-tooltip-tag">{activeHotspot.tag}</span>
+                  <Link to={`/proyectos/${activeHotspot.id}`} className="pp-tooltip-link">Ver Detalle →</Link>
+                  <button className="pp-tooltip-close" onClick={() => setActiveHotspot(null)}>✕</button>
+                </div>
+              )}
+            </div>
+            
+            <div className="pp-map-info">
+              <h3 className="pp-map-info-title">Huella de Autor</h3>
+              <p className="pp-map-info-text">
+                Hemos desarrollado proyectos de interiorismo comercial, residencial y carpintería fina en las zonas más emblemáticas de la CDMX, consolidando a Studio CAB como referente de diseño local.
+              </p>
+              <div className="pp-map-stats-mini">
+                <div className="pp-map-stat-mini">
+                  <span className="pp-mini-val">08</span>
+                  <span className="pp-mini-lbl">Corredores Clave</span>
+                </div>
+                <div className="pp-map-stat-mini">
+                  <span className="pp-mini-val">65+</span>
+                  <span className="pp-mini-lbl">Obras Entregadas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SECTION 5: STATS ═══ */}
       <section className="pp-stats">
         <div className="container-default">
           <div className="pp-stats-grid">
@@ -127,7 +199,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* ═══ SECTION 5: CTA ═══ */}
+      {/* ═══ SECTION 6: CTA ═══ */}
       <section className="pp-cta" ref={ctaRef}>
         <div className={`container-default pp-cta-inner ${ctaVis ? 'in-view' : ''}`}>
           <h2 className="pp-cta-title">¿Tenés un proyecto en mente?</h2>

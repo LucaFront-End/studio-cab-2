@@ -13,6 +13,7 @@ const faqs = [
 export default function ContactPage() {
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [formRef, formVis] = useInView({ threshold: 0.1 });
+  const [plannerRef, plannerVis] = useInView({ threshold: 0.15 });
   const [mapRef, mapVis] = useInView({ threshold: 0.1 });
   const [faqRef, faqVis] = useInView({ threshold: 0.1 });
   const [socialRef, socialVis] = useInView({ threshold: 0.1 });
@@ -21,6 +22,13 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [focused, setFocused] = useState({});
 
+  /* Project Planner / Calculator State (NUEVA) */
+  const [plannerStep, setPlannerStep] = useState(1);
+  const [plannerType, setPlannerType] = useState('residencial');
+  const [plannerArea, setPlannerArea] = useState(75);
+  const [plannerQuality, setPlannerQuality] = useState('premium');
+  const [plannerLocation, setPlannerLocation] = useState('cdmx');
+
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -28,6 +36,54 @@ export default function ContactPage() {
   const handleFocus = (field) => setFocused(prev => ({ ...prev, [field]: true }));
   const handleBlur = (field) => {
     if (!formData[field]) setFocused(prev => ({ ...prev, [field]: false }));
+  };
+
+  // Calculator Result
+  const calculatePlannerResult = () => {
+    let pricePerM2 = 5000;
+    let timeLabel = '4 meses';
+
+    if (plannerType === 'comercial') {
+      pricePerM2 = plannerQuality === 'standard' ? 4200 : plannerQuality === 'premium' ? 7500 : 13000;
+      timeLabel = plannerQuality === 'standard' ? '3 meses' : plannerQuality === 'premium' ? '5 meses' : '8 meses';
+    } else if (plannerType === 'residencial') {
+      pricePerM2 = plannerQuality === 'standard' ? 5500 : plannerQuality === 'premium' ? 9500 : 16000;
+      timeLabel = plannerQuality === 'standard' ? '4 meses' : plannerQuality === 'premium' ? '6 meses' : '9 meses';
+    } else if (plannerType === 'carpinteria') {
+      pricePerM2 = plannerQuality === 'standard' ? 8500 : plannerQuality === 'premium' ? 16000 : 27000;
+      timeLabel = plannerQuality === 'standard' ? '6 semanas' : plannerQuality === 'premium' ? '10 semanas' : '16 semanas';
+    } else { // produccion
+      pricePerM2 = plannerQuality === 'standard' ? 3200 : plannerQuality === 'premium' ? 6000 : 10000;
+      timeLabel = plannerQuality === 'standard' ? '3 meses' : plannerQuality === 'premium' ? '5 meses' : '7 meses';
+    }
+
+    let multiplier = plannerLocation === 'fuera' ? 1.15 : 1.0;
+    const minBudget = Math.round(plannerArea * pricePerM2 * multiplier);
+    const maxBudget = Math.round(minBudget * 1.25);
+
+    return {
+      min: minBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
+      max: maxBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
+      time: timeLabel
+    };
+  };
+
+  const plannerResult = calculatePlannerResult();
+
+  const applyPlannerToForm = () => {
+    setFormData(prev => ({
+      ...prev,
+      service: plannerType,
+      message: `Hola Studio CAB. Estuve usando su planificador de proyectos. Mi espacio es de ${plannerArea}m² en ${plannerLocation === 'cdmx' ? 'CDMX' : 'fuera de CDMX'}, con nivel de acabados ${plannerQuality === 'standard' ? 'Estándar' : plannerQuality === 'premium' ? 'Premium' : 'Colección de Autor'}. El presupuesto estimado fue de ${plannerResult.min} - ${plannerResult.max}. Me gustaría agendar una llamada.`
+    }));
+    
+    // Auto-focus service input
+    setFocused(prev => ({ ...prev, service: true, message: true }));
+
+    const formElement = document.querySelector('.cp-form-section');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -134,7 +190,147 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ═══ 3: MAP & LOCATION ═══ */}
+      {/* ═══ 3: PLANIFICADOR DE PROYECTOS (NUEVA) ═══ */}
+      <section className="cp-planner-section" ref={plannerRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${plannerVis ? 'in-view' : ''}`}>Planificador</span>
+          <h2 className={`section-heading ${plannerVis ? 'in-view' : ''}`}>Calculá tu <em>presupuesto estimado</em>.</h2>
+          
+          <div className={`cp-planner-container ${plannerVis ? 'in-view' : ''}`}>
+            <div className="cp-planner-steps-box">
+              <div className="cp-planner-step-indicator">
+                {[1, 2, 3, 4].map(s => (
+                  <button
+                    key={s}
+                    className={`cp-planner-dot-btn ${plannerStep === s ? 'active' : ''} ${s < plannerStep ? 'past' : ''}`}
+                    onClick={() => setPlannerStep(s)}
+                  >
+                    <span>{s}</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="cp-planner-body">
+                {plannerStep === 1 && (
+                  <div className="cp-planner-tab">
+                    <h4>1. ¿Qué tipo de proyecto es?</h4>
+                    <div className="cp-planner-options">
+                      {[
+                        { id: 'residencial', label: 'Residencial' },
+                        { id: 'comercial', label: 'Comercial' },
+                        { id: 'carpinteria', label: 'Carpintería' },
+                        { id: 'produccion', label: 'Obra e Instalación' }
+                      ].map(opt => (
+                        <button
+                          key={opt.id}
+                          className={`cp-planner-opt-btn ${plannerType === opt.id ? 'active' : ''}`}
+                          onClick={() => setPlannerType(opt.id)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {plannerStep === 2 && (
+                  <div className="cp-planner-tab">
+                    <h4>2. ¿Cuántos metros cuadrados (m²)?</h4>
+                    <div className="cp-planner-range">
+                      <div className="cp-range-labels">
+                        <label>Área del espacio:</label>
+                        <span className="cp-range-val">{plannerArea} m²</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="10"
+                        max="500"
+                        step="5"
+                        value={plannerArea}
+                        onChange={(e) => setPlannerArea(parseInt(e.target.value))}
+                        className="cp-range-slider"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {plannerStep === 3 && (
+                  <div className="cp-planner-tab">
+                    <h4>3. ¿Qué nivel de acabados preferís?</h4>
+                    <div className="cp-planner-options">
+                      {[
+                        { id: 'standard', label: 'Estándar' },
+                        { id: 'premium', label: 'Premium' },
+                        { id: 'coleccion', label: 'Colección de Autor' }
+                      ].map(opt => (
+                        <button
+                          key={opt.id}
+                          className={`cp-planner-opt-btn ${plannerQuality === opt.id ? 'active' : ''}`}
+                          onClick={() => setPlannerQuality(opt.id)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {plannerStep === 4 && (
+                  <div className="cp-planner-tab">
+                    <h4>4. ¿Dónde está ubicado?</h4>
+                    <div className="cp-planner-options">
+                      {[
+                        { id: 'cdmx', label: 'Ciudad de México (CDMX)' },
+                        { id: 'fuera', label: 'Fuera de CDMX (Interior)' }
+                      ].map(opt => (
+                        <button
+                          key={opt.id}
+                          className={`cp-planner-opt-btn ${plannerLocation === opt.id ? 'active' : ''}`}
+                          onClick={() => setPlannerLocation(opt.id)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="cp-planner-nav">
+                {plannerStep > 1 && (
+                  <button className="cp-planner-nav-btn prev" onClick={() => setPlannerStep(prev => prev - 1)}>Anterior</button>
+                )}
+                {plannerStep < 4 ? (
+                  <button className="cp-planner-nav-btn next" onClick={() => setPlannerStep(prev => prev + 1)}>Siguiente</button>
+                ) : (
+                  <span className="cp-planner-complete-msg">¡Listo para ver resultados!</span>
+                )}
+              </div>
+            </div>
+
+            <div className="cp-planner-result-box">
+              <div className="cp-planner-result-card">
+                <span className="cp-result-lbl">[ESTIMACIÓN CONCEPTUAL]</span>
+                <h3 className="cp-result-price">{plannerResult.min} – {plannerResult.max}</h3>
+                <span className="cp-result-currency">Pesos Mexicanos (MXN)</span>
+                
+                <div className="cp-result-divider" />
+                
+                <div className="cp-result-row">
+                  <span className="cp-row-lbl">Tiempo estimado de ejecución:</span>
+                  <span className="cp-row-val">{plannerResult.time}</span>
+                </div>
+
+                <button className="cp-result-apply-btn" onClick={applyPlannerToForm}>
+                  Aplicar al Formulario de Contacto
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 4: MAP & LOCATION ═══ */}
       <section className="cp-map-section" ref={mapRef}>
         <div className={`cp-map-grid ${mapVis ? 'in-view' : ''}`}>
           <div className="cp-map-wrapper">
@@ -168,7 +364,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ═══ 4: FAQ ═══ */}
+      {/* ═══ 5: FAQ ═══ */}
       <section className="cp-faq" ref={faqRef}>
         <div className="container-default">
           <span className={`section-eyebrow ${faqVis ? 'in-view' : ''}`}>FAQ</span>
@@ -189,7 +385,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ═══ 5: SOCIAL & WHATSAPP ═══ */}
+      {/* ═══ 6: SOCIAL & WHATSAPP ═══ */}
       <section className="cp-social" ref={socialRef}>
         <div className={`container-default cp-social-inner ${socialVis ? 'in-view' : ''}`}>
           <h2 className="cp-social-title">También nos encontrás en</h2>

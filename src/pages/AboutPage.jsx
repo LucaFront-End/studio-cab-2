@@ -28,6 +28,13 @@ const workshopImages = [
   { src: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&q=80', alt: 'Showroom', caption: 'Showroom en Polanco' },
 ];
 
+const awardsData = [
+  { logo: 'AD', name: 'Architectural Digest', quote: 'Innovación en interiorismo mexicano de vanguardia.' },
+  { logo: 'ELLE', name: 'Elle Decoration', quote: 'El equilibrio perfecto entre la honestidad de la madera y la luz.' },
+  { logo: 'DM', name: 'Design Milk', quote: 'Estética contemporánea con un nivel de ejecución milimétrico.' },
+  { logo: 'GQA', name: 'Gama Awards', quote: 'Reconocimiento especial al Taller de Carpintería Artesanal y CNC.' },
+];
+
 export default function AboutPage() {
   /* ── Section 1: Hero Counters ── */
   const [heroRef, heroVisible] = useInView({ threshold: 0.2 });
@@ -35,10 +42,9 @@ export default function AboutPage() {
   const [countRef2, count2] = useCountUp(12000, { suffix: ' m²' });
   const [countRef3, count3] = useCountUp(9, { suffix: ' años' });
 
-  /* ── Section 2: Timeline ── */
+  /* ── Section 2: Timeline (Overhaul) ── */
   const [timelineRef, timelineVisible] = useInView({ threshold: 0.1 });
-  const [activeTimeline, setActiveTimeline] = useState(0);
-  const timelineTrackRef = useRef(null);
+  const [timelineRowRefs, timelineRowVisible] = useStaggerInView(timelineData.length, { staggerDelay: 100 });
 
   /* ── Section 3: Philosophy ── */
   const [philRef, philVisible] = useInView({ threshold: 0.2 });
@@ -62,6 +68,9 @@ export default function AboutPage() {
 
   /* ── Section 6: Values ── */
   const [valRef, valVisible] = useInView({ threshold: 0.2 });
+
+  /* ── Section 7: Awards & Press (NUEVA) ── */
+  const [awardsRef, awardsVisible] = useInView({ threshold: 0.1 });
 
   /* ── Parallax for hero image ── */
   const heroImageRef = useRef(null);
@@ -136,39 +145,34 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 2: TIMELINE
+          SECTION 2: TIMELINE (VERTICAL OVERHAUL)
           ═══════════════════════════════════════════ */}
-      <section className="about-timeline" ref={timelineRef}>
+      <section className="about-timeline-vertical" ref={timelineRef}>
         <div className="container-default">
           <span className={`section-eyebrow ${timelineVisible ? 'in-view' : ''}`}>Nuestra Historia</span>
           <h2 className={`section-heading ${timelineVisible ? 'in-view' : ''}`}>
             Un camino de <em>precisión</em> y <em>pasión</em>.
           </h2>
 
-          <div className="timeline-track" ref={timelineTrackRef}>
-            <div className="timeline-line">
-              <div className="timeline-line-fill" style={{ width: `${((activeTimeline + 1) / timelineData.length) * 100}%` }} />
+          <div className="timeline-v-container">
+            <div className="timeline-v-line">
+              <div className="timeline-v-fill" />
             </div>
-            <div className="timeline-dots">
-              {timelineData.map((item, i) => (
-                <button
-                  key={i}
-                  className={`timeline-dot ${i === activeTimeline ? 'active' : ''} ${i <= activeTimeline ? 'past' : ''}`}
-                  onClick={() => setActiveTimeline(i)}
-                >
-                  <span className="timeline-dot-year">{item.year}</span>
-                  <span className="timeline-dot-circle" />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="timeline-content-area">
             {timelineData.map((item, i) => (
-              <div key={i} className={`timeline-card ${i === activeTimeline ? 'active' : ''}`}>
-                <span className="timeline-card-year">{item.year}</span>
-                <h3 className="timeline-card-title">{item.title}</h3>
-                <p className="timeline-card-text">{item.text}</p>
+              <div
+                key={i}
+                ref={el => timelineRowRefs.current[i] = el}
+                className={`timeline-v-row ${timelineRowVisible[i] ? 'in-view' : ''}`}
+              >
+                <div className="timeline-v-marker">
+                  <span className="timeline-v-year">{item.year}</span>
+                  <div className="timeline-v-circle" />
+                </div>
+                <div className="timeline-v-card">
+                  <span className="timeline-v-num">0{i + 1}</span>
+                  <h3 className="timeline-v-title">{item.title}</h3>
+                  <p className="timeline-v-text">{item.text}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -176,7 +180,7 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 3: PHILOSOPHY
+          SECTION 3: MANIFIESTO Y FILOSOFÍA
           ═══════════════════════════════════════════ */}
       <section className="about-philosophy" ref={philRef}>
         <div className="container-default">
@@ -315,10 +319,14 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 6: VALUES & STATS
+          SECTION 6: VALUES
           ═══════════════════════════════════════════ */}
       <section className="about-values" ref={valRef}>
         <div className="container-default">
+          <span className="section-eyebrow">Nuestros Valores</span>
+          <h2 className="section-heading text-white">
+            Cómo hacemos las <em>cosas</em>.
+          </h2>
           <div className={`values-grid ${valVisible ? 'in-view' : ''}`}>
             {[
               { icon: '◇', title: 'Excelencia', text: 'Cada detalle importa. Revisamos tres veces antes de entregar.' },
@@ -330,6 +338,32 @@ export default function AboutPage() {
                 <span className="value-icon">{value.icon}</span>
                 <h3 className="value-title">{value.title}</h3>
                 <p className="value-text">{value.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          SECTION 7: AWARDS & PRESS MARQUEE (NUEVA)
+          ═══════════════════════════════════════════ */}
+      <section className="about-awards" ref={awardsRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${awardsVisible ? 'in-view' : ''}`}>Prensa & Premios</span>
+          <h2 className={`section-heading ${awardsVisible ? 'in-view' : ''}`}>
+            Nuestra labor en los <em>medios</em>.
+          </h2>
+        </div>
+        
+        <div className="awards-marquee-container">
+          <div className="awards-marquee-track">
+            {[...awardsData, ...awardsData, ...awardsData].map((award, i) => (
+              <div key={i} className="award-marquee-card">
+                <span className="award-marquee-logo">{award.logo}</span>
+                <div className="award-marquee-info">
+                  <h4 className="award-marquee-name">{award.name}</h4>
+                  <p className="award-marquee-quote">"{award.quote}"</p>
+                </div>
               </div>
             ))}
           </div>

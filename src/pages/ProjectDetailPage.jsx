@@ -13,6 +13,11 @@ const projectsDB = {
       { num: '02', title: 'La Solución', text: 'Estructura de carpintería suspendida en nogal americano. Espejos estratégicos que duplican la percepción del espacio y arcos metálicos con iluminación LED integrada.' },
       { num: '03', title: 'El Impacto', text: 'Triplicó su capacidad operativa y se convirtió en referencia de interiorismo comercial en la Colonia Roma. Featured en Architectural Digest México.' },
     ],
+    materials: [
+      { name: 'Nogal Americano', desc: 'Madera noble de veta profunda tratada con aceites naturales mate.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Mármol Travertino', desc: 'Losa monolítica cepillada a mano para barras principales.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
+      { name: 'Latón Envejecido', desc: 'Detalles metálicos con pátina artesanal en luminarias y herrajes.', image: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=300&q=80' },
+    ],
     testimonial: { quote: '"Triplicamos nuestros ingresos tras la remodelación. El diseño funciona."', author: 'Carlos Mendoza', role: 'Propietario' },
     related: ['condesa','polanco'],
   },
@@ -24,6 +29,11 @@ const projectsDB = {
       { num: '01', title: 'El Reto', text: 'Departamento de los años 70 en mal estado con distribución ineficiente y pisos dañados.' },
       { num: '02', title: 'La Solución', text: 'Eliminamos muros divisorios para crear un open concept con revestimientos de roble claro y chimenea de mármol travertine como punto focal.' },
       { num: '03', title: 'El Impacto', text: 'Un hogar de estética minimalista atemporal con ventilación cruzada natural. Valuación incrementada en un 60%.' },
+    ],
+    materials: [
+      { name: 'Roble Claro', desc: 'Revestimiento y duelas de roble europeo selecto para potenciar la iluminación.', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&q=80' },
+      { name: 'Mármol Travertino', desc: 'Revestimiento rústico en chimenea y detalles de baño principal.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
+      { name: 'Piedra Volcánica', desc: 'Piedra autóctona CDMX para patio interior y zonas húmedas.', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&q=80' },
     ],
     testimonial: { quote: '"Superó todas nuestras expectativas. Cada mañana despertamos en un espacio que nos representa."', author: 'Ana y Roberto Vega', role: 'Propietarios' },
     related: ['basilio','santafe'],
@@ -37,6 +47,11 @@ const projectsDB = {
       { num: '02', title: 'La Solución', text: 'Terrazo continuo, percheros flotantes de acero cepillado y plafón espejo que duplica la altura visual.' },
       { num: '03', title: 'El Impacto', text: 'Incremento del 40% en ventas en el primer trimestre y reconocimiento en retail design awards.' },
     ],
+    materials: [
+      { name: 'Terrazo Continuous', desc: 'Piso pulido continuo de base blanca y agregados de mármol gris.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Acero Inoxidable', desc: 'Percheros y estructuras con pulido espejo de precisión.', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&q=80' },
+      { name: 'Espejo Bronce', desc: 'Cristal entintado que amplía el showroom y suaviza la iluminación.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
+    ],
     testimonial: { quote: '"Las ventas subieron un 40% el primer trimestre. El diseño vende."', author: 'Alejandra Ruiz', role: 'Directora Comercial' },
     related: ['basilio','juarez'],
   },
@@ -48,6 +63,11 @@ const projectsDB = {
       { num: '01', title: 'El Reto', text: 'Penthouse con vistas panorámicas que necesitaba integrar el paisaje urbano sin sacrificar privacidad.' },
       { num: '02', title: 'La Solución', text: 'Ventanales de piso a techo con carpintería de roble, cocina isla monolítica y terraza con jardín vertical.' },
       { num: '03', title: 'El Impacto', text: 'Una residencia que difumina los límites entre interior y exterior. Publicada en Elle Decoration MX.' },
+    ],
+    materials: [
+      { name: 'Roble Ahumado', desc: 'Madera de roble oscurecido para dar sobriedad a closets y vestidores.', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&q=80' },
+      { name: 'Granito Negro', desc: 'Encimera monolítica de cocina con acabado cepillado cuero.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Vidrio Acanalado', desc: 'Mamparas que dividen áreas sociales sin restar luminosidad.', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=300&q=80' },
     ],
     testimonial: { quote: '"Es exactamente lo que soñamos pero nunca pudimos articular."', author: 'Familia Hernández', role: 'Propietarios' },
     related: ['condesa','coyoacan'],
@@ -61,6 +81,11 @@ const projectsDB = {
       { num: '02', title: 'La Solución', text: 'Mobiliario multifuncional con barra giratoria, almacenamiento vertical y iluminación cálida zonal.' },
       { num: '03', title: 'El Impacto', text: 'Top 10 cafeterías de specialty en CDMX según TimeOut México. Se viralizó en redes por su diseño.' },
     ],
+    materials: [
+      { name: 'Encinos Macizos', desc: 'Madera tratada para cubiertas de mesas de alta circulación.', image: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=300&q=80' },
+      { name: 'Latón Viejo', desc: 'Bordes protectores y luminarias colgantes de metal.', image: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=300&q=80' },
+      { name: 'Concreto Aparente', desc: 'Paredes y barra principal con textura contemporánea manual.', image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300&q=80' },
+    ],
     testimonial: { quote: '"La gente viene por el café y se queda por el espacio."', author: 'Diego Soto', role: 'Fundador' },
     related: ['basilio','reforma'],
   },
@@ -72,6 +97,11 @@ const projectsDB = {
       { num: '01', title: 'El Reto', text: 'Integrar una casa colonial con elementos de diseño contemporáneo respetando la esencia del barrio.' },
       { num: '02', title: 'La Solución', text: 'Intervenciones quirúrgicas de mobiliario moderno sobre la arquitectura original de piedra volcánica.' },
       { num: '03', title: 'El Impacto', text: 'Un diálogo perfecto entre tradición mexicana y minimalismo contemporáneo. Premio al mejor interiorismo CDMX.' },
+    ],
+    materials: [
+      { name: 'Piedra Volcánica', desc: 'Muros originales de basalto oscuro restaurados a mano.', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&q=80' },
+      { name: 'Nogal Americano', desc: 'Mobiliario central a medida para contrastar con la piedra fría.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Mármol Carrara', desc: 'Detalles de repisas y mesas con vetado clásico italiano.', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=300&q=80' },
     ],
     testimonial: { quote: '"Lograron lo imposible: modernizar sin perder la esencia colonial."', author: 'Familia Sánchez', role: 'Propietarios' },
     related: ['condesa','santafe'],
@@ -85,6 +115,11 @@ const projectsDB = {
       { num: '02', title: 'La Solución', text: 'Open plan con pods acústicos, sala de juntas escultórica, terraza urbana y wellness room.' },
       { num: '03', title: 'El Impacto', text: 'Aumento del 35% en satisfacción de empleados y reducción del 20% en rotación de personal.' },
     ],
+    materials: [
+      { name: 'Acero Pulido', desc: 'Divisores y perfiles con pátinas grises industriales satinadas.', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&q=80' },
+      { name: 'Roble Claro', desc: 'Escritorios flotantes ergonómicos integrados con sistemas de conectividad.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Vidrio Acústico', desc: 'Vidrio doble laminado para salas de junta sin restar visuales.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
+    ],
     testimonial: { quote: '"Nuestro equipo está más feliz y productivo. La inversión se pagó sola."', author: 'Ricardo Gómez', role: 'CEO' },
     related: ['polanco','basilio'],
   },
@@ -96,6 +131,11 @@ const projectsDB = {
       { num: '01', title: 'El Reto', text: 'Cocina compacta de 12m² que necesitaba almacenamiento máximo sin perder estética ni funcionalidad.' },
       { num: '02', title: 'La Solución', text: 'Gabinetes hasta el techo, isla retráctil con sistema de rieles y organización interna a medida con herrajes Blum.' },
       { num: '03', title: 'El Impacto', text: 'Triplicó el almacenamiento en el mismo espacio con una estética que parece sacada de una revista.' },
+    ],
+    materials: [
+      { name: 'Nogal Americano', desc: 'Laminado y macizo de nogal con aceites naturales impermeables.', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&q=80' },
+      { name: 'Herrajes Blum', desc: 'Sistemas de organización interna cajones tandembox blumotion.', image: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=300&q=80' },
+      { name: 'Granito Blanco', desc: 'Cubierta monolítica pulida de alta resistencia térmica.', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=300&q=80' },
     ],
     testimonial: { quote: '"No puedo creer que sea la misma cocina. Es otra casa."', author: 'Mariana Torres', role: 'Propietaria' },
     related: ['condesa','santafe'],
@@ -110,6 +150,7 @@ export default function ProjectDetailPage() {
   const [specRef, specVis] = useInView({ threshold: 0.1 });
   const [galRef, galVis] = useInView({ threshold: 0.1 });
   const [narRefs, narVis] = useStaggerInView(3, { staggerDelay: 200 });
+  const [materialsRef, materialsVis] = useInView({ threshold: 0.15 });
   const [testRef, testVis] = useInView({ threshold: 0.2 });
   const [relRef, relVis] = useInView({ threshold: 0.1 });
 
@@ -248,7 +289,29 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 5: TESTIMONIAL ═══ */}
+      {/* ═══ 5: PALETA DE MATERIALES (NUEVA) ═══ */}
+      <section className="pdv2-materials-section" ref={materialsRef}>
+        <div className="container-default">
+          <span className={`section-eyebrow ${materialsVis ? 'in-view' : ''}`}>Materialidad</span>
+          <h2 className={`section-heading ${materialsVis ? 'in-view' : ''}`}>Paleta de <em>texturas y acabados</em>.</h2>
+          
+          <div className={`pdv2-materials-grid ${materialsVis ? 'in-view' : ''}`}>
+            {project.materials.map((mat, i) => (
+              <div key={i} className="pdv2-material-card" style={{ transitionDelay: `${i * 0.15}s` }}>
+                <div className="pdv2-mat-img-box">
+                  <img src={mat.image} alt={mat.name} />
+                </div>
+                <div className="pdv2-mat-info">
+                  <h4 className="pdv2-mat-name">{mat.name}</h4>
+                  <p className="pdv2-mat-desc">{mat.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 6: TESTIMONIAL ═══ */}
       <section className="pdv2-testimonial" ref={testRef}>
         <div className={`container-default pdv2-test-inner ${testVis ? 'in-view' : ''}`}>
           <div className="pdv2-test-mark">"</div>
@@ -263,7 +326,7 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 6: RELATED ═══ */}
+      {/* ═══ 7: RELATED ═══ */}
       <section className="pdv2-related" ref={relRef}>
         <div className="container-default">
           <h2 className="section-heading anim-fade-up in-view">Más <em>proyectos</em>.</h2>
