@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useInView, useStaggerInView } from '../hooks/useInView';
+import { useInView } from '../hooks/useInView';
 import './ContactPage.css';
 
 const faqs = [
@@ -40,8 +40,8 @@ export default function ContactPage() {
 
   // Calculator Result
   const calculatePlannerResult = () => {
-    let pricePerM2 = 5000;
-    let timeLabel = '4 meses';
+    let pricePerM2;
+    let timeLabel;
 
     if (plannerType === 'comercial') {
       pricePerM2 = plannerQuality === 'standard' ? 4200 : plannerQuality === 'premium' ? 7500 : 13000;

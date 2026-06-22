@@ -79,7 +79,6 @@ export default function ThemeSwitcher() {
   };
 
   const currentTheme = THEMES[current];
-  const otherTheme = Object.values(THEMES).find(t => t.id !== current);
 
   return (
     <div className={`theme-switcher-root ${open ? 'open' : ''}`}>

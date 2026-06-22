@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useInView, useStaggerInView } from '../hooks/useInView';
+import { useInView } from '../hooks/useInView';
 import './ProductPage.css';
 
 const productsDB = {

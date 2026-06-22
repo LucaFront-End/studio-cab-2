@@ -207,8 +207,8 @@ export default function ServiceDetailPage() {
 
   // Calculate dynamic budget range
   const calculateBudget = () => {
-    let pricePerM2 = 5000;
-    let timeLabel = '4 meses';
+    let pricePerM2;
+    let timeLabel;
 
     if (id === 'comercial') {
       if (calcQuality === 'standard') { pricePerM2 = 4200; timeLabel = '3 meses'; }
