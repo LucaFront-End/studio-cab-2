@@ -10,7 +10,7 @@ const services = [
     description:
       'Transformamos locales comerciales, restaurantes y oficinas en experiencias de marca estratégicas que atraen y convierten.',
     tag: 'Retail · Oficinas',
-    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80',
+    image: '/diseno_comercial.png',
   },
   {
     id: 'residencial',
@@ -20,7 +20,7 @@ const services = [
     description:
       'Diseñamos espacios habitacionales sofisticados donde la precisión constructiva se funde con texturas de mármol y madera de nogal.',
     tag: 'Casas · Departamentos',
-    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80',
+    image: '/interiorismo_residencial.png',
   },
   {
     id: 'carpinteria',
@@ -30,7 +30,7 @@ const services = [
     description:
       'Fabricamos cocinas, closets y elementos arquitectónicos de madera con acabados premium y diseño milimétrico.',
     tag: 'Muebles · Cocinas',
-    image: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=600&q=80',
+    image: '/carpinteria_diseno.png',
   },
   {
     id: 'produccion',

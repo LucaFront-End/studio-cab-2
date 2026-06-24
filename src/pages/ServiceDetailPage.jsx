@@ -6,7 +6,7 @@ import './ServiceDetailPage.css';
 const allServices = {
   comercial: {
     title: 'Diseño Comercial', subtitle: 'Espacios que venden, experiencias que conectan.',
-    tag: 'Retail · Oficinas · Restaurantes', heroImage: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1400&q=80',
+    tag: 'Retail · Oficinas · Restaurantes', heroImage: '/diseno_comercial.png',
     description: 'En Studio CAB diseñamos espacios comerciales que trascienden la estética para convertirse en herramientas estratégicas de negocio.',
     longText: 'Nuestro equipo combina arquitectura de interiores, diseño gráfico ambiental y ergonomía comercial para crear entornos que maximizan la experiencia del cliente y, en consecuencia, los ingresos.',
     gallery: [
@@ -44,7 +44,7 @@ const allServices = {
   },
   residencial: {
     title: 'Interiorismo Residencial', subtitle: 'Tu hogar, tu identidad personal.',
-    tag: 'Casas · Departamentos · Penthouses', heroImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=80',
+    tag: 'Casas · Departamentos · Penthouses', heroImage: '/interiorismo_residencial.png',
     description: 'Diseñamos espacios habitacionales sofisticados donde cada rincón refleja la personalidad del habitante.',
     longText: 'Desde departamentos de diseño en la Condesa hasta residencias de lujo en Bosques de las Lomas, cada detalle — desde la veta de la madera hasta la temperatura de la iluminación — está cuidadosamente curado.',
     gallery: [
@@ -82,7 +82,7 @@ const allServices = {
   },
   carpinteria: {
     title: 'Carpintería sobre Diseño', subtitle: 'Mobiliario hecho a medida, pieza por pieza.',
-    tag: 'Muebles · Cocinas · Closets', heroImage: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=1400&q=80',
+    tag: 'Muebles · Cocinas · Closets', heroImage: '/carpinteria_diseno.png',
     description: 'Fabricamos cocinas, closets, barras y elementos arquitectónicos de madera con acabados premium y diseño milimétrico.',
     longText: 'Con maquinaria CNC de última generación y mano de obra artesanal, cada pieza lleva la precisión digital y el alma del trabajo manual.',
     gallery: [
