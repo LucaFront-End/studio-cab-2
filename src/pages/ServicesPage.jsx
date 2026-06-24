@@ -7,7 +7,7 @@ const servicesData = [
   { id: 'comercial', title: 'Diseño Comercial', subtitle: 'Espacios que venden', tag: 'Retail · Oficinas · Restaurantes', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80', description: 'Transformamos locales comerciales en experiencias de marca que generan resultados medibles.' },
   { id: 'residencial', title: 'Interiorismo Residencial', subtitle: 'Tu hogar, tu identidad', tag: 'Casas · Departamentos · Penthouses', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80', description: 'Diseñamos espacios habitacionales sofisticados con materiales nobles y acabados impecables.' },
   { id: 'carpinteria', title: 'Carpintería sobre Diseño', subtitle: 'Mobiliario hecho a medida', tag: 'Muebles · Cocinas · Closets', image: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=600&q=80', description: 'Fabricamos con maquinaria CNC y mano artesanal, cocinas, closets y mobiliario premium.' },
-  { id: 'produccion', title: 'Producción e Instalación', subtitle: 'Del plano a la realidad', tag: 'Obra · Acabados · Supervisión', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80', description: 'Ejecución y supervisión total del proceso constructivo con estándares de alta costura.' },
+  { id: 'produccion', title: 'Producción e Instalación', subtitle: 'Del plano a la realidad', tag: 'Obra · Acabados · Supervisión', image: '/produccion_instalacion.png', description: 'Gestionamos la fabricación, montaje e instalación de cada proyecto en CDMX y área metropolitana con altos estándares de calidad y atención al detalle.' },
 ];
 
 const processSteps = [

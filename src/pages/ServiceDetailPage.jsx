@@ -120,8 +120,8 @@ const allServices = {
   },
   produccion: {
     title: 'Producción e Instalación', subtitle: 'Del plano a la realidad, sin excusas.',
-    tag: 'Obra · Acabados · Supervisión', heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=80',
-    description: 'Supervisión y ejecución total del proceso constructivo, garantizando acabados de alta costura arquitectónica.',
+    tag: 'Obra · Acabados · Supervisión', heroImage: '/produccion_instalacion.png',
+    description: 'Gestionamos la fabricación, montaje e instalación de cada proyecto en CDMX y área metropolitana con altos estándares de calidad y atención al detalle.',
     longText: 'Nuestro equipo coordina cada aspecto: instalaciones, acabados y entrega llave en mano. Un solo equipo de principio a fin.',
     gallery: [
       { src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80', caption: 'Obra en proceso — Estructura' },

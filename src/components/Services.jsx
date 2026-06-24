@@ -38,9 +38,9 @@ const services = [
     title: 'Producción e Instalación',
     subtitle: 'Del plano a la realidad.',
     description:
-      'Supervisión y ejecución total del proceso constructivo en CDMX, garantizando acabados de alta costura arquitectónica.',
+      'Gestionamos la fabricación, montaje e instalación de cada proyecto en CDMX y área metropolitana con altos estándares de calidad y atención al detalle.',
     tag: 'Obra · Acabados',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80',
+    image: '/produccion_instalacion.png',
   },
 ];
 
