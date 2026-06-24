@@ -202,7 +202,7 @@ export default function ProjectsPage() {
       {/* ═══ SECTION 6: CTA ═══ */}
       <section className="pp-cta" ref={ctaRef}>
         <div className={`container-default pp-cta-inner ${ctaVis ? 'in-view' : ''}`}>
-          <h2 className="pp-cta-title">¿Tenés un proyecto en mente?</h2>
+          <h2 className="pp-cta-title">¿Tienes un proyecto en mente?</h2>
           <p className="pp-cta-text">Hablemos de cómo transformar tu espacio.</p>
           <Link to="/contacto" className="pp-cta-btn">Contactar</Link>
         </div>
