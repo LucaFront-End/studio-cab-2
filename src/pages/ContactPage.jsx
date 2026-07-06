@@ -10,6 +10,41 @@ const faqs = [
   { q: '¿Ofrecen financiamiento?', a: 'Sí, manejamos esquemas de pago a 3 o 6 meses sin intereses para proyectos mayores a $200,000 MXN.' },
 ];
 
+const projectTypeLabels = {
+  comercial: 'Comercial',
+  hotelero: 'Hotelero',
+  restaurante: 'Restaurante / Cafetería',
+  oficina: 'Oficina',
+  residencial: 'Residencial',
+  franquicia: 'Franquicia',
+  retail: 'Retail / Boutique',
+  otro: 'Otro'
+};
+
+const serviceLabels = {
+  diseño_interiores: 'Diseño de Interiores',
+  carpinteria_mobiliario: 'Carpintería y Mobiliario sobre Diseño',
+  produccion_mobiliario: 'Producción de Mobiliario',
+  instalacion: 'Instalación',
+  remodelacion: 'Remodelación',
+  proyecto_integral: 'Proyecto Integral',
+  asesoria: 'Asesoría'
+};
+
+const materialLabels = {
+  madera_natural: 'Madera Natural',
+  mdf: 'MDF',
+  aglomerado: 'Aglomerado',
+  mdf_chapa: 'MDF con Chapa',
+  madera_maciza: 'Madera Maciza',
+  otro: 'Otro'
+};
+
+const locationLabels = {
+  cdmx: 'Ciudad de México (CDMX)',
+  fuera: 'Fuera de CDMX (Interior)'
+};
+
 export default function ContactPage() {
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [formRef, formVis] = useInView({ threshold: 0.1 });
@@ -24,9 +59,10 @@ export default function ContactPage() {
 
   /* Project Planner / Calculator State (NUEVA) */
   const [plannerStep, setPlannerStep] = useState(1);
-  const [plannerType, setPlannerType] = useState('residencial');
-  const [plannerArea, setPlannerArea] = useState(75);
-  const [plannerQuality, setPlannerQuality] = useState('premium');
+  const [plannerType, setPlannerType] = useState('comercial');
+  const [plannerService, setPlannerService] = useState('diseño_interiores');
+  const [plannerMaterial, setPlannerMaterial] = useState('madera_natural');
+  const [plannerCustomMaterial, setPlannerCustomMaterial] = useState('');
   const [plannerLocation, setPlannerLocation] = useState('cdmx');
 
   const handleChange = (e) => {
@@ -38,43 +74,24 @@ export default function ContactPage() {
     if (!formData[field]) setFocused(prev => ({ ...prev, [field]: false }));
   };
 
-  // Calculator Result
-  const calculatePlannerResult = () => {
-    let pricePerM2;
-    let timeLabel;
-
-    if (plannerType === 'comercial') {
-      pricePerM2 = plannerQuality === 'standard' ? 4200 : plannerQuality === 'premium' ? 7500 : 13000;
-      timeLabel = plannerQuality === 'standard' ? '3 meses' : plannerQuality === 'premium' ? '5 meses' : '8 meses';
-    } else if (plannerType === 'residencial') {
-      pricePerM2 = plannerQuality === 'standard' ? 5500 : plannerQuality === 'premium' ? 9500 : 16000;
-      timeLabel = plannerQuality === 'standard' ? '4 meses' : plannerQuality === 'premium' ? '6 meses' : '9 meses';
-    } else if (plannerType === 'carpinteria') {
-      pricePerM2 = plannerQuality === 'standard' ? 8500 : plannerQuality === 'premium' ? 16000 : 27000;
-      timeLabel = plannerQuality === 'standard' ? '6 semanas' : plannerQuality === 'premium' ? '10 semanas' : '16 semanas';
-    } else { // produccion
-      pricePerM2 = plannerQuality === 'standard' ? 3200 : plannerQuality === 'premium' ? 6000 : 10000;
-      timeLabel = plannerQuality === 'standard' ? '3 meses' : plannerQuality === 'premium' ? '5 meses' : '7 meses';
-    }
-
-    let multiplier = plannerLocation === 'fuera' ? 1.15 : 1.0;
-    const minBudget = Math.round(plannerArea * pricePerM2 * multiplier);
-    const maxBudget = Math.round(minBudget * 1.25);
-
-    return {
-      min: minBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
-      max: maxBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
-      time: timeLabel
-    };
-  };
-
-  const plannerResult = calculatePlannerResult();
-
   const applyPlannerToForm = () => {
+    const selectedType = projectTypeLabels[plannerType] || plannerType;
+    const selectedService = serviceLabels[plannerService] || plannerService;
+    const selectedMaterial = plannerMaterial === 'otro' 
+      ? `Otro: ${plannerCustomMaterial || 'No especificado'}` 
+      : (materialLabels[plannerMaterial] || plannerMaterial);
+    const selectedLocation = locationLabels[plannerLocation] || plannerLocation;
+
+    let formService = 'otro';
+    if (plannerType === 'residencial') formService = 'residencial';
+    else if (['comercial', 'retail', 'oficina', 'restaurante', 'hotelero', 'franquicia'].includes(plannerType)) formService = 'comercial';
+    else if (plannerService === 'carpinteria_mobiliario' || plannerService === 'produccion_mobiliario') formService = 'carpinteria';
+    else if (plannerService === 'instalacion') formService = 'produccion';
+
     setFormData(prev => ({
       ...prev,
-      service: plannerType,
-      message: `Hola Studio CAB. Estuve usando su planificador de proyectos. Mi espacio es de ${plannerArea}m² en ${plannerLocation === 'cdmx' ? 'CDMX' : 'fuera de CDMX'}, con nivel de acabados ${plannerQuality === 'standard' ? 'Estándar' : plannerQuality === 'premium' ? 'Premium' : 'Colección de Autor'}. El presupuesto estimado fue de ${plannerResult.min} - ${plannerResult.max}. Me gustaría agendar una llamada.`
+      service: formService,
+      message: `Hola Studio CAB. He configurado mi propuesta personalizada:\n- Tipo de Proyecto: ${selectedType}\n- Servicio Necesitado: ${selectedService}\n- Material Solicitado: ${selectedMaterial}\n- Ubicación: ${selectedLocation}\n\nMe gustaría recibir más información.`
     }));
     
     // Auto-focus service input
@@ -194,7 +211,7 @@ export default function ContactPage() {
       <section className="cp-planner-section" ref={plannerRef}>
         <div className="container-default">
           <span className={`section-eyebrow ${plannerVis ? 'in-view' : ''}`}>Planificador</span>
-          <h2 className={`section-heading ${plannerVis ? 'in-view' : ''}`}>Calculá tu <em>presupuesto estimado</em>.</h2>
+          <h2 className={`section-heading ${plannerVis ? 'in-view' : ''}`}>Solicita una <em>propuesta personalizada</em>.</h2>
           
           <div className={`cp-planner-container ${plannerVis ? 'in-view' : ''}`}>
             <div className="cp-planner-steps-box">
@@ -216,10 +233,14 @@ export default function ContactPage() {
                     <h4>1. ¿Qué tipo de proyecto es?</h4>
                     <div className="cp-planner-options">
                       {[
-                        { id: 'residencial', label: 'Residencial' },
                         { id: 'comercial', label: 'Comercial' },
-                        { id: 'carpinteria', label: 'Carpintería' },
-                        { id: 'produccion', label: 'Obra e Instalación' }
+                        { id: 'hotelero', label: 'Hotelero' },
+                        { id: 'restaurante', label: 'Restaurante / Cafetería' },
+                        { id: 'oficina', label: 'Oficina' },
+                        { id: 'residencial', label: 'Residencial' },
+                        { id: 'franquicia', label: 'Franquicia' },
+                        { id: 'retail', label: 'Retail / Boutique' },
+                        { id: 'otro', label: 'Otro' }
                       ].map(opt => (
                         <button
                           key={opt.id}
@@ -235,43 +256,61 @@ export default function ContactPage() {
 
                 {plannerStep === 2 && (
                   <div className="cp-planner-tab">
-                    <h4>2. ¿Cuántos metros cuadrados (m²)?</h4>
-                    <div className="cp-planner-range">
-                      <div className="cp-range-labels">
-                        <label>Área del espacio:</label>
-                        <span className="cp-range-val">{plannerArea} m²</span>
-                      </div>
-                      <input
-                        type="range"
-                        min="10"
-                        max="500"
-                        step="5"
-                        value={plannerArea}
-                        onChange={(e) => setPlannerArea(parseInt(e.target.value))}
-                        className="cp-range-slider"
-                      />
+                    <h4>2. ¿Qué servicio necesitas?</h4>
+                    <div className="cp-planner-options">
+                      {[
+                        { id: 'diseño_interiores', label: 'Diseño de Interiores' },
+                        { id: 'carpinteria_mobiliario', label: 'Carpintería y Mobiliario sobre Diseño' },
+                        { id: 'produccion_mobiliario', label: 'Producción de Mobiliario' },
+                        { id: 'instalacion', label: 'Instalación' },
+                        { id: 'remodelacion', label: 'Remodelación' },
+                        { id: 'proyecto_integral', label: 'Proyecto Integral' },
+                        { id: 'asesoria', label: 'Asesoría' }
+                      ].map(opt => (
+                        <button
+                          key={opt.id}
+                          className={`cp-planner-opt-btn ${plannerService === opt.id ? 'active' : ''}`}
+                          onClick={() => setPlannerService(opt.id)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 )}
 
                 {plannerStep === 3 && (
                   <div className="cp-planner-tab">
-                    <h4>3. ¿Qué nivel de acabados preferís?</h4>
+                    <h4>3. ¿Qué tipo de material estás buscando?</h4>
                     <div className="cp-planner-options">
                       {[
-                        { id: 'standard', label: 'Estándar' },
-                        { id: 'premium', label: 'Premium' },
-                        { id: 'coleccion', label: 'Colección de Autor' }
+                        { id: 'madera_natural', label: 'Madera Natural' },
+                        { id: 'mdf', label: 'MDF' },
+                        { id: 'aglomerado', label: 'Aglomerado' },
+                        { id: 'mdf_chapa', label: 'MDF con Chapa' },
+                        { id: 'madera_maciza', label: 'Madera Maciza' },
+                        { id: 'otro', label: 'Otro' }
                       ].map(opt => (
                         <button
                           key={opt.id}
-                          className={`cp-planner-opt-btn ${plannerQuality === opt.id ? 'active' : ''}`}
-                          onClick={() => setPlannerQuality(opt.id)}
+                          className={`cp-planner-opt-btn ${plannerMaterial === opt.id ? 'active' : ''}`}
+                          onClick={() => setPlannerMaterial(opt.id)}
                         >
                           {opt.label}
                         </button>
                       ))}
                     </div>
+                    {plannerMaterial === 'otro' && (
+                      <div className="cp-planner-custom-input-wrapper">
+                        <input
+                          type="text"
+                          placeholder="Especificá el material que buscás..."
+                          value={plannerCustomMaterial}
+                          onChange={(e) => setPlannerCustomMaterial(e.target.value)}
+                          className="cp-planner-custom-input"
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -310,16 +349,36 @@ export default function ContactPage() {
 
             <div className="cp-planner-result-box">
               <div className="cp-planner-result-card">
-                <span className="cp-result-lbl">[ESTIMACIÓN CONCEPTUAL]</span>
-                <h3 className="cp-result-price">{plannerResult.min} – {plannerResult.max}</h3>
-                <span className="cp-result-currency">Pesos Mexicanos (MXN)</span>
+                <span className="cp-result-lbl">[PROPUESTA PERSONALIZADA]</span>
+                <h3 className="cp-result-summary-title">Resumen de Selección</h3>
                 
                 <div className="cp-result-divider" />
                 
-                <div className="cp-result-row">
-                  <span className="cp-row-lbl">Tiempo estimado de ejecución:</span>
-                  <span className="cp-row-val">{plannerResult.time}</span>
+                <div className="cp-result-summary-list">
+                  <div className="cp-summary-item">
+                    <span className="cp-summary-lbl">Tipo de Proyecto:</span>
+                    <span className="cp-summary-val">{projectTypeLabels[plannerType] || 'No seleccionado'}</span>
+                  </div>
+                  <div className="cp-summary-item">
+                    <span className="cp-summary-lbl">Servicio Requerido:</span>
+                    <span className="cp-summary-val">{serviceLabels[plannerService] || 'No seleccionado'}</span>
+                  </div>
+                  <div className="cp-summary-item">
+                    <span className="cp-summary-lbl">Material Solicitado:</span>
+                    <span className="cp-summary-val">
+                      {plannerMaterial === 'otro' 
+                        ? (plannerCustomMaterial ? `Otro: ${plannerCustomMaterial}` : 'Otro (Sin especificar)')
+                        : (materialLabels[plannerMaterial] || 'No seleccionado')
+                      }
+                    </span>
+                  </div>
+                  <div className="cp-summary-item">
+                    <span className="cp-summary-lbl">Ubicación:</span>
+                    <span className="cp-summary-val">{locationLabels[plannerLocation] || 'No seleccionado'}</span>
+                  </div>
                 </div>
+
+                <div className="cp-result-divider" />
 
                 <button className="cp-result-apply-btn" onClick={applyPlannerToForm}>
                   Aplicar al Formulario de Contacto
