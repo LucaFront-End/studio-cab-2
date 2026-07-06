@@ -307,7 +307,7 @@
    ============================================ */
 @media screen and (max-width: 991px) {
   .home-hero-section {
-    padding-top: 50px;
+    padding-top: 100px;
     padding-bottom: 80px;
   }
 
@@ -356,7 +356,7 @@
 
 @media screen and (max-width: 767px) {
   .home-hero-section {
-    padding-top: 40px;
+    padding-top: 100px;
     padding-bottom: 40px;
   }
 
@@ -377,7 +377,7 @@
 
 @media screen and (max-width: 479px) {
   .home-hero-section {
-    padding-top: 30px;
+    padding-top: 100px;
   }
 
   .hero-banner-image-wrapper {

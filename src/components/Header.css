@@ -270,15 +270,16 @@
   color: var(--colors--theme-orange);
   pointer-events: none;
 }
-.mobile-drawer-cross.top-left     { top: 24px; left: 24px; }
-.mobile-drawer-cross.top-right    { top: 24px; right: 24px; }
+.mobile-drawer-cross.top-left     { top: 80px; left: 24px; }
+.mobile-drawer-cross.top-right    { top: 80px; right: 24px; }
 .mobile-drawer-cross.bottom-left  { bottom: 24px; left: 24px; }
 .mobile-drawer-cross.bottom-right { bottom: 24px; right: 24px; }
 
 .mobile-drawer-code {
   position: absolute;
-  top: 28px;
+  bottom: 28px;
   left: 54px;
+  top: auto;
   font-family: monospace;
   font-size: 9px;
   color: color-mix(in srgb, var(--colors--theme-black) 35%, transparent);
