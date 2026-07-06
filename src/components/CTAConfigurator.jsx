@@ -105,7 +105,7 @@ const STYLE_OPTIONS = [
   }
 ];
 
-export default function CTAConfigurator() {
+export default function CTAConfigurator({ source = 'Inicio' }) {
   const [step, setStep] = useState(1);
   const [spaceType, setSpaceType] = useState('');
   const [styleTheme, setStyleTheme] = useState('');
@@ -172,7 +172,7 @@ export default function CTAConfigurator() {
             <div className="cta-card-corner top-right">+</div>
             <div className="cta-card-corner bottom-left">+</div>
             <div className="cta-card-corner bottom-right">+</div>
-            <div className="cta-card-side-label">[SHEET A-101 // APPROVED]</div>
+            <div className="cta-card-side-label">[SHEET A-101 // APPROVED // ORIGEN: {source.toUpperCase()}]</div>
 
             <div className="cta-success-screen">
               <div className="cta-success-icon-wrapper">
@@ -182,7 +182,7 @@ export default function CTAConfigurator() {
               </div>
               <h3 className="cta-success-title">PROPUESTA TÉCNICA APROBADA</h3>
               <p className="cta-success-desc">
-                Gracias, <strong>{name}</strong>. Hemos registrado tu configuración para un proyecto de <strong>{selectedSpaceObj?.title}</strong> con una escala de aprox. <strong>{areaSize} m²</strong> y acabados en concepto <strong>{selectedStyleObj?.title}</strong>. El equipo de Studio CAB analizará la viabilidad técnica y se comunicará contigo mediante <strong>{contact}</strong>.
+                Gracias, <strong>{name}</strong>. Hemos registrado tu configuración (enviada desde la página de <strong>{source}</strong>) para un proyecto de <strong>{selectedSpaceObj?.title}</strong> con una escala de aprox. <strong>{areaSize} m²</strong> y acabados en concepto <strong>{selectedStyleObj?.title}</strong>. El equipo de Studio CAB analizará la viabilidad técnica y se comunicará contigo mediante <strong>{contact}</strong>.
               </p>
 
               {/* Signature Block for technical feel */}
@@ -209,7 +209,7 @@ export default function CTAConfigurator() {
             <div className="cta-card-corner top-right">+</div>
             <div className="cta-card-corner bottom-left">+</div>
             <div className="cta-card-corner bottom-right">+</div>
-            <div className="cta-card-side-label">[CONFIGURADOR ESPACIAL // CDMX]</div>
+            <div className="cta-card-side-label">[CONFIGURADOR ESPACIAL // CDMX // {source.toUpperCase()}]</div>
 
             <div className="cta-card-header">
               <div className="cta-progress-text">

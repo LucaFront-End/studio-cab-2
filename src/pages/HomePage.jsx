@@ -13,7 +13,7 @@ export default function HomePage() {
       <Projects />
       <WhyUs />
       <ProcessSplit />
-      <CTAConfigurator />
+      <CTAConfigurator source="Inicio" />
     </div>
   );
 }

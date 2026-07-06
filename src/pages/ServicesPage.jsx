@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
+import CTAConfigurator from '../components/CTAConfigurator';
 import './ServicesPage.css';
 
 const servicesData = [
@@ -69,21 +70,7 @@ export default function ServicesPage() {
   const [faqRef, faqVis] = useInView({ threshold: 0.1 });
   const [openFAQ, setOpenFAQ] = useState(-1);
 
-  /* Section 6: CTA */
-  const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
-  const ctaBgRef = useRef(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (ctaBgRef.current) {
-        const rect = ctaBgRef.current.getBoundingClientRect();
-        const offset = (rect.top / window.innerHeight) * 30;
-        ctaBgRef.current.style.backgroundPositionY = `${offset}%`;
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <div className="services-page page-enter">
@@ -240,20 +227,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ═══ SECTION 6: CTA FULLWIDTH ═══ */}
-      <section className="sp-cta" ref={ctaRef}>
-        <div className="sp-cta-bg" ref={ctaBgRef} />
-        <div className="sp-cta-overlay" />
-        <div className={`sp-cta-content ${ctaVis ? 'in-view' : ''}`}>
-          <span className="sp-cta-eyebrow">¿Listo para empezar?</span>
-          <h2 className="sp-cta-title">Transformemos tu espacio.</h2>
-          <p className="sp-cta-sub">Contanos tu idea y te ayudamos a hacerla realidad.</p>
-          <Link to="/contacto" className="sp-cta-btn">
-            Contactar Ahora
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-          </Link>
-        </div>
-      </section>
+      {/* ═══ SECTION 6: CONFIGURATOR FROM HOME ═══ */}
+      <CTAConfigurator source="Servicios" />
     </div>
   );
 }
