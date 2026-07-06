@@ -143,72 +143,53 @@ const Projects = () => {
   return (
     <section className="projects-section" ref={sectionRef} id="proyectos">
       <div className="projects-sticky-container">
-        
-        {/* Left Column: Stories (rendered absolute per project to crossfade) */}
-        <div className="projects-overlay-narrative">
-          {projectsData.map((project, projIdx) => (
+        {projectsData.map((project, projIdx) => {
+          const isActive = projIdx === activeIndex;
+          return (
             <div 
-              key={project.id}
-              className={`project-narrative-group ${projIdx === activeIndex ? 'active' : ''}`}
+              key={project.id} 
+              className={`project-group-container ${isActive ? 'active' : ''}`}
             >
-              {/* Main Info */}
-              <div className="project-info-header">
-                <span className="project-eyebrow">Proyecto Destacado</span>
-                <h2 className="project-title">{project.title}</h2>
-                <p className="project-location">{project.location}</p>
-              </div>
+              {/* Left Side: Stories */}
+              <div className="project-narrative-group">
+                {/* Main Info */}
+                <div className="project-info-header">
+                  <span className="project-eyebrow">Proyecto Destacado</span>
+                  <h2 className="project-title">{project.title}</h2>
+                  <p className="project-location">{project.location}</p>
+                </div>
 
-              {/* Card 1: El Reto */}
-              <div className={`narrative-card card-reto ${projIdx === activeIndex && activeCard === 1 ? 'active' : ''}`}>
-                <span className="narrative-num">01</span>
-                <div className="narrative-content">
-                  <h4>{project.narrative[0].title}</h4>
-                  <p>{project.narrative[0].text}</p>
+                {/* Card 1: El Reto */}
+                <div className={`narrative-card card-reto ${isActive && activeCard === 1 ? 'active' : ''}`}>
+                  <span className="narrative-num">01</span>
+                  <div className="narrative-content">
+                    <h4>{project.narrative[0].title}</h4>
+                    <p>{project.narrative[0].text}</p>
+                  </div>
+                </div>
+
+                {/* Card 2: La Solución */}
+                <div className={`narrative-card card-proceso ${isActive && activeCard === 2 ? 'active' : ''}`}>
+                  <span className="narrative-num">02</span>
+                  <div className="narrative-content">
+                    <h4>{project.narrative[1].title}</h4>
+                    <p>{project.narrative[1].text}</p>
+                  </div>
+                </div>
+
+                {/* Card 3: El Resultado */}
+                <div className={`narrative-card card-resultado ${isActive && activeCard === 3 ? 'active' : ''}`}>
+                  <span className="narrative-num">03</span>
+                  <div className="narrative-content">
+                    <h4>{project.narrative[2].title}</h4>
+                    <p>{project.narrative[2].text}</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Card 2: La Solución */}
-              <div className={`narrative-card card-proceso ${projIdx === activeIndex && activeCard === 2 ? 'active' : ''}`}>
-                <span className="narrative-num">02</span>
-                <div className="narrative-content">
-                  <h4>{project.narrative[1].title}</h4>
-                  <p>{project.narrative[1].text}</p>
-                </div>
-              </div>
-
-              {/* Card 3: El Resultado */}
-              <div className={`narrative-card card-resultado ${projIdx === activeIndex && activeCard === 3 ? 'active' : ''}`}>
-                <span className="narrative-num">03</span>
-                <div className="narrative-content">
-                  <h4>{project.narrative[2].title}</h4>
-                  <p>{project.narrative[2].text}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Bottom CTA block (Unified for all projects) */}
-          <div className="projects-cta-box">
-            <a href="#contacto" className="project-site-cta">
-              <span>Hablemos de tu proyecto</span>
-              <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.5 1L13.5 6L8.5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M1 6H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        {/* Right Column: Visual Wipe Slider Frame */}
-        <div className="projects-slider-frame">
-          <div className="projects-slider-inner">
-            {projectsData.map((project, projIdx) => {
-              const isActive = projIdx === activeIndex;
-              return (
-                <div 
-                  key={project.id}
-                  className={`project-slider-wrapper ${isActive ? 'active' : ''}`}
-                >
+              {/* Right Side: Visual Wipe Slider Frame */}
+              <div className="projects-slider-frame">
+                <div className={`project-slider-wrapper active`}>
                   {/* Layer 1: AFTER (Finished Space) */}
                   <div className="project-image-layer layer-after">
                     <img 
@@ -220,8 +201,6 @@ const Projects = () => {
 
                     {/* Hotspots (Only rendered and active on the finished layer) */}
                     {project.hotspots.map((hotspot) => {
-                      // Hotspot is revealed when the slider line passes its position
-                      // Since line moves from 100% to 0% left, the finished image is shown on the right (x > currentBeforeWidth)
                       const isRevealed = hotspot.x > currentBeforeWidth;
                       return (
                         <div
@@ -269,11 +248,21 @@ const Projects = () => {
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              </div>
+            </div>
+          );
+        })}
 
+        {/* Bottom CTA block (Unified for all projects, rendered at the bottom) */}
+        <div className="projects-cta-box">
+          <a href="#contacto" className="project-site-cta">
+            <span>Hablemos de tu proyecto</span>
+            <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.5 1L13.5 6L8.5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M1 6H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
   );

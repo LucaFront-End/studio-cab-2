@@ -246,6 +246,9 @@ const ProcessSplit = () => {
                   <span className="step-card-num">{step.num}</span>
                   <h3 className="step-card-title">{step.title}</h3>
                 </div>
+                <div className="step-card-mobile-img-wrapper">
+                  <img src={step.image} alt={step.title} className="step-card-mobile-img" />
+                </div>
                 <p className="step-card-subtitle">{step.subtitle}</p>
                 <p className="step-card-desc">{step.description}</p>
               </div>

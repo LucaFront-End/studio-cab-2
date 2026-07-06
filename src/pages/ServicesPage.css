@@ -612,7 +612,7 @@
 
 @media (max-width: 768px) {
   .sp-service-grid { grid-template-columns: 1fr; }
-  .sp-comp-header, .sp-comp-row { grid-template-columns: 1fr 80px 80px; padding: 12px 16px; }
-  .sp-comp-feature { font-size: 12px; }
-  .sp-display-card { padding: 32px; }
+  .sp-comp-header, .sp-comp-row { grid-template-columns: 1fr 60px 60px; padding: 12px 10px; }
+  .sp-comp-feature { font-size: 11px; }
+  .sp-display-card { padding: 24px; }
 }

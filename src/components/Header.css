@@ -388,9 +388,11 @@
 
   .header-logo-image {
     width: 105px;
+    height: auto !important;
   }
   
   .header-scrolled .header-logo-image {
     width: 95px;
+    height: auto !important;
   }
 }

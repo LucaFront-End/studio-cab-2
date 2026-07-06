@@ -24,32 +24,29 @@
   overflow: hidden;
 }
 
-/* ---------- Left Column (Storytelling Narrative) ---------- */
-.projects-overlay-narrative {
-  width: 32%;
+.project-group-container {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
-  height: 80%; /* Centered container height */
   justify-content: space-between;
-  flex-shrink: 0;
-  position: relative;
-  padding-bottom: 60px; /* Leaves room for absolute CTA */
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.project-group-container.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .project-narrative-group {
-  position: absolute;
-  top: 45%;
-  transform: translateY(-50%);
-  width: 100%;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.project-narrative-group.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(-50%);
+  width: 32%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .project-info-header {
@@ -139,8 +136,8 @@
 .projects-cta-box {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 40px;
+  z-index: 10;
 }
 
 .project-site-cta {
@@ -165,15 +162,7 @@
 
 /* ---------- Right Column (Visual Slider Frame) ---------- */
 .projects-slider-frame {
-  width: 68%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.projects-slider-inner {
-  width: 100%;
+  width: 60%;
   aspect-ratio: 16 / 10;
   position: relative;
   border-radius: 12px;
@@ -182,20 +171,10 @@
   box-shadow: 0 30px 60px rgba(13, 15, 18, 0.06);
 }
 
-/* Stacking the sliders absolutely to allow crossfading */
 .project-slider-wrapper {
-  position: absolute;
-  inset: 0;
+  position: relative;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.project-slider-wrapper.active {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .project-image-layer {
@@ -399,31 +378,40 @@
     padding: 80px 0;
   }
 
-  .projects-sticky-container {
-    flex-direction: column;
-    height: auto;
-    gap: 48px;
-    padding: 0 24px;
-    overflow: visible;
+  .projects-section {
+    padding: 60px 0;
+    height: auto !important;
   }
 
-  .projects-overlay-narrative {
-    width: 100%;
-    height: auto;
-    padding-bottom: 0;
+  .projects-sticky-container {
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 60px !important;
+    padding: 0 20px !important;
+    overflow: visible !important;
+  }
+
+  .project-group-container {
+    position: relative !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin-bottom: 60px;
+  }
+
+  .project-group-container:last-of-type {
+    margin-bottom: 0;
   }
 
   .project-narrative-group {
-    position: relative;
-    top: 0;
-    transform: none !important;
-    opacity: 1 !important;
-    pointer-events: auto;
-    margin-bottom: 48px;
-  }
-
-  .project-narrative-group:last-of-type {
-    margin-bottom: 0;
+    width: 100% !important;
   }
 
   .narrative-card {
@@ -434,32 +422,33 @@
     box-shadow: 0 10px 30px rgba(13, 15, 18, 0.03);
   }
 
-  .projects-cta-box {
-    position: relative;
-    margin-top: 32px;
-  }
-
   .projects-slider-frame {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 10 !important;
+    margin-top: 24px;
   }
 
   .project-slider-wrapper {
-    position: relative;
-    opacity: 1 !important;
-    pointer-events: auto;
-    margin-bottom: 32px;
-  }
-
-  .project-slider-wrapper:last-child {
-    margin-bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .layer-before {
     width: 50% !important;
     clip-path: none !important;
   }
+
   .slider-divider-line {
     left: 50% !important;
+  }
+
+  .projects-cta-box {
+    position: relative !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
   }
 }
