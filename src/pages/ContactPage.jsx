@@ -394,7 +394,7 @@ export default function ContactPage() {
         <div className={`cp-map-grid ${mapVis ? 'in-view' : ''}`}>
           <div className="cp-map-wrapper">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.6614938918826!2d-99.19564!3d19.4331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fff0f79c4f2b%3A0x74e6c7ad4c4a1a!2sPolanco%2C%20Ciudad%20de%20M%C3%A9xico!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
+              src="https://maps.google.com/maps?q=Av.+P.%C2%BA+de+la+Reforma+284,+Ju%C3%A1rez,+Cuauht%C3%A9moc,+06600+Ciudad+de+M%C3%A9xico,+CDMX&t=&z=16&ie=UTF8&iwloc=&output=embed"
               width="100%" height="100%" style={{border:0,filter:'saturate(0.5) contrast(1.1)'}} allowFullScreen="" loading="lazy"
               title="Studio CAB Location"
             />
@@ -404,7 +404,7 @@ export default function ContactPage() {
             <div className="cp-info-items">
               <div className="cp-info-item">
                 <span className="cp-info-label">[SHOWROOM & TALLER]</span>
-                <span className="cp-info-value">Polanco, Ciudad de México</span>
+                <span className="cp-info-value">Av. P.º de la Reforma 284, Juárez, Cuauhtémoc, 06600 Ciudad de México, CDMX</span>
               </div>
               <div className="cp-info-item">
                 <span className="cp-info-label">[HORARIO]</span>

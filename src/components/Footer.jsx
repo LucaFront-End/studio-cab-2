@@ -44,7 +44,7 @@ export default function Footer() {
             <ul className="footer-contact-list">
               <li className="contact-item">
                 <span className="contact-label">[TALLER Y SHOWROOM]</span>
-                <span className="contact-val">Polanco, Ciudad de México</span>
+                <span className="contact-val">Av. P.º de la Reforma 284, Juárez, Cuauhtémoc, CDMX</span>
               </li>
               <li className="contact-item">
                 <span className="contact-label">[TEL / WHATSAPP]</span>
