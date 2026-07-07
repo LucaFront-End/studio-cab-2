@@ -5,7 +5,6 @@ import ScrollToTop from './components/ScrollToTop';
 import CustomCursor from './components/CustomCursor';
 import PageTransition from './components/PageTransition';
 import WhatsAppButton from './components/WhatsAppButton';
-import ThemeSwitcher from './components/ThemeSwitcher';
 
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -23,7 +22,6 @@ function App() {
       <CustomCursor />
       <ScrollToTop />
       <WhatsAppButton />
-      <ThemeSwitcher />
       <Header />
       <PageTransition>
         <Routes>
