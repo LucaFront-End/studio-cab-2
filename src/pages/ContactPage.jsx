@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useInView } from '../hooks/useInView';
 import './ContactPage.css';
 
@@ -64,6 +65,22 @@ export default function ContactPage() {
   const [plannerMaterial, setPlannerMaterial] = useState('madera_natural');
   const [plannerCustomMaterial, setPlannerCustomMaterial] = useState('');
   const [plannerLocation, setPlannerLocation] = useState('cdmx');
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.selectedType) {
+      setTimeout(() => {
+        setPlannerType(location.state.selectedType);
+        setPlannerStep(2);
+        
+        const plannerElement = document.querySelector('.cp-planner-section');
+        if (plannerElement) {
+          plannerElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 300);
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));

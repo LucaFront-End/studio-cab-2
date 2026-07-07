@@ -38,6 +38,18 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Col 3: Negocios (SEO) */}
+          <div className="footer-links-col">
+            <h4 className="footer-col-title">Negocios</h4>
+            <ul className="footer-links-list">
+              <li><Link to="/negocios/gimnasios" className="footer-link"><span className="link-num">→</span> Gimnasios</Link></li>
+              <li><Link to="/negocios/hoteles" className="footer-link"><span className="link-num">→</span> Hoteles</Link></li>
+              <li><Link to="/negocios/oficinas" className="footer-link"><span className="link-num">→</span> Oficinas</Link></li>
+              <li><Link to="/negocios/restaurantes" className="footer-link"><span className="link-num">→</span> Restaurantes</Link></li>
+              <li><Link to="/negocios/retail" className="footer-link"><span className="link-num">→</span> Boutiques / Retail</Link></li>
+            </ul>
+          </div>
+
           {/* Col 3: Contact */}
           <div className="footer-links-col">
             <h4 className="footer-col-title">Contacto</h4>
