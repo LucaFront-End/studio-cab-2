@@ -589,7 +589,7 @@
   .ind-material-row {
     grid-template-columns: 1fr;
     gap: 20px;
-    padding: 20px;
+    padding: 24px 20px;
   }
 
   .ind-mat-body {
@@ -599,7 +599,20 @@
 
   .ind-phases-timeline {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 50px;
+    position: relative;
+  }
+
+  .ind-phases-timeline::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    background-color: var(--color-border);
+    z-index: 1;
   }
 
   .ind-phase-line-decor {
@@ -619,5 +632,41 @@
   .ind-metrics-grid {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+
+  .ind-content-section,
+  .ind-specs-section,
+  .ind-phases-section {
+    padding: 60px 0;
+  }
+
+  .ind-cta-box-wrapper {
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 479px) {
+  .ind-hero-section {
+    height: auto;
+    min-height: 380px;
+    padding: 110px 0 60px 0;
+  }
+
+  .ind-hero-content {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .ind-hero-title {
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .ind-hero-desc {
+    font-size: 14px;
+  }
+
+  .ind-tech-frame {
+    inset: 8px;
   }
 }
