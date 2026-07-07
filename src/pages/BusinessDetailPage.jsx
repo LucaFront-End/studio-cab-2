@@ -15,6 +15,21 @@ const INDUSTRIES_DATA = {
       { title: 'Barras de Recepción e Hitos', desc: 'Diseños escultóricos monolíticos combinando maderas macizas, piedras sinterizadas y sistemas de iluminación LED.' },
       { title: 'Zonas Funcionales y Racks', desc: 'Estructuras modulares a medida para equipamiento, paneles acústicos de roble y detalles ergonómicos para usuarios.' }
     ],
+    metrics: [
+      { val: '+3,500', lbl: 'Lockers Fabricados', sub: 'Instalados en CDMX y área metropolitana' },
+      { val: '100%', lbl: 'Materiales Antihumedad', sub: 'Certificación hidrófuga en vestidores' },
+      { val: 'Grade 5', lbl: 'Resistencia Estructural', sub: 'Apto para tráfico comercial continuo' }
+    ],
+    materials: [
+      { name: 'MDF Hidrófugo', spec: 'Resistencia extrema a la absorción de humedad y hongos', use: 'Estructuras de lockers, vestidores y repisas' },
+      { name: 'Piedra Sinterizada', spec: 'Porosidad cero, higiene quirúrgica y alta resistencia a rayado', use: 'Cubiertas de lavabos y barras de recepción' },
+      { name: 'Encino Hidrorrepelente', spec: 'Tratado con barniz acrílico sellado de alta densidad', use: 'Lambrines divisorios y bancos modulares' }
+    ],
+    phases: [
+      { step: '01', title: 'Levantamiento Láser 3D', desc: 'Escaneo milimétrico en obra para asegurar que la carpintería modular encaje a la perfección sin ajustes en sitio.' },
+      { step: '02', title: 'Ingeniería CAD/CAM', desc: 'Desglose constructivo digital en planos de taller para corte asistido por computadora CNC.' },
+      { step: '03', title: 'Montaje y Ajustes en Obra', desc: 'Logística de transporte y ensamblado por nuestro personal en sitio, garantizando herrajes perfectos.' }
+    ],
     ctaText: 'Solicitar propuesta para Gimnasio'
   },
   hoteles: {
@@ -28,6 +43,21 @@ const INDUSTRIES_DATA = {
       { title: 'Equipamiento de Habitaciones (FF&E)', desc: 'Producción masiva homologada de mobiliario fijo y móvil con acabados retardantes al fuego y de alta durabilidad.' },
       { title: 'Lobbys y Áreas Comunes', desc: 'Revestimientos monumentales de madera en muros y plafones, barras de bar y áreas de check-in de diseño exclusivo.' },
       { title: 'Estandarización y Garantía', desc: 'Procesos de control de calidad CNC para asegurar que cada habitación mantenga la misma precisión milimétrica.' }
+    ],
+    metrics: [
+      { val: '+12', lbl: 'Hoteles Equipados', sub: 'Habitaciones y lobbys monumentales' },
+      { val: 'FF&E', lbl: 'Estándar Internacional', sub: 'Garantía de homologación hotelera' },
+      { val: 'Class A', lbl: 'Retardante de Fuego', sub: 'Aplicación de barnices ignífugos certificados' }
+    ],
+    materials: [
+      { name: 'Nogal Natural Seleccionado', spec: 'Veta continua emparejada a mano, textura mate de tacto sedoso', use: 'Cabeceros monumentales y escritorios ejecutivos' },
+      { name: 'Laminado de Alta Presión (HPL)', spec: 'Protección extrema contra impactos y rayaduras comunes de maletas', use: 'Clósets, interiores de cajones y maleteros' },
+      { name: 'Mármol Travertino Imperial', spec: 'Corte a veta sellado con protector hidrófugo mate', use: 'Mesetas de tocador e hitos de recepción' }
+    ],
+    phases: [
+      { step: '01', title: 'Levantamiento Láser 3D', desc: 'Escaneo milimétrico en obra para asegurar que la carpintería modular encaje a la perfección sin ajustes en sitio.' },
+      { step: '02', title: 'Ingeniería CAD/CAM', desc: 'Desglose constructivo digital en planos de taller para corte asistido por computadora CNC.' },
+      { step: '03', title: 'Montaje y Ajustes en Obra', desc: 'Logística de transporte y ensamblado por nuestro personal en sitio, garantizando herrajes perfectos.' }
     ],
     ctaText: 'Solicitar propuesta para Hotel'
   },
@@ -43,6 +73,21 @@ const INDUSTRIES_DATA = {
       { title: 'Panelería Acústica y Lambrín', desc: 'Sistemas de revestimiento ranurado de roble o nogal con aislamiento acústico posterior para salas de reuniones y zonas privadas.' },
       { title: 'Estaciones de Trabajo y Almacenaje', desc: 'Soluciones modulares ergonómicas para personal operativo y ejecutivos, optimizando la distribución del espacio.' }
     ],
+    metrics: [
+      { val: '-18dB', lbl: 'Absorción Acústica', sub: 'Lograda en panelería ranurada y lambrín' },
+      { val: '100%', lbl: 'Ergonomía Activa', sub: 'Certificación en mesas y estaciones modulares' },
+      { val: 'CNC', lbl: 'Corte de Conectividad', sub: 'Gestión limpia de cables integrada' }
+    ],
+    materials: [
+      { name: 'Triplay de Abedul Multicapa', spec: 'Núcleo multi-capas de alta estabilidad, cantos expuestos pulidos', use: 'Escritorios de trabajo y mesas de juntas corporativas' },
+      { name: 'Fieltro Acústico PET', spec: 'Fibras recicladas de poliéster con alta absorción de ruido', use: 'Mamparas divisorias, cabinas telefónicas y biombos' },
+      { name: 'Acero Electropintado', spec: 'Recubrimiento en polvo curado a horno, resistente a abrasión', use: 'Estructuras de mesa y soportes de conectividad' }
+    ],
+    phases: [
+      { step: '01', title: 'Levantamiento Láser 3D', desc: 'Escaneo milimétrico en obra para asegurar que la carpintería modular encaje a la perfección sin ajustes en sitio.' },
+      { step: '02', title: 'Ingeniería CAD/CAM', desc: 'Desglose constructivo digital en planos de taller para corte asistido por computadora CNC.' },
+      { step: '03', title: 'Montaje y Ajustes en Obra', desc: 'Logística de transporte y ensamblado por nuestro personal en sitio, garantizando herrajes perfectos.' }
+    ],
     ctaText: 'Solicitar propuesta para Oficinas'
   },
   restaurantes: {
@@ -56,6 +101,21 @@ const INDUSTRIES_DATA = {
       { title: 'Barras de Bar de Alto Impacto', desc: 'Cubiertas de madera tratada o piedra sinterizada, con subestructuras metálicas preparadas para instalaciones de baristas.' },
       { title: 'Booths y Banquetas a Medida', desc: 'Sistemas de asientos fijos tapizados en pieles sintéticas de grado comercial y estructuras internas reforzadas.' },
       { title: 'Mesas y Sillas de Autor', desc: 'Fabricación propia de mobiliario de comedor coordinado con el concepto estético y la paleta de materiales del lugar.' }
+    ],
+    metrics: [
+      { val: '+80', lbl: 'Barras de Bar Ejecutadas', sub: 'Diseñadas e instaladas en CDMX' },
+      { val: 'Anti-Stain', lbl: 'Tratamiento Especial', sub: 'Piedras y maderas tratadas contra ácidos' },
+      { val: 'Grade-A', lbl: 'Barniz Poliuretano', sub: 'Resistente a derrames térmicos y alcohol' }
+    ],
+    materials: [
+      { name: 'Mármol Tecnológico', spec: 'Resistencia total a manchas de limón, vino y grasas comunes', use: 'Cubiertas de barra principal y contrabarras' },
+      { name: 'Madera de Tzalam Maciza', spec: 'Especie tropical de alta densidad con secado al horno controlado', use: 'Mesas de comensales y frentes de barra escultóricos' },
+      { name: 'Piel Sintética Grado Náutico', spec: 'Fácil limpieza, antibacterial y retardante al fuego', use: 'Tapicería fina de booths fijos y barstools' }
+    ],
+    phases: [
+      { step: '01', title: 'Levantamiento Láser 3D', desc: 'Escaneo milimétrico en obra para asegurar que la carpintería modular encaje a la perfección sin ajustes en sitio.' },
+      { step: '02', title: 'Ingeniería CAD/CAM', desc: 'Desglose constructivo digital en planos de taller para corte asistido por computadora CNC.' },
+      { step: '03', title: 'Montaje y Ajustes en Obra', desc: 'Logística de transporte y ensamblado por nuestro personal en sitio, garantizando herrajes perfectos.' }
     ],
     ctaText: 'Solicitar propuesta para Restaurante'
   },
@@ -71,6 +131,21 @@ const INDUSTRIES_DATA = {
       { title: 'Percheros y Displays Flotantes', desc: 'Sistemas modulares ajustables en acero inoxidable cepillado, latón o acabados en pintura electrostática mate.' },
       { title: 'Puntos de Venta y Cashwraps', desc: 'Muebles de caja con diseño premium y áreas funcionales ocultas para empaque, cableado y sistemas de cobro.' }
     ],
+    metrics: [
+      { val: '+120', lbl: 'Displays y Vitrinas', sub: 'Instalados en zonas de alto tráfico' },
+      { val: 'Overnight', lbl: 'Montaje Nocturno', sub: 'Evitamos detener las operaciones comerciales' },
+      { val: 'High-CRI', lbl: 'Sistemas LED', sub: 'Fidelidad total del color en exhibición' }
+    ],
+    materials: [
+      { name: 'Acero Inoxidable 304', spec: 'Pulido espejo o satinado fino, alta resistencia a corrosión', use: 'Racks perimetrales y percheros de colgado' },
+      { name: 'Vidrio Extra-Claro Templado', spec: 'Bajo contenido de hierro, eliminación del tinte verde', use: 'Campanas de exhibición de joyería y vitrinas cerradas' },
+      { name: 'Laminado Italiano Texturizado', spec: 'Acabado tridimensional táctil imitación concreto o madera', use: 'Paneles de muro ranurado e islas de cobro' }
+    ],
+    phases: [
+      { step: '01', title: 'Levantamiento Láser 3D', desc: 'Escaneo milimétrico en obra para asegurar que la carpintería modular encaje a la perfección sin ajustes en sitio.' },
+      { step: '02', title: 'Ingeniería CAD/CAM', desc: 'Desglose constructivo digital en planos de taller para corte asistido por computadora CNC.' },
+      { step: '03', title: 'Montaje y Ajustes en Obra', desc: 'Logística de transporte y ensamblado por nuestro personal en sitio, garantizando herrajes perfectos.' }
+    ],
     ctaText: 'Solicitar propuesta para Boutique'
   }
 };
@@ -80,7 +155,10 @@ export default function BusinessDetailPage() {
   const industry = INDUSTRIES_DATA[id];
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
+  const [metricsRef, metricsVis] = useInView({ threshold: 0.1 });
   const [contentRef, contentVis] = useInView({ threshold: 0.15 });
+  const [specsRef, specsVis] = useInView({ threshold: 0.15 });
+  const [phasesRef, phasesVis] = useInView({ threshold: 0.15 });
 
   if (!industry) {
     return (
@@ -122,7 +200,22 @@ export default function BusinessDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 2: CONTENT SECTION ═══ */}
+      {/* ═══ 2: TECHNICAL METRICS GRID (NEW) ═══ */}
+      <section className="ind-metrics-section" ref={metricsRef}>
+        <div className="container-default">
+          <div className={`ind-metrics-grid ${metricsVis ? 'in-view' : ''}`}>
+            {industry.metrics.map((metric, i) => (
+              <div key={i} className="ind-metric-card">
+                <span className="ind-metric-val">{metric.val}</span>
+                <span className="ind-metric-lbl">{metric.lbl}</span>
+                <span className="ind-metric-sub">{metric.sub}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 3: CONTENT SECTION ═══ */}
       <section className="ind-content-section" ref={contentRef}>
         <div className="container-default">
           <div className={`ind-content-grid ${contentVis ? 'in-view' : ''}`}>
@@ -156,8 +249,67 @@ export default function BusinessDetailPage() {
             </div>
 
           </div>
+        </div>
+      </section>
 
-          {/* Unified Niche CTA */}
+      {/* ═══ 4: ARCHITECTURAL SPECS (NEW) ═══ */}
+      <section className="ind-specs-section" ref={specsRef}>
+        <div className="container-default">
+          <div className={`ind-specs-header ${specsVis ? 'in-view' : ''}`}>
+            <span className="ind-specs-eyebrow">[FICHA DE MATERIALES]</span>
+            <h2 className="ind-specs-title">Materialidad &amp; Especificación Técnica</h2>
+            <p className="ind-specs-desc">
+              Seleccionamos y tratamos los materiales según las demandas físicas del espacio comercial. Cada componente responde a un análisis de tráfico, desgaste e higiene.
+            </p>
+          </div>
+          
+          <div className={`ind-materials-grid ${specsVis ? 'in-view' : ''}`}>
+            {industry.materials.map((mat, i) => (
+              <div key={i} className="ind-material-row">
+                <div className="ind-mat-header">
+                  <span className="ind-mat-num">M-0{i+1}</span>
+                  <h3 className="ind-mat-name">{mat.name}</h3>
+                </div>
+                <div className="ind-mat-body">
+                  <div className="ind-mat-col">
+                    <span className="ind-mat-lbl">PROPIEDAD</span>
+                    <p className="ind-mat-val-txt">{mat.spec}</p>
+                  </div>
+                  <div className="ind-mat-col">
+                    <span className="ind-mat-lbl">APLICACIÓN</span>
+                    <p className="ind-mat-val-txt">{mat.use}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 5: EXECUTION PHASES (NEW) ═══ */}
+      <section className="ind-phases-section" ref={phasesRef}>
+        <div className="container-default">
+          <div className={`ind-phases-header ${phasesVis ? 'in-view' : ''}`}>
+            <span className="ind-phases-eyebrow">[PLAN DE OBRA]</span>
+            <h2 className="ind-phases-title">Fases Operativas de Entrega</h2>
+          </div>
+          
+          <div className={`ind-phases-timeline ${phasesVis ? 'in-view' : ''}`}>
+            {industry.phases.map((phase, i) => (
+              <div key={i} className="ind-phase-node">
+                <div className="ind-phase-line-decor" />
+                <div className="ind-phase-badge">{phase.step}</div>
+                <h4 className="ind-phase-node-title">{phase.title}</h4>
+                <p className="ind-phase-node-desc">{phase.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 6: CTA BOX ═══ */}
+      <div className="ind-cta-box-wrapper">
+        <div className="container-default">
           <div className="ind-cta-box">
             <Link 
               to="/contacto" 
@@ -171,9 +323,8 @@ export default function BusinessDetailPage() {
               </svg>
             </Link>
           </div>
-
         </div>
-      </section>
+      </div>
     </div>
   );
 }
