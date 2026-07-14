@@ -23,7 +23,7 @@ export default function SubserviceDetailPage() {
 
   useEffect(() => {
     if (!loading && subservicios) {
-      const found = subservicios.find(item => item.slug === slug);
+      const found = subservicios.find(item => item.slug === slug || (item.data && item.data.slug === slug));
       setSubservice(found || null);
     }
   }, [slug, subservicios, loading]);
@@ -31,8 +31,9 @@ export default function SubserviceDetailPage() {
   // Dynamically update document SEO tags
   useEffect(() => {
     if (subservice) {
-      const title = subservice.title || subservice.subservicio || '';
-      document.title = subservice.tituloDeSeo || `${title} | Studio CAB | Carpintería sobre Diseño`;
+      const data = subservice.data || subservice;
+      const title = data.title || data.subservicio || '';
+      document.title = data.tituloDeSeo || `${title} | Studio CAB | Carpintería sobre Diseño`;
 
       let metaDesc = document.querySelector('meta[name="description"]');
       if (!metaDesc) {
@@ -40,7 +41,7 @@ export default function SubserviceDetailPage() {
         metaDesc.name = 'description';
         document.head.appendChild(metaDesc);
       }
-      metaDesc.content = subservice.metadescripcin || `${title} en CDMX. Soluciones de fabricación y carpintería premium a la medida.`;
+      metaDesc.content = data.metadescripcin || `${title} en CDMX. Soluciones de fabricación y carpintería premium a la medida.`;
     }
   }, [subservice]);
 
@@ -63,15 +64,16 @@ export default function SubserviceDetailPage() {
     );
   }
 
-  const title = subservice.title || subservice.subservicio || '';
-  const description = subservice.descripcin || subservice.description || '';
-  const paragraph2 = subservice['2ParraffoDescripin'] || '';
-  const excerpt = subservice.excerpt || '';
-  const category = subservice.categora || '';
-  const subcategory = subservice.subcategora || subservice.subcategoria || '';
+  const data = subservice.data || subservice;
+  const title = data.title || data.subservicio || '';
+  const description = data.descripcin || data.description || '';
+  const paragraph2 = data['2ParraffoDescripin'] || '';
+  const excerpt = data.excerpt || '';
+  const category = data.categora || '';
+  const subcategory = data.subcategora || data.subcategoria || '';
 
   // WhatsApp Link normalization
-  let waLink = subservice.enlaceDeWhatsapp || '';
+  let waLink = data.enlaceDeWhatsapp || '';
   if (waLink) {
     if (waLink.startsWith('https://wa.me/?text=')) {
       waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525512345678?text=');

@@ -325,10 +325,11 @@ export default function ServiceDetailPage() {
             
             <div className="sdv2-subs-grid">
               {currentSubservices.map((sub, idx) => {
-                const title = sub.title || sub.subservicio || '';
-                const description = sub.descripcin || sub.description || '';
+                const data = sub.data || sub;
+                const title = data.title || data.subservicio || '';
+                const description = data.descripcin || data.description || '';
                 
-                const rawSubcat = sub.subcategora || sub.subcategoria || '';
+                const rawSubcat = data.subcategora || data.subcategoria || '';
                 const cleanSubcat = rawSubcat
                   .toLowerCase()
                   .normalize("NFD")
@@ -337,24 +338,24 @@ export default function ServiceDetailPage() {
                 
                 const hasBusinessPage = ['gimnasios', 'hoteles', 'oficinas', 'restaurantes'].includes(cleanSubcat);
                 
-                let waLink = sub.enlaceDeWhatsapp || '';
+                let waLink = data.enlaceDeWhatsapp || '';
                 if (waLink) {
                   if (waLink.startsWith('https://wa.me/?text=')) {
                     waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525512345678?text=');
                   }
                 } else {
-                  const waMessage = encodeURIComponent(sub.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${title}*.`);
+                  const waMessage = encodeURIComponent(data.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${title}*.`);
                   waLink = `https://wa.me/525512345678?text=${waMessage}`;
                 }
                 
                 return (
-                  <div key={sub._id || idx} className="sdv2-sub-card">
+                  <div key={data._id || idx} className="sdv2-sub-card">
                     <span className="sdv2-sub-code">[SUB // 0{idx + 1}]</span>
                     <h3 className="sdv2-sub-title">{title}</h3>
                     <p className="sdv2-sub-desc">{description}</p>
                     
                     <div className="sdv2-sub-actions">
-                      <Link to={`/subservicios/${sub.slug || ''}`} className="sdv2-sub-link">
+                      <Link to={`/subservicios/${data.slug || ''}`} className="sdv2-sub-link">
                         Saber Más ↗
                       </Link>
                       
