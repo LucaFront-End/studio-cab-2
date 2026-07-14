@@ -4,7 +4,6 @@ const WIX_CLIENT_ID = '8f4920b3-137c-4fd6-a0a5-dc4957f08701';
 export const mockServicios = [
   { _id: 'comercial', title: 'Diseño Comercial', description: 'Transformamos locales comerciales en experiencias de marca que generan resultados medibles.' },
   { _id: 'residencial', title: 'Interiorismo Residencial', description: 'Diseñamos espacios habitacionales sofisticados con materiales nobles y acabados impecables.' },
-  { _id: 'carpinteria', title: 'Carpintería sobre Diseño', description: 'Fabricamos con maquinaria CNC y mano artesanal, cocinas, closets y mobiliario premium.' },
   { _id: 'produccion', title: 'Producción e Instalación', description: 'Gestionamos la fabricación, montaje e instalación de cada proyecto con altos estándares.' }
 ];
 
@@ -15,6 +14,7 @@ export const mockSubservicios = [
     description: 'Fabricados en paneles hidrófugos resistentes a la humedad, ideales para áreas wellness y equipados con herrajes y cerraduras de seguridad.',
     servicioMayor: 'comercial',
     subcategoria: 'gimnasios',
+    slug: 'lockers-vestidores-alto-rendimiento',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre el subservicio de Lockers y Vestidores de Alto Rendimiento para Gimnasios.'
   },
   {
@@ -23,6 +23,7 @@ export const mockSubservicios = [
     description: 'Puntos de contacto inicial monolíticos en maderas macizas combinadas con piedras sinterizadas, mármol travertino e iluminación LED.',
     servicioMayor: 'comercial',
     subcategoria: 'gimnasios',
+    slug: 'barras-recepcion-escultoricas',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre el subservicio de Barras de Recepción Escultóricas.'
   },
   {
@@ -31,6 +32,7 @@ export const mockSubservicios = [
     description: 'Mesas de gran escala con acabados de chapa de madera natural, canalizaciones de red invisibles e integraciones de voz/datos.',
     servicioMayor: 'comercial',
     subcategoria: 'oficinas',
+    slug: 'mesas-juntas-escritorios-ejecutivos',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre Mesas de Juntas y Escritorios para Oficinas.'
   },
   {
@@ -39,6 +41,7 @@ export const mockSubservicios = [
     description: 'Estructuras de madera sólida con tapicería retardante al fuego y confort ergonómico superior para comensales en restaurantes.',
     servicioMayor: 'comercial',
     subcategoria: 'restaurantes',
+    slug: 'booths-banquetas-corridas-ergonomicas',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre Booths y Asientos para mi Restaurante.'
   },
   {
@@ -47,6 +50,7 @@ export const mockSubservicios = [
     description: 'Diseño inteligente de cocinas premium con herrajes europeos invisibles, cajones amortiguados e iluminación integrada.',
     servicioMayor: 'residencial',
     subcategoria: 'hogar',
+    slug: 'cocinas-vestidores-residenciales',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre Cocinas y Vestidores Residenciales.'
   },
   {
@@ -55,6 +59,7 @@ export const mockSubservicios = [
     description: 'Paneles de madera sólida de encino y nogal para revestimiento de muros y plafones con propiedades termoacústicas.',
     servicioMayor: 'carpinteria',
     subcategoria: 'oficinas',
+    slug: 'lambrines-revestimientos-acusticos',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre Lambrines y Revestimientos Acústicos.'
   },
   {
@@ -63,6 +68,7 @@ export const mockSubservicios = [
     description: 'Estandarización y fabricación masiva de mobiliario para habitaciones de hotel bajo normativas internacionales y barnices ignífugos.',
     servicioMayor: 'carpinteria',
     subcategoria: 'hoteles',
+    slug: 'ffe-cabeceros-cama-hoteles',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre mobiliario de Hospitalidad FF&E.'
   },
   {
@@ -71,6 +77,7 @@ export const mockSubservicios = [
     description: 'Montaje especializado en obra de elementos de madera de gran formato, techos de vigas expuestas y detalles metálicos integrados.',
     servicioMayor: 'produccion',
     subcategoria: 'hoteles',
+    slug: 'instalacion-monumental-herreria-fina',
     whatsappText: 'Hola Studio CAB. Me interesa información sobre la Instalación de Mobiliario y Herrería Fina.'
   }
 ];

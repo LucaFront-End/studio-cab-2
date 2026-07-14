@@ -16,6 +16,7 @@ import ContactPage from './pages/ContactPage';
 import StorePage from './pages/StorePage';
 import ProductPage from './pages/ProductPage';
 import BusinessDetailPage from './pages/BusinessDetailPage';
+import SubserviceDetailPage from './pages/SubserviceDetailPage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/tienda" element={<StorePage />} />
           <Route path="/tienda/:id" element={<ProductPage />} />
           <Route path="/negocios/:id" element={<BusinessDetailPage />} />
+          <Route path="/subservicios/:slug" element={<SubserviceDetailPage />} />
         </Routes>
       </PageTransition>
       <Footer />

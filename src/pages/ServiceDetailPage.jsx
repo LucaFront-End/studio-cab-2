@@ -354,15 +354,9 @@ export default function ServiceDetailPage() {
                     <p className="sdv2-sub-desc">{description}</p>
                     
                     <div className="sdv2-sub-actions">
-                      {hasBusinessPage ? (
-                        <Link to={`/negocios/${cleanSubcat}`} className="sdv2-sub-link">
-                          Saber Más ↗
-                        </Link>
-                      ) : (
-                        <Link to="/contacto" className="sdv2-sub-link">
-                          Saber Más ↗
-                        </Link>
-                      )}
+                      <Link to={`/subservicios/${sub.slug || ''}`} className="sdv2-sub-link">
+                        Saber Más ↗
+                      </Link>
                       
                       <a 
                         href={waLink} 

@@ -18,7 +18,8 @@ async function check() {
     const fs = await import('fs');
     const results = {};
 
-    for (const col of ['Servicios', 'Subservicios']) {
+    const allKeys = new Set();
+    for (const col of ['Subservicios']) {
       console.log(`\nQuerying "${col}"...`);
       let allItems = [];
       let offset = 0;
@@ -41,9 +42,13 @@ async function check() {
         });
 
         if (qRes.ok) {
-          const data = await qRes.ok ? await qRes.json() : {};
+          const data = await qRes.json();
           const items = data.dataItems || data.items || [];
-          allItems = allItems.concat(items.map(it => it.data || it));
+          items.forEach(it => {
+            const keys = Object.keys(it.data || it);
+            keys.forEach(k => allKeys.add(k));
+          });
+          allItems = allItems.concat(items);
 
           const pagingMetadata = data.pagingMetadata;
           if (pagingMetadata) {
@@ -56,18 +61,12 @@ async function check() {
             offset += limit;
           }
         } else {
-          const err = await qRes.json();
-          console.error(`FAILED on "${col}":`, err.message || err.details?.applicationError?.description);
           hasMore = false;
         }
       }
-
-      console.log(`SUCCESS! Found ${allItems.length} items in ${col}.`);
-      results[col] = allItems;
     }
-
-    fs.writeFileSync('wixData.json', JSON.stringify(results, null, 2));
-    console.log('\nSaved collections data to wixData.json');
+    
+    console.log('\nUnique keys in Subservicios:', Array.from(allKeys));
   } catch (error) {
     console.error('Script Error:', error);
   }
