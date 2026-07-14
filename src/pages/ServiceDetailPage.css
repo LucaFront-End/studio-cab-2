@@ -42,6 +42,117 @@
 .sdv2-intro-cta:hover::before { transform: scaleX(1); transform-origin: left; }
 .sdv2-intro-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 30px color-mix(in srgb, var(--colors--theme-orange) 35%, transparent); }
 
+/* ═══ 2.5: SUBSERVICIOS DINÁMICOS ═══ */
+.sdv2-subservices {
+  padding: 100px 20px;
+  background: color-mix(in srgb, var(--colors--theme-white) 97%, var(--colors--theme-black));
+  border-top: 1px solid var(--color-border);
+}
+
+.sdv2-subs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.sdv2-sub-card {
+  background: var(--colors--theme-white);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(13, 15, 18, 0.015);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sdv2-sub-card:hover {
+  border-color: var(--colors--theme-orange);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(13, 15, 18, 0.03);
+}
+
+.sdv2-sub-code {
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--colors--theme-orange);
+  letter-spacing: 0.1em;
+}
+
+.sdv2-sub-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+}
+
+.sdv2-sub-desc {
+  font-size: 15px;
+  color: var(--colors--theme-gray);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.sdv2-sub-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 20px;
+}
+
+.sdv2-sub-link {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--colors--theme-black);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.sdv2-sub-link:hover {
+  color: var(--colors--theme-orange);
+}
+
+.sdv2-sub-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #25D366;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sdv2-sub-wa-btn:hover {
+  background: #20ba5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 211, 102, 0.25);
+}
+
+@media (max-width: 768px) {
+  .sdv2-subservices {
+    padding: 60px 20px;
+  }
+  .sdv2-subs-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sdv2-sub-card {
+    padding: 30px;
+  }
+}
+
 /* ═══ 3: MUESTRARIO DE MATERIALES ═══ */
 .sdv2-materials {
   padding: 120px 20px;
