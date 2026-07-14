@@ -20,27 +20,50 @@ async function check() {
 
     for (const col of ['Servicios', 'Subservicios']) {
       console.log(`\nQuerying "${col}"...`);
-      const qRes = await fetch('https://www.wixapis.com/wix-data/v2/items/query', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          dataCollectionId: col,
-          query: { paging: { limit: 100 } }
-        })
-      });
+      let allItems = [];
+      let offset = 0;
+      const limit = 100;
+      let hasMore = true;
 
-      if (qRes.ok) {
-        const data = await qRes.json();
-        const items = data.dataItems || data.items || [];
-        console.log(`SUCCESS! Found ${items.length} items in ${col}.`);
-        results[col] = items.map(it => it.data || it);
-      } else {
-        const err = await qRes.json();
-        console.error(`FAILED on "${col}":`, err.message || err.details?.applicationError?.description);
+      while (hasMore) {
+        const qRes = await fetch('https://www.wixapis.com/wix-data/v2/items/query', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            dataCollectionId: col,
+            query: {
+              paging: { limit, offset }
+            }
+          })
+        });
+
+        if (qRes.ok) {
+          const data = await qRes.ok ? await qRes.json() : {};
+          const items = data.dataItems || data.items || [];
+          allItems = allItems.concat(items.map(it => it.data || it));
+
+          const pagingMetadata = data.pagingMetadata;
+          if (pagingMetadata) {
+            hasMore = pagingMetadata.hasNext === true;
+          } else {
+            hasMore = items.length === limit;
+          }
+
+          if (hasMore) {
+            offset += limit;
+          }
+        } else {
+          const err = await qRes.json();
+          console.error(`FAILED on "${col}":`, err.message || err.details?.applicationError?.description);
+          hasMore = false;
+        }
       }
+
+      console.log(`SUCCESS! Found ${allItems.length} items in ${col}.`);
+      results[col] = allItems;
     }
 
     fs.writeFileSync('wixData.json', JSON.stringify(results, null, 2));

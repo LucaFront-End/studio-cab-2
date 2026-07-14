@@ -111,27 +111,47 @@ async function getWixAccessToken() {
 export async function fetchWixCollection(collectionId) {
   try {
     const token = await getWixAccessToken();
-    const response = await fetch('https://www.wixapis.com/wix-data/v2/items/query', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        dataCollectionId: collectionId,
-        query: {
-          paging: { limit: 100 }
-        }
-      })
-    });
+    let allItems = [];
+    let offset = 0;
+    const limit = 100;
+    let hasMore = true;
 
-    if (!response.ok) {
-      throw new Error(`Query failed: ${response.statusText}`);
+    while (hasMore) {
+      const response = await fetch('https://www.wixapis.com/wix-data/v2/items/query', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          dataCollectionId: collectionId,
+          query: {
+            paging: { limit, offset }
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Query failed: ${response.statusText}`);
+      }
+
+      const res = await response.json();
+      const rawItems = res.dataItems || res.items || [];
+      allItems = allItems.concat(rawItems.map(item => item.data || item));
+
+      const pagingMetadata = res.pagingMetadata;
+      if (pagingMetadata) {
+        hasMore = pagingMetadata.hasNext === true;
+      } else {
+        hasMore = rawItems.length === limit;
+      }
+
+      if (hasMore) {
+        offset += limit;
+      }
     }
 
-    const res = await response.json();
-    const rawItems = res.dataItems || res.items || [];
-    return rawItems.map(item => item.data || item);
+    return allItems;
   } catch (error) {
     console.warn(`[Wix CMS] Failed to query ${collectionId}. Falling back to local database.`, error);
     // Graceful fallback to mock DB
