@@ -163,10 +163,21 @@ export default function ServiceDetailPage() {
   const { id } = useParams();
   const service = allServices[id];
   const { subservicios } = useWixCMSData();
-  const currentSubservices = (subservicios || []).filter(sub => sub.servicioMayor === id);
+  
+  const currentSubservices = (subservicios || []).filter(sub => {
+    if (sub.servicioMayor === id) return true;
+    const cat = sub.categora;
+    if (!cat) return false;
+    if (id === 'comercial' && cat === 'Diseño Comercial') return true;
+    if (id === 'residencial' && cat === 'Interiorismo Residencial') return true;
+    if (id === 'produccion' && cat === 'Producción e Instalación') return true;
+    if (id === 'carpinteria' && (cat === 'Carpintería y Mobiliario sobre Diseño' || cat === 'Carpintería sobre Diseño')) return true;
+    return false;
+  });
 
   const [heroRef, heroVis] = useInView({ threshold: 0.05 });
   const [introRef, introVis] = useInView({ threshold: 0.15 });
+  const [subsRef, subsVis] = useInView({ threshold: 0.15 });
   const [materialsRef, materialsVis] = useInView({ threshold: 0.15 });
   const [galRef, galVis] = useInView({ threshold: 0.1 });
   const [procRefs, procVis] = useStaggerInView(4, { staggerDelay: 200 });
@@ -307,25 +318,44 @@ export default function ServiceDetailPage() {
 
       {/* ═══ 2.5: SUBSERVICIOS DINÁMICOS (WIX CMS) ═══ */}
       {currentSubservices.length > 0 && (
-        <section className="sdv2-subservices">
+        <section className="sdv2-subservices" ref={subsRef}>
           <div className="container-default">
-            <span className="section-eyebrow">[02.1 // ESPECIALIZACIONES]</span>
-            <h2 className="section-heading">Subservicios de <em>{service.title}</em>.</h2>
+            <span className={`section-eyebrow ${subsVis ? 'in-view' : ''}`}>[02.1 // ESPECIALIZACIONES]</span>
+            <h2 className={`section-heading ${subsVis ? 'in-view' : ''}`}>Subservicios de <em>{service.title}</em>.</h2>
             
             <div className="sdv2-subs-grid">
               {currentSubservices.map((sub, idx) => {
-                const hasBusinessPage = ['gimnasios', 'hoteles', 'oficinas', 'restaurantes'].includes(sub.subcategoria);
-                const waMessage = encodeURIComponent(sub.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${sub.title}*.`);
+                const title = sub.title || sub.subservicio || '';
+                const description = sub.descripcin || sub.description || '';
+                
+                const rawSubcat = sub.subcategora || sub.subcategoria || '';
+                const cleanSubcat = rawSubcat
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .trim();
+                
+                const hasBusinessPage = ['gimnasios', 'hoteles', 'oficinas', 'restaurantes'].includes(cleanSubcat);
+                
+                let waLink = sub.enlaceDeWhatsapp || '';
+                if (waLink) {
+                  if (waLink.startsWith('https://wa.me/?text=')) {
+                    waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525512345678?text=');
+                  }
+                } else {
+                  const waMessage = encodeURIComponent(sub.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${title}*.`);
+                  waLink = `https://wa.me/525512345678?text=${waMessage}`;
+                }
                 
                 return (
                   <div key={sub._id || idx} className="sdv2-sub-card">
                     <span className="sdv2-sub-code">[SUB // 0{idx + 1}]</span>
-                    <h3 className="sdv2-sub-title">{sub.title}</h3>
-                    <p className="sdv2-sub-desc">{sub.description}</p>
+                    <h3 className="sdv2-sub-title">{title}</h3>
+                    <p className="sdv2-sub-desc">{description}</p>
                     
                     <div className="sdv2-sub-actions">
                       {hasBusinessPage ? (
-                        <Link to={`/negocios/${sub.subcategoria}`} className="sdv2-sub-link">
+                        <Link to={`/negocios/${cleanSubcat}`} className="sdv2-sub-link">
                           Saber Más ↗
                         </Link>
                       ) : (
@@ -335,7 +365,7 @@ export default function ServiceDetailPage() {
                       )}
                       
                       <a 
-                        href={`https://wa.me/525512345678?text=${waMessage}`} 
+                        href={waLink} 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="sdv2-sub-wa-btn"

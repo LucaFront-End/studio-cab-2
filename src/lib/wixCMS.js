@@ -1,4 +1,4 @@
-const WIX_CLIENT_ID = '296237fc-b597-4736-b888-367dd4fd1740';
+const WIX_CLIENT_ID = '8f4920b3-137c-4fd6-a0a5-dc4957f08701';
 
 // Rich fallback mock database representing the Wix CMS schema
 export const mockServicios = [
