@@ -1,155 +1,69 @@
 import { useParams, Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import './ProjectDetailPage.css';
 
-const projectsDB = {
-  basilio: {
-    title: 'Basilio Roma', location: 'Roma Norte, CDMX', category: 'Restaurante & Bar', area: '180 m²', duration: '4 meses', year: '2023', services: ['Diseño Comercial', 'Carpintería', 'Producción'],
-    heroImage: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80','https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=800&q=80','https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80','https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Un local estrecho de época porfiriana con escasa luz natural y restricciones estructurales severas que limitaban cualquier intervención agresiva.' },
-      { num: '02', title: 'La Solución', text: 'Estructura de carpintería suspendida en nogal americano. Espejos estratégicos que duplican la percepción del espacio y arcos metálicos con iluminación LED integrada.' },
-      { num: '03', title: 'El Impacto', text: 'Triplicó su capacidad operativa y se convirtió en referencia de interiorismo comercial en la Colonia Roma. Featured en Architectural Digest México.' },
-    ],
-    materials: [
-      { name: 'Nogal Americano', desc: 'Madera noble de veta profunda tratada con aceites naturales mate.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
-      { name: 'Mármol Travertino', desc: 'Losa monolítica cepillada a mano para barras principales.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
-      { name: 'Latón Envejecido', desc: 'Detalles metálicos con pátina artesanal en luminarias y herrajes.', image: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=300&q=80' },
-    ],
-    testimonial: { quote: '"Triplicamos nuestros ingresos tras la remodelación. El diseño funciona."', author: 'Carlos Mendoza', role: 'Propietario' },
-    related: ['condesa','polanco'],
-  },
-  condesa: {
-    title: 'Casa Condesa', location: 'Condesa, CDMX', category: 'Interiorismo Residencial', area: '220 m²', duration: '6 meses', year: '2023', services: ['Interiorismo Residencial', 'Carpintería'],
-    heroImage: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80','https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80','https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Departamento de los años 70 en mal estado con distribución ineficiente y pisos dañados.' },
-      { num: '02', title: 'La Solución', text: 'Eliminamos muros divisorios para crear un open concept con revestimientos de roble claro y chimenea de mármol travertine como punto focal.' },
-      { num: '03', title: 'El Impacto', text: 'Un hogar de estética minimalista atemporal con ventilación cruzada natural. Valuación incrementada en un 60%.' },
-    ],
-    materials: [
-      { name: 'Roble Claro', desc: 'Revestimiento y duelas de roble europeo selecto para potenciar la iluminación.', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&q=80' },
-      { name: 'Mármol Travertino', desc: 'Revestimiento rústico en chimenea y detalles de baño principal.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
-      { name: 'Piedra Volcánica', desc: 'Piedra autóctona CDMX para patio interior y zonas húmedas.', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&q=80' },
-    ],
-    testimonial: { quote: '"Superó todas nuestras expectativas. Cada mañana despertamos en un espacio que nos representa."', author: 'Ana y Roberto Vega', role: 'Propietarios' },
-    related: ['basilio','santafe'],
-  },
-  polanco: {
-    title: 'Boutique Polanco', location: 'Polanco, CDMX', category: 'Retail de Alta Gama', area: '95 m²', duration: '3 meses', year: '2024', services: ['Diseño Comercial', 'Carpintería'],
-    heroImage: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80','https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80','https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Crear una experiencia de compra exclusiva en un local con techos bajos y poco frente.' },
-      { num: '02', title: 'La Solución', text: 'Terrazo continuo, percheros flotantes de acero cepillado y plafón espejo que duplica la altura visual.' },
-      { num: '03', title: 'El Impacto', text: 'Incremento del 40% en ventas en el primer trimestre y reconocimiento en retail design awards.' },
-    ],
-    materials: [
-      { name: 'Terrazo Continuous', desc: 'Piso pulido continuo de base blanca y agregados de mármol gris.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
-      { name: 'Acero Inoxidable', desc: 'Percheros y estructuras con pulido espejo de precisión.', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&q=80' },
-      { name: 'Espejo Bronce', desc: 'Cristal entintado que amplía el showroom y suaviza la iluminación.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
-    ],
-    testimonial: { quote: '"Las ventas subieron un 40% el primer trimestre. El diseño vende."', author: 'Alejandra Ruiz', role: 'Directora Comercial' },
-    related: ['basilio','juarez'],
-  },
-  santafe: {
-    title: 'Loft Santa Fe', location: 'Santa Fe, CDMX', category: 'Penthouse', area: '310 m²', duration: '8 meses', year: '2022', services: ['Interiorismo Residencial', 'Carpintería', 'Producción'],
-    heroImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80','https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80','https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80','https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Penthouse con vistas panorámicas que necesitaba integrar el paisaje urbano sin sacrificar privacidad.' },
-      { num: '02', title: 'La Solución', text: 'Ventanales de piso a techo con carpintería de roble, cocina isla monolítica y terraza con jardín vertical.' },
-      { num: '03', title: 'El Impacto', text: 'Una residencia que difumina los límites entre interior y exterior. Publicada en Elle Decoration MX.' },
-    ],
-    materials: [
-      { name: 'Roble Ahumado', desc: 'Madera de roble oscurecido para dar sobriedad a closets y vestidores.', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&q=80' },
-      { name: 'Granito Negro', desc: 'Encimera monolítica de cocina con acabado cepillado cuero.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
-      { name: 'Vidrio Acanalado', desc: 'Mamparas que dividen áreas sociales sin restar luminosidad.', image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=300&q=80' },
-    ],
-    testimonial: { quote: '"Es exactamente lo que soñamos pero nunca pudimos articular."', author: 'Familia Hernández', role: 'Propietarios' },
-    related: ['condesa','coyoacan'],
-  },
-  juarez: {
-    title: 'Café Juárez', location: 'Juárez, CDMX', category: 'Cafetería Specialty', area: '65 m²', duration: '2.5 meses', year: '2024', services: ['Diseño Comercial', 'Carpintería'],
-    heroImage: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=800&q=80','https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80','https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Local diminuto que debía funcionar como cafetería, tostador y espacio de degustación simultáneamente.' },
-      { num: '02', title: 'La Solución', text: 'Mobiliario multifuncional con barra giratoria, almacenamiento vertical y iluminación cálida zonal.' },
-      { num: '03', title: 'El Impacto', text: 'Top 10 cafeterías de specialty en CDMX según TimeOut México. Se viralizó en redes por su diseño.' },
-    ],
-    materials: [
-      { name: 'Encinos Macizos', desc: 'Madera tratada para cubiertas de mesas de alta circulación.', image: 'https://images.unsplash.com/photo-1595526051245-4506e0005bd0?w=300&q=80' },
-      { name: 'Latón Viejo', desc: 'Bordes protectores y luminarias colgantes de metal.', image: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=300&q=80' },
-      { name: 'Concreto Aparente', desc: 'Paredes y barra principal con textura contemporánea manual.', image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300&q=80' },
-    ],
-    testimonial: { quote: '"La gente viene por el café y se queda por el espacio."', author: 'Diego Soto', role: 'Fundador' },
-    related: ['basilio','reforma'],
-  },
-  coyoacan: {
-    title: 'Residencia Coyoacán', location: 'Coyoacán, CDMX', category: 'Casa Unifamiliar', area: '280 m²', duration: '7 meses', year: '2023', services: ['Interiorismo Residencial', 'Producción'],
-    heroImage: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80','https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80','https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Integrar una casa colonial con elementos de diseño contemporáneo respetando la esencia del barrio.' },
-      { num: '02', title: 'La Solución', text: 'Intervenciones quirúrgicas de mobiliario moderno sobre la arquitectura original de piedra volcánica.' },
-      { num: '03', title: 'El Impacto', text: 'Un diálogo perfecto entre tradición mexicana y minimalismo contemporáneo. Premio al mejor interiorismo CDMX.' },
-    ],
-    materials: [
-      { name: 'Piedra Volcánica', desc: 'Muros originales de basalto oscuro restaurados a mano.', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&q=80' },
-      { name: 'Nogal Americano', desc: 'Mobiliario central a medida para contrastar con la piedra fría.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
-      { name: 'Mármol Carrara', desc: 'Detalles de repisas y mesas con vetado clásico italiano.', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=300&q=80' },
-    ],
-    testimonial: { quote: '"Lograron lo imposible: modernizar sin perder la esencia colonial."', author: 'Familia Sánchez', role: 'Propietarios' },
-    related: ['condesa','santafe'],
-  },
-  reforma: {
-    title: 'Oficinas Reforma', location: 'Reforma, CDMX', category: 'Oficinas Corporativas', area: '450 m²', duration: '5 meses', year: '2024', services: ['Diseño Comercial', 'Carpintería', 'Producción'],
-    heroImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80','https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80','https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Transformar un piso completo de torre corporativa en un espacio creativo y funcional para 80 personas.' },
-      { num: '02', title: 'La Solución', text: 'Open plan con pods acústicos, sala de juntas escultórica, terraza urbana y wellness room.' },
-      { num: '03', title: 'El Impacto', text: 'Aumento del 35% en satisfacción de empleados y reducción del 20% en rotación de personal.' },
-    ],
-    materials: [
-      { name: 'Acero Pulido', desc: 'Divisores y perfiles con pátinas grises industriales satinadas.', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&q=80' },
-      { name: 'Roble Claro', desc: 'Escritorios flotantes ergonómicos integrados con sistemas de conectividad.', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
-      { name: 'Vidrio Acústico', desc: 'Vidrio doble laminado para salas de junta sin restar visuales.', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=300&q=80' },
-    ],
-    testimonial: { quote: '"Nuestro equipo está más feliz y productivo. La inversión se pagó sola."', author: 'Ricardo Gómez', role: 'CEO' },
-    related: ['polanco','basilio'],
-  },
-  narvarte: {
-    title: 'Cocina Narvarte', location: 'Narvarte, CDMX', category: 'Carpintería Residencial', area: '12 m²', duration: '6 semanas', year: '2024', services: ['Carpintería'],
-    heroImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=80',
-    gallery: ['https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80','https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800&q=80','https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80','https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&q=80'],
-    narrative: [
-      { num: '01', title: 'El Reto', text: 'Cocina compacta de 12m² que necesitaba almacenamiento máximo sin perder estética ni funcionalidad.' },
-      { num: '02', title: 'La Solución', text: 'Gabinetes hasta el techo, isla retráctil con sistema de rieles y organización interna a medida con herrajes Blum.' },
-      { num: '03', title: 'El Impacto', text: 'Triplicó el almacenamiento en el mismo espacio con una estética que parece sacada de una revista.' },
-    ],
-    materials: [
-      { name: 'Nogal Americano', desc: 'Laminado y macizo de nogal con aceites naturales impermeables.', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&q=80' },
-      { name: 'Herrajes Blum', desc: 'Sistemas de organización interna cajones tandembox blumotion.', image: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=300&q=80' },
-      { name: 'Granito Blanco', desc: 'Cubierta monolítica pulida de alta resistencia térmica.', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=300&q=80' },
-    ],
-    testimonial: { quote: '"No puedo creer que sea la misma cocina. Es otra casa."', author: 'Mariana Torres', role: 'Propietaria' },
-    related: ['condesa','santafe'],
-  },
-};
+import { useWixCMSData } from '../hooks/useWixCMS';
+import { resolveWixImage, resolveWixVideo } from '../lib/wixCMS';
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
-  const project = projectsDB[id];
+  const { proyectos } = useWixCMSData();
+
+  const rawProject = (proyectos || []).find(p => p._id === id);
+  
+  let project = null;
+  if (rawProject) {
+    let cat = 'Proyecto Comercial';
+    if (rawProject.servicioPrincipal === '8e5d5551-a1fa-4272-958e-1a01eacdb7ff') cat = 'Proyecto Residencial';
+    else if (rawProject.servicioPrincipal === '06a2037c-149b-4fd6-844f-b9814340f9b8') cat = 'Carpintería';
+    else if (rawProject.servicioPrincipal === 'f9aa307d-3523-4a2c-a202-826a5889ea3d') cat = 'Producción';
+
+    // Parse gallery
+    const rawGallery = rawProject.mediagallery || [];
+    const gallery = rawGallery.map(g => {
+      if (g.type === 'video') {
+        const posterUrl = g.settings?.posters?.[0]?.url 
+          ? `https://static.wixstatic.com/media/${g.settings.posters[0].url}` 
+          : '';
+        return { type: 'video', url: resolveWixVideo(g.slug || g.src), poster: posterUrl };
+      }
+      return { 
+        type: 'image', 
+        url: resolveWixImage(g.src, 1600), 
+        originalUrl: resolveWixImage(g.src, 'original') 
+      };
+    });
+
+    const narrative = [];
+    if (rawProject.elReto) narrative.push({ num: '01', title: 'El Reto', text: rawProject.elReto });
+    if (rawProject.laSolucin) narrative.push({ num: '02', title: 'La Solución', text: rawProject.laSolucin });
+    if (rawProject.elImpacto) narrative.push({ num: '03', title: 'El Impacto', text: rawProject.elImpacto });
+
+    project = {
+      title: rawProject.title,
+      location: rawProject.zonaDelProyecto,
+      category: cat,
+      area: rawProject.superficie,
+      duration: rawProject.duracin,
+      year: rawProject.ao,
+      services: [], // Or map from related if it existed
+      heroImage: resolveWixImage(rawProject.imagenPrincipal, 1400),
+      fotoConRelieves: resolveWixImage(rawProject.fotoConRelieves, 1400),
+      gallery: gallery,
+      narrative: narrative,
+      materials: [], // Not supported in Wix schema yet
+      testimonial: null, // Not supported in Wix schema yet
+      related: [] // Not supported in Wix schema yet
+    };
+  }
 
   const [heroRef, heroVis] = useInView({ threshold: 0.05 });
   const [specRef, specVis] = useInView({ threshold: 0.1 });
   const [galRef, galVis] = useInView({ threshold: 0.1 });
-  const [narRefs, narVis] = useStaggerInView(3, { staggerDelay: 200 });
+  const narCount = project?.narrative?.length || 0;
+  const [narRefs, narVis] = useStaggerInView(narCount, { staggerDelay: 200 });
   const [materialsRef, materialsVis] = useInView({ threshold: 0.15 });
   const [testRef, testVis] = useInView({ threshold: 0.2 });
   const [relRef, relVis] = useInView({ threshold: 0.1 });
@@ -166,8 +80,47 @@ export default function ProjectDetailPage() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Gallery lightbox
+  // Cinematic Slider State
+  const [activeSlide, setActiveSlide] = useState(0);
   const [lightbox, setLightbox] = useState(null);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const thumbRefs = useRef([]);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      setActiveSlide(prev => (prev < project.gallery.length - 1 ? prev + 1 : 0));
+    }
+    if (isRightSwipe) {
+      setActiveSlide(prev => (prev > 0 ? prev - 1 : project.gallery.length - 1));
+    }
+  };
+
+  // Center active thumbnail automatically
+  useEffect(() => {
+    if (thumbRefs.current[activeSlide]) {
+      thumbRefs.current[activeSlide].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+  }, [activeSlide]);
 
   if (!project) {
     return (
@@ -178,13 +131,12 @@ export default function ProjectDetailPage() {
     );
   }
 
-  const specs = [
-    { label: 'Cliente', value: project.title },
-    { label: 'Ubicación', value: project.location },
-    { label: 'Superficie', value: project.area },
-    { label: 'Duración', value: project.duration },
-    { label: 'Año', value: project.year },
-  ];
+  const specs = [];
+  if (project.title) specs.push({ label: 'Proyecto', value: project.title });
+  if (project.location) specs.push({ label: 'Ubicación', value: project.location });
+  if (project.area) specs.push({ label: 'Superficie', value: project.area });
+  if (project.duration) specs.push({ label: 'Duración', value: project.duration });
+  if (project.year) specs.push({ label: 'Año', value: project.year });
 
   return (
     <div className="project-detail page-enter">
@@ -230,126 +182,223 @@ export default function ProjectDetailPage() {
               <span className="pdv2-spec-value">{spec.value}</span>
             </div>
           ))}
-          <div className="pdv2-spec pdv2-spec-services" style={{ transitionDelay: '0.4s' }}>
-            <span className="pdv2-spec-label">Servicios</span>
-            <div className="pdv2-spec-tags">
-              {project.services.map((s, i) => (
-                <span key={i} className="pdv2-service-tag">{s}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 3: GALLERY BENTO ═══ */}
-      <section className="pdv2-gallery" ref={galRef}>
-        <div className={`pdv2-gallery-bento ${galVis ? 'in-view' : ''}`}>
-          {project.gallery.map((img, i) => (
-            <div key={i} className={`pdv2-bento-item pdv2-bento-${i}`} style={{ transitionDelay: `${i * 0.12}s` }} onClick={() => setLightbox(i)} data-cursor="Ver">
-              <img src={img} alt={`${project.title} ${i + 1}`} />
-              <div className="pdv2-bento-overlay">
-                <span>+</span>
+          {project.services && project.services.length > 0 && (
+            <div className="pdv2-spec pdv2-spec-services" style={{ transitionDelay: '0.4s' }}>
+              <span className="pdv2-spec-label">Servicios</span>
+              <div className="pdv2-spec-tags">
+                {project.services.map((s, i) => (
+                  <span key={i} className="pdv2-service-tag">{s}</span>
+                ))}
               </div>
             </div>
-          ))}
+          )}
         </div>
       </section>
 
-      {/* Lightbox */}
-      {lightbox !== null && (
+      {/* ═══ 3: CINEMATIC CAROUSEL GALLERY ═══ */}
+      {project.gallery && project.gallery.length > 0 && (
+        <section className="pdv2-gallery" ref={galRef}>
+          <div className={`pdv2-gallery-slider ${galVis ? 'in-view' : ''}`}>
+            
+            {/* Viewport frame */}
+            <div 
+              className="pdv2-slider-viewport"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
+              {/* Slider Track */}
+              <div 
+                className="pdv2-slider-track"
+                style={{ transform: `translate3d(-${activeSlide * 100}%, 0, 0)` }}
+              >
+                {project.gallery.map((media, i) => (
+                  <div 
+                    key={i} 
+                    className={`pdv2-slide ${i === activeSlide ? 'active' : ''}`}
+                    onClick={() => setLightbox(i)}
+                  >
+                    {media.type === 'video' ? (
+                      <video src={media.url} poster={media.poster} autoPlay loop muted playsInline />
+                    ) : (
+                      <img src={media.url} alt={`${project.title} ${i + 1}`} />
+                    )}
+                    <div className="pdv2-slide-overlay">
+                      <span className="pdv2-slide-zoom">🔍 Ampliar Imagen</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Slider Controls */}
+              <button 
+                className="pdv2-slider-arrow prev" 
+                onClick={(e) => { e.stopPropagation(); setActiveSlide(prev => (prev > 0 ? prev - 1 : project.gallery.length - 1)); }}
+                aria-label="Anterior"
+              >
+                ‹
+              </button>
+              <button 
+                className="pdv2-slider-arrow next" 
+                onClick={(e) => { e.stopPropagation(); setActiveSlide(prev => (prev < project.gallery.length - 1 ? prev + 1 : 0)); }}
+                aria-label="Siguiente"
+              >
+                ›
+              </button>
+
+              {/* Slider Counter */}
+              <div className="pdv2-slider-counter">
+                <span className="current">{String(activeSlide + 1).padStart(2, '0')}</span>
+                <span className="separator">/</span>
+                <span className="total">{String(project.gallery.length).padStart(2, '0')}</span>
+              </div>
+            </div>
+
+            {/* Scrollable Thumbnails track */}
+            <div className="pdv2-slider-thumbs-container">
+              <div className="pdv2-slider-thumbs">
+                {project.gallery.map((media, i) => (
+                  <button
+                    key={i}
+                    ref={el => thumbRefs.current[i] = el}
+                    className={`pdv2-slider-thumb ${i === activeSlide ? 'active' : ''}`}
+                    onClick={() => setActiveSlide(i)}
+                  >
+                    {media.type === 'video' ? (
+                      <div className="pdv2-thumb-video-placeholder">
+                        <img src={media.poster || project.heroImage} alt="" />
+                        <span className="pdv2-thumb-play-icon">▶</span>
+                      </div>
+                    ) : (
+                      <img src={media.url.replace('w=1000', 'w=150')} alt="" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </section>
+      )}
+
+      {/* Lightbox rendered in document.body Portal to escape transforms */}
+      {lightbox !== null && createPortal(
         <div className="pdv2-lightbox" onClick={() => setLightbox(null)}>
           <button className="pdv2-lb-close" onClick={() => setLightbox(null)}>✕</button>
-          <img src={project.gallery[lightbox]} alt="" />
-          <div className="pdv2-lb-nav">
+          {project.gallery[lightbox].type === 'video' ? (
+            <video 
+              src={project.gallery[lightbox].url} 
+              poster={project.gallery[lightbox].poster} 
+              controls 
+              autoPlay 
+              onClick={(e) => e.stopPropagation()}
+              style={{ maxHeight: '80vh', maxWidth: '90vw' }} 
+            />
+          ) : (
+            <img 
+              src={project.gallery[lightbox].originalUrl} 
+              alt="" 
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+          <div className="pdv2-lb-nav" onClick={(e) => e.stopPropagation()}>
             <button onClick={(e) => { e.stopPropagation(); setLightbox(lightbox > 0 ? lightbox - 1 : project.gallery.length - 1); }}>←</button>
             <span>{lightbox + 1} / {project.gallery.length}</span>
             <button onClick={(e) => { e.stopPropagation(); setLightbox(lightbox < project.gallery.length - 1 ? lightbox + 1 : 0); }}>→</button>
           </div>
-        </div>
+        </div>,
+        document.body
+      )}
+
+      {/* FOTO CON RELIEVES SEPARATOR */}
+      {project.fotoConRelieves && (
+        <section className="pdv2-foto-relieves" style={{ width: '100%', height: '70vh', marginTop: '100px', overflow: 'hidden', position: 'relative' }}>
+          <img 
+            src={project.fotoConRelieves} 
+            alt="Detalle relieve" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+          />
+        </section>
       )}
 
       {/* ═══ 4: NARRATIVE ═══ */}
-      <section className="pdv2-narrative">
-        <div className="container-default">
-          <span className="section-eyebrow anim-fade-up in-view">Case Study</span>
-          <h2 className="section-heading anim-fade-up in-view">La <em>historia</em>.</h2>
-          <div className="pdv2-nar-timeline">
-            <div className="pdv2-nar-line" />
-            {project.narrative.map((item, i) => (
-              <div key={i} ref={el => narRefs.current[i] = el} className={`pdv2-nar-step ${narVis[i] ? 'in-view' : ''} ${i % 2 === 0 ? 'left' : 'right'}`}>
-                <div className="pdv2-nar-dot" />
-                <div className="pdv2-nar-card">
-                  <span className="pdv2-nar-num">{item.num}</span>
-                  <h3 className="pdv2-nar-title">{item.title}</h3>
-                  <p className="pdv2-nar-text">{item.text}</p>
+      {project.narrative && project.narrative.length > 0 && (
+        <section className="pdv2-narrative">
+          <div className="container-default">
+            <span className="section-eyebrow anim-fade-up in-view">Case Study</span>
+            <h2 className="section-heading anim-fade-up in-view">La <em>historia</em>.</h2>
+            <div className="pdv2-nar-timeline">
+              <div className="pdv2-nar-line" />
+              {project.narrative.map((item, i) => (
+                <div key={i} ref={el => narRefs.current[i] = el} className={`pdv2-nar-step ${narVis[i] ? 'in-view' : ''} ${i % 2 === 0 ? 'left' : 'right'}`}>
+                  <div className="pdv2-nar-dot" />
+                  <div className="pdv2-nar-card">
+                    <span className="pdv2-nar-num">{item.num}</span>
+                    <h3 className="pdv2-nar-title">{item.title}</h3>
+                    <p className="pdv2-nar-text">{item.text}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 5: PALETA DE MATERIALES (NUEVA) ═══ */}
-      <section className="pdv2-materials-section" ref={materialsRef}>
-        <div className="container-default">
-          <span className={`section-eyebrow ${materialsVis ? 'in-view' : ''}`}>Materialidad</span>
-          <h2 className={`section-heading ${materialsVis ? 'in-view' : ''}`}>Paleta de <em>texturas y acabados</em>.</h2>
-          
-          <div className={`pdv2-materials-grid ${materialsVis ? 'in-view' : ''}`}>
-            {project.materials.map((mat, i) => (
-              <div key={i} className="pdv2-material-card" style={{ transitionDelay: `${i * 0.15}s` }}>
-                <div className="pdv2-mat-img-box">
-                  <img src={mat.image} alt={mat.name} />
-                </div>
-                <div className="pdv2-mat-info">
-                  <h4 className="pdv2-mat-name">{mat.name}</h4>
-                  <p className="pdv2-mat-desc">{mat.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 6: TESTIMONIAL ═══ */}
-      <section className="pdv2-testimonial" ref={testRef}>
-        <div className={`container-default pdv2-test-inner ${testVis ? 'in-view' : ''}`}>
-          <div className="pdv2-test-mark">"</div>
-          <blockquote className="pdv2-test-quote">{project.testimonial.quote}</blockquote>
-          <div className="pdv2-test-author">
-            <div className="pdv2-test-divider" />
-            <div>
-              <span className="pdv2-test-name">{project.testimonial.author}</span>
-              <span className="pdv2-test-role">{project.testimonial.role}</span>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* ═══ 5: PALETA DE MATERIALES (NUEVA) ═══ */}
+      {project.materials && project.materials.length > 0 && (
+        <section className="pdv2-materials-section" ref={materialsRef}>
+          <div className="container-default">
+            <span className={`section-eyebrow ${materialsVis ? 'in-view' : ''}`}>Materialidad</span>
+            <h2 className={`section-heading ${materialsVis ? 'in-view' : ''}`}>Paleta de <em>texturas y acabados</em>.</h2>
+            
+            <div className={`pdv2-materials-grid ${materialsVis ? 'in-view' : ''}`}>
+              {project.materials.map((mat, i) => (
+                <div key={i} className="pdv2-material-card" style={{ transitionDelay: `${i * 0.15}s` }}>
+                  <div className="pdv2-mat-img-box">
+                    <img src={mat.image} alt={mat.name} />
+                  </div>
+                  <div className="pdv2-mat-info">
+                    <h4 className="pdv2-mat-name">{mat.name}</h4>
+                    <p className="pdv2-mat-desc">{mat.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══ 6: TESTIMONIAL ═══ */}
+      {project.testimonial && (
+        <section className="pdv2-testimonial" ref={testRef}>
+          <div className={`container-default pdv2-test-inner ${testVis ? 'in-view' : ''}`}>
+            <div className="pdv2-test-mark">"</div>
+            <blockquote className="pdv2-test-quote">{project.testimonial.quote}</blockquote>
+            <div className="pdv2-test-author">
+              <div className="pdv2-test-divider" />
+              <div>
+                <span className="pdv2-test-name">{project.testimonial.author}</span>
+                <span className="pdv2-test-role">{project.testimonial.role}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══ 7: RELATED ═══ */}
-      <section className="pdv2-related" ref={relRef}>
-        <div className="container-default">
-          <h2 className="section-heading anim-fade-up in-view">Más <em>proyectos</em>.</h2>
-          <div className={`pdv2-related-grid ${relVis ? 'in-view' : ''}`}>
-            {project.related.map((relId) => {
-              const rel = projectsDB[relId];
-              if (!rel) return null;
-              return (
-                <Link to={`/proyectos/${relId}`} key={relId} className="pdv2-rel-card">
-                  <div className="pdv2-rel-img">
-                    <img src={rel.heroImage.replace('w=1400', 'w=700')} alt={rel.title} />
-                    <div className="pdv2-rel-overlay">
-                      <span className="pdv2-rel-cat">{rel.category}</span>
-                      <h3 className="pdv2-rel-title">{rel.title}</h3>
-                      <span className="pdv2-rel-loc">{rel.location}</span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+      {project.related && project.related.length > 0 && (
+        <section className="pdv2-related" ref={relRef}>
+          <div className="container-default">
+            <h2 className="section-heading anim-fade-up in-view">Más <em>proyectos</em>.</h2>
+            <div className={`pdv2-related-grid ${relVis ? 'in-view' : ''}`}>
+              {project.related.map((relId) => {
+                // If related is used, would need to map from CMS too
+                return null;
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }

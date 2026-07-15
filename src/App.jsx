@@ -18,30 +18,44 @@ import ProductPage from './pages/ProductPage';
 import BusinessDetailPage from './pages/BusinessDetailPage';
 import SubserviceDetailPage from './pages/SubserviceDetailPage';
 
+import { ErrorBoundary } from 'react-error-boundary';
+
+function ErrorFallback({ error }) {
+  return (
+    <div style={{ padding: '40px', background: 'red', color: 'white', minHeight: '100vh' }}>
+      <h1>Ha ocurrido un error en la aplicación:</h1>
+      <pre style={{ whiteSpace: 'pre-wrap' }}>{error.message}</pre>
+      <pre style={{ whiteSpace: 'pre-wrap', marginTop: 20 }}>{error.stack}</pre>
+    </div>
+  );
+}
+
 function App() {
   return (
-    <main className="main-wrapper">
-      <CustomCursor />
-      <ScrollToTop />
-      <WhatsAppButton />
-      <Header />
-      <PageTransition>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/nosotros" element={<AboutPage />} />
-          <Route path="/servicios" element={<ServicesPage />} />
-          <Route path="/servicios/:id" element={<ServiceDetailPage />} />
-          <Route path="/proyectos" element={<ProjectsPage />} />
-          <Route path="/proyectos/:id" element={<ProjectDetailPage />} />
-          <Route path="/contacto" element={<ContactPage />} />
-          <Route path="/tienda" element={<StorePage />} />
-          <Route path="/tienda/:id" element={<ProductPage />} />
-          <Route path="/negocios/:id" element={<BusinessDetailPage />} />
-          <Route path="/subservicios/:slug" element={<SubserviceDetailPage />} />
-        </Routes>
-      </PageTransition>
-      <Footer />
-    </main>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <main className="main-wrapper">
+        <CustomCursor />
+        <ScrollToTop />
+        <WhatsAppButton />
+        <Header />
+        <PageTransition>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/nosotros" element={<AboutPage />} />
+            <Route path="/servicios" element={<ServicesPage />} />
+            <Route path="/servicios/:id" element={<ServiceDetailPage />} />
+            <Route path="/proyectos" element={<ProjectsPage />} />
+            <Route path="/proyectos/:id" element={<ProjectDetailPage />} />
+            <Route path="/contacto" element={<ContactPage />} />
+            <Route path="/tienda" element={<StorePage />} />
+            <Route path="/tienda/:id" element={<ProductPage />} />
+            <Route path="/negocios/:id" element={<BusinessDetailPage />} />
+            <Route path="/subservicios/:slug" element={<SubserviceDetailPage />} />
+          </Routes>
+        </PageTransition>
+        <Footer />
+      </main>
+    </ErrorBoundary>
   );
 }
 

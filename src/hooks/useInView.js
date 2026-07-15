@@ -9,11 +9,10 @@ import { useState, useEffect, useRef } from 'react';
  * @returns {[React.RefObject, boolean]} - [ref, isInView]
  */
 export function useInView({ threshold = 0.15, rootMargin = '0px', triggerOnce = true } = {}) {
-  const ref = useRef(null);
+  const [element, setElement] = useState(null);
   const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
-    const element = ref.current;
     if (!element) return;
 
     const observer = new IntersectionObserver(
@@ -32,9 +31,9 @@ export function useInView({ threshold = 0.15, rootMargin = '0px', triggerOnce = 
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, triggerOnce]);
+  }, [element, threshold, rootMargin, triggerOnce]);
 
-  return [ref, isInView];
+  return [setElement, isInView];
 }
 
 /**
@@ -45,7 +44,11 @@ export function useInView({ threshold = 0.15, rootMargin = '0px', triggerOnce = 
  */
 export function useStaggerInView(count, { threshold = 0.1, rootMargin = '0px 0px -50px 0px', staggerDelay = 120 } = {}) {
   const refs = useRef([]);
-  const [visibleItems, setVisibleItems] = useState(new Array(count).fill(false));
+  const [visibleItems, setVisibleItems] = useState([]);
+
+  useEffect(() => {
+    setVisibleItems(new Array(count).fill(false));
+  }, [count]);
 
   useEffect(() => {
     const observers = [];

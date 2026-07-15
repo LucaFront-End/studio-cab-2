@@ -65,12 +65,14 @@ export default function SubserviceDetailPage() {
   }
 
   const data = subservice.data || subservice;
-  const title = data.title || data.subservicio || '';
-  const description = data.descripcin || data.description || '';
-  const paragraph2 = data['2ParraffoDescripin'] || '';
-  const excerpt = data.excerpt || '';
-  const category = data.categora || '';
-  const subcategory = data.subcategora || data.subcategoria || '';
+  const title = data.title || data.subservicio || data.nombre || '';
+  
+  // Mapeo detallado y flexible para cubrir posibles nombres de campos de Wix
+  const description = data.descripcion || data.description || data.descripcin || `Servicio especializado de ${title} para proyectos residenciales y comerciales en CDMX.`;
+  const paragraph2 = data['2ParrafoDescripcion'] || data.parrafo2 || data['2ParraffoDescripin'] || '';
+  const excerpt = data.excerpt || data.resumen || '';
+  const category = data.categoria || data.categora || data.category || 'Especializado';
+  const subcategory = data.subcategoria || data.subcategora || data.subcategory || 'General';
 
   // WhatsApp Link normalization
   let waLink = data.enlaceDeWhatsapp || '';
@@ -125,14 +127,18 @@ export default function SubserviceDetailPage() {
             {paragraph2 && <p className="sub-desc-secondary">{paragraph2}</p>}
             
             <div className="sub-meta-table">
-              <div className="meta-row">
-                <span className="meta-label">Sector Principal:</span>
-                <span className="meta-value">{category}</span>
-              </div>
-              <div className="meta-row">
-                <span className="meta-label">Especialización:</span>
-                <span className="meta-value">{subcategory}</span>
-              </div>
+              {category !== 'Especializado' && (
+                <div className="meta-row">
+                  <span className="meta-label">Sector Principal:</span>
+                  <span className="meta-value">{category}</span>
+                </div>
+              )}
+              {subcategory !== 'General' && (
+                <div className="meta-row">
+                  <span className="meta-label">Especialización:</span>
+                  <span className="meta-value">{subcategory}</span>
+                </div>
+              )}
               <div className="meta-row">
                 <span className="meta-label">Área de Cobertura:</span>
                 <span className="meta-value">CDMX y Área Metropolitana (Interior de la República bajo cotización)</span>

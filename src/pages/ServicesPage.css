@@ -134,14 +134,14 @@
   border: 1px solid var(--color-border);
   background: var(--colors--theme-white);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
-  opacity: 0;
-  transform: translateY(40px);
+  opacity: 1;
+  transform: none;
   cursor: pointer;
   position: relative;
 }
 .sp-service-card.in-view {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* Top accent line */

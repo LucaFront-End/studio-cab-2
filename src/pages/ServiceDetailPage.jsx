@@ -327,7 +327,7 @@ export default function ServiceDetailPage() {
               {currentSubservices.map((sub, idx) => {
                 const data = sub.data || sub;
                 const title = data.title || data.subservicio || '';
-                const description = data.descripcin || data.description || '';
+                const description = data.descripcin || data.description || `Especialidad en ${title} con materiales premium y acabados de lujo.`;
                 
                 const rawSubcat = data.subcategora || data.subcategoria || '';
                 const cleanSubcat = rawSubcat

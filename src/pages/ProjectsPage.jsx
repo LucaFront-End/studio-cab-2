@@ -4,33 +4,45 @@ import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useCountUp } from '../hooks/useCountUp';
 import './ProjectsPage.css';
 
-const projectsData = [
-  { id: 'basilio', title: 'Basilio Roma', category: 'comercial', location: 'Roma Norte, CDMX', tag: 'Restaurante & Bar', image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&q=80', featured: true },
-  { id: 'condesa', title: 'Casa Condesa', category: 'residencial', location: 'Condesa, CDMX', tag: 'Interiorismo Residencial', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80' },
-  { id: 'polanco', title: 'Boutique Polanco', category: 'comercial', location: 'Polanco, CDMX', tag: 'Retail de Alta Gama', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80' },
-  { id: 'santafe', title: 'Loft Santa Fe', category: 'residencial', location: 'Santa Fe, CDMX', tag: 'Penthouse', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80' },
-  { id: 'juarez', title: 'Café Juárez', category: 'comercial', location: 'Juárez, CDMX', tag: 'Cafetería Specialty', image: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600&q=80' },
-  { id: 'coyoacan', title: 'Residencia Coyoacán', category: 'residencial', location: 'Coyoacán, CDMX', tag: 'Casa Unifamiliar', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80' },
-  { id: 'reforma', title: 'Oficinas Reforma', category: 'comercial', location: 'Paseo de la Reforma, CDMX', tag: 'Oficinas Corporativas', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80' },
-  { id: 'narvarte', title: 'Cocina Narvarte', category: 'carpinteria', location: 'Narvarte, CDMX', tag: 'Carpintería Residencial', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80' },
-];
+import { useWixCMSData } from '../hooks/useWixCMS';
+import { resolveWixImage } from '../lib/wixCMS';
 
 const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 
-const mapHotspots = [
-  { id: 'basilio', name: 'Basilio Roma', lat: '35%', lng: '45%', zone: 'Roma Norte', tag: 'Restaurante & Bar' },
-  { id: 'condesa', name: 'Casa Condesa', lat: '45%', lng: '35%', zone: 'Condesa', tag: 'Residencial' },
-  { id: 'polanco', name: 'Boutique Polanco', lat: '25%', lng: '25%', zone: 'Polanco', tag: 'Retail de Alta Gama' },
-  { id: 'santafe', name: 'Loft Santa Fe', lat: '65%', lng: '15%', zone: 'Santa Fe', tag: 'Penthouse' },
-  { id: 'juarez', name: 'Café Juárez', lat: '20%', lng: '55%', zone: 'Juárez', tag: 'Cafetería' },
-  { id: 'coyoacan', name: 'Residencia Coyoacán', lat: '85%', lng: '60%', zone: 'Coyoacán', tag: 'Casa Unifamiliar' },
-  { id: 'reforma', name: 'Oficinas Reforma', lat: '30%', lng: '40%', zone: 'Reforma', tag: 'Oficinas Corporativas' },
-  { id: 'narvarte', name: 'Cocina Narvarte', lat: '60%', lng: '50%', zone: 'Narvarte', tag: 'Residencial' },
+const rawMapHotspots = [
+  { lat: '35%', lng: '45%' },
+  { lat: '45%', lng: '35%' },
+  { lat: '25%', lng: '25%' },
+  { lat: '65%', lng: '15%' },
+  { lat: '20%', lng: '55%' },
+  { lat: '85%', lng: '60%' },
+  { lat: '30%', lng: '40%' },
+  { lat: '60%', lng: '50%' },
 ];
 
 export default function ProjectsPage() {
+  const { proyectos, loading } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
+
+  const projectsData = (proyectos || []).map(p => {
+    let cat = 'comercial';
+    if (p.servicioPrincipal === '8e5d5551-a1fa-4272-958e-1a01eacdb7ff') cat = 'residencial';
+    else if (p.servicioPrincipal === '06a2037c-149b-4fd6-844f-b9814340f9b8') cat = 'carpinteria';
+    else if (p.servicioPrincipal === 'f9aa307d-3523-4a2c-a202-826a5889ea3d') cat = 'produccion';
+    
+    let tag = cat === 'comercial' ? 'Proyecto Comercial' : cat === 'residencial' ? 'Proyecto Residencial' : 'Producción Especializada';
+
+    return {
+      id: p._id,
+      title: p.title || 'Proyecto CAB',
+      category: cat,
+      location: p.zonaDelProyecto || 'CDMX',
+      tag: tag,
+      image: resolveWixImage(p.imagenPrincipal, 800) || '',
+      featured: p.apareceEnProyecto === 'Sí'
+    };
+  });
 
   const filteredProjects = activeFilter === 'Todos'
     ? projectsData
@@ -40,7 +52,15 @@ export default function ProjectsPage() {
   const [featRef, featVis] = useInView({ threshold: 0.15 });
 
   /* Map State (NUEVA) */
-  const [activeHotspot, setActiveHotspot] = useState(mapHotspots[0]);
+  const mapHotspots = projectsData.slice(0, 8).map((p, i) => ({
+    ...p,
+    name: p.title,
+    zone: p.location,
+    lat: rawMapHotspots[i % rawMapHotspots.length].lat,
+    lng: rawMapHotspots[i % rawMapHotspots.length].lng,
+  }));
+
+  const [activeHotspot, setActiveHotspot] = useState(mapHotspots[0] || null);
   const [mapRef, mapVis] = useInView({ threshold: 0.15 });
 
   const [c1Ref, c1] = useCountUp(150, { suffix: '+' });

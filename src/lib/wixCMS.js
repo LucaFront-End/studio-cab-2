@@ -82,6 +82,23 @@ export const mockSubservicios = [
   }
 ];
 
+export const mockProyectos = [
+  {
+    _id: 'basilio',
+    title: 'Basilio Roma',
+    servicioPrincipal: '0833db22-4b3b-45bf-9056-94834fbe0e11', // comercial
+    zonaDelProyecto: 'Roma Norte, CDMX',
+    imagenPrincipal: 'wix:image://v1/45119e_.../IMG.jpg#originWidth=600&originHeight=800',
+    apareceEnProyecto: 'Sí',
+    elReto: 'Optimizar un espacio reducido en un restaurante de alto flujo.',
+    laSolucin: 'Distribución en L con barras integradas.',
+    elImpacto: 'Aumento del 30% en capacidad.',
+    duracin: '3 meses',
+    ao: '2023',
+    mediagallery: []
+  }
+];
+
 let cachedToken = null;
 let tokenExpiresAt = null;
 
@@ -164,6 +181,58 @@ export async function fetchWixCollection(collectionId) {
     // Graceful fallback to mock DB
     if (collectionId === 'Servicios') return mockServicios;
     if (collectionId === 'Subservicios') return mockSubservicios;
+    if (collectionId === 'Proyectos') return mockProyectos;
     return [];
   }
+}
+
+/**
+ * Converts a Wix image URI (wix:image://v1/...) to a valid HTTPS URL.
+ * Also supports regular absolute/relative URLs.
+ */
+export function resolveWixImage(wixUri, width = 800) {
+  if (!wixUri) return '';
+  if (wixUri.startsWith('http://') || wixUri.startsWith('https://') || wixUri.startsWith('/')) {
+    return wixUri;
+  }
+
+  if (wixUri.startsWith('wix:image://v1/')) {
+    // Format: wix:image://v1/<uri>/<filename>#originWidth=<w>&originHeight=<h>
+    const match = wixUri.match(/wix:image:\/\/v1\/([^/]+)\/(.*?)(?:#|$)/);
+    if (match) {
+      const uri = match[1];
+      const filename = match[2];
+      if (width === 'original' || !width) {
+        return `https://static.wixstatic.com/media/${uri}`;
+      }
+      // Generate standard Wix media URL. We don't apply dynamic resizing here for simplicity,
+      // but Wix media supports transformations like: /v1/fill/w_800,h_800/...
+      return `https://static.wixstatic.com/media/${uri}/v1/fit/w_${width},h_${width},q_80/${filename}`;
+    }
+  }
+
+  return wixUri;
+}
+
+/**
+ * Converts a Wix video URI (wix:video://v1/...) to a valid HTTPS URL.
+ * Also supports regular absolute/relative URLs.
+ */
+export function resolveWixVideo(wixUri) {
+  if (!wixUri) return '';
+  if (wixUri.startsWith('http://') || wixUri.startsWith('https://') || wixUri.startsWith('/')) {
+    return wixUri;
+  }
+
+  if (wixUri.startsWith('wix:video://v1/')) {
+    // Format: wix:video://v1/<video_id>/<filename>#...
+    const match = wixUri.match(/wix:video:\/\/v1\/([^/]+)\//);
+    if (match) {
+      const videoId = match[1];
+      // Default to 1080p transcoded version
+      return `https://video.wixstatic.com/video/${videoId}/1080p/mp4/file.mp4`;
+    }
+  }
+
+  return wixUri;
 }
