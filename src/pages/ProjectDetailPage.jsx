@@ -9,7 +9,7 @@ import { resolveWixImage, resolveWixVideo } from '../lib/wixCMS';
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
-  const { proyectos } = useWixCMSData();
+  const { proyectos, loading } = useWixCMSData();
 
   const rawProject = (proyectos || []).find(p => p._id === id);
   
@@ -121,6 +121,17 @@ export default function ProjectDetailPage() {
       });
     }
   }, [activeSlide]);
+
+  if (loading) {
+    return (
+      <div className="pdv2-loading-screen">
+        <div className="pdv2-loading-spinner">
+          <div className="pdv2-spinner-ring"></div>
+          <span className="pdv2-loading-text">Cargando Proyecto</span>
+        </div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
