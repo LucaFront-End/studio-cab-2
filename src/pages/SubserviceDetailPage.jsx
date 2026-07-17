@@ -23,6 +23,7 @@ export default function SubserviceDetailPage() {
   
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [contentRef, contentVis] = useInView({ threshold: 0.1 });
+  const [galRef, galVis] = useInView({ threshold: 0.1 });
 
   // Gallery slider states (declared at top to prevent conditional hook errors)
   const [activeSlide, setActiveSlide] = useState(0);
@@ -309,7 +310,7 @@ export default function SubserviceDetailPage() {
             <span className="section-eyebrow">[GALERÍA DE TRABAJOS]</span>
             <h2 className="section-heading">Proyectos y <em>detalles reales</em>.</h2>
             
-            <div className="pdv2-gallery-slider">
+            <div className={`pdv2-gallery-slider ${galVis ? 'in-view' : ''}`} ref={galRef}>
               <div className="pdv2-slider-viewport">
                 <div 
                   className="pdv2-slider-track"
