@@ -164,7 +164,7 @@ export default function StorePage() {
 
             {/* Custom Quote Product Card */}
             <div 
-              className="st-product-card st-custom-quote-card" 
+              className="st-product-card st-custom-quote-card in-view" 
               onClick={() => setShowCustomModal(true)}
               style={{ cursor: 'pointer' }}
             >
