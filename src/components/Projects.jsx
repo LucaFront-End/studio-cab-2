@@ -3,20 +3,20 @@ import './Projects.css';
 
 const projectsData = [
   {
-    id: 'basilio',
-    title: 'Basilio Roma',
-    location: 'Restaurante & Bar · Roma Norte, CDMX',
-    beforeImage: '/projects/basilio_before.png',
-    afterImage: '/projects/basilio_after.png',
+    id: 'chacha',
+    title: 'Terraza Cha Cha Chá',
+    location: 'Restaurante & Bar · Revolución, CDMX',
+    beforeImage: 'https://static.wixstatic.com/media/45119e_69c7c91ad9af456aa0224c2434ab968c~mv2.png/v1/fit/w_1200,h_1200,q_80/Terraza%20cha%20cha%20cha%20relieve.png',
+    afterImage: 'https://static.wixstatic.com/media/45119e_09dd106ba29d4afe95e2b12f93f04441~mv2.jpg/v1/fit/w_1200,h_1200,q_80/IMG_7139.JPG',
     narrative: [
-      { title: 'El Reto', text: 'Un local estrecho de época porfiriana con escasa luz natural y restricciones estructurales severas de conservación histórica en la Col. Roma.' },
-      { title: 'La Solución', text: 'Estructura de carpintería suspendida en nogal para optimizar el paso. Espejos estratégicos y arcos metálicos con iluminación LED cálida integrada.' },
-      { title: 'El Impacto', text: 'Un espacio cálido e íntimo de alta afluencia que triplicó su capacidad operativa y se convirtió en referencia de interiorismo comercial en la zona.' }
+      { title: 'El Reto', text: 'Renovar el mobiliario existente del restaurante sin perder su esencia, aumentando su durabilidad y actualizando su imagen para una experiencia más atractiva.' },
+      { title: 'La Solución', text: 'Restauramos mesas y sillas, incorporando nuevos acabados, tapizados y una paleta de tonos naturales que modernizó el espacio respetando su identidad.' },
+      { title: 'El Impacto', text: 'Un mobiliario renovado con mayor resistencia y una imagen contemporánea que elevó la experiencia de los comensales y prolongó la vida útil del proyecto.' }
     ],
     hotspots: [
-      { id: 1, x: 50, y: 15, text: "Arcos metálicos estructurales con acabado latón e iluminación LED indirecta." },
-      { id: 2, x: 28, y: 55, text: "Barra principal revestida de piedra sinterizada de alta resistencia." },
-      { id: 3, x: 78, y: 70, text: "Mobiliario fijo y gabinetes flotantes en chapa de nogal natural." }
+      { id: 1, x: 45, y: 35, text: "Restauración de mesas y sillas de diseño original." },
+      { id: 2, x: 75, y: 55, text: "Acabados de barniz de poliuretano para exterior." },
+      { id: 3, x: 25, y: 70, text: "Tapicería en tonos naturales de alta resistencia." }
     ]
   },
   {
