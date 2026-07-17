@@ -373,3 +373,268 @@
     font-size: 16px;
   }
 }
+
+/* ═══ CINEMATIC CAROUSEL GALLERY ═══ */
+.pdv2-gallery { padding: 100px 0; background: var(--colors--theme-white); position: relative; overflow: hidden; }
+
+.pdv2-gallery-slider {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Viewport */
+.pdv2-slider-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 65vh;
+  min-height: 350px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+  background: #121418;
+}
+
+/* Track and Slides */
+.pdv2-slider-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pdv2-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pdv2-slide img,
+.pdv2-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pdv2-video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pdv2-video-play-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: #fff;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Arrows */
+.pdv2-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(11, 12, 14, 0.5);
+  color: var(--colors--theme-white);
+  font-size: 26px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pdv2-slider-arrow:hover {
+  background: var(--colors--theme-orange);
+  border-color: var(--colors--theme-orange);
+  color: var(--colors--theme-black);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.pdv2-slider-arrow.prev {
+  left: 24px;
+}
+
+.pdv2-slider-arrow.next {
+  right: 24px;
+}
+
+/* Counter */
+.pdv2-slider-counter {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(11, 12, 14, 0.7);
+  backdrop-filter: blur(12px);
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--colors--theme-white);
+  z-index: 10;
+  letter-spacing: 0.05em;
+}
+
+.pdv2-slider-counter span:first-child {
+  color: var(--colors--theme-orange);
+}
+
+.pdv2-slider-counter .divider {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Thumbnails */
+.pdv2-slider-thumbs-container {
+  width: 100%;
+  margin-top: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pdv2-slider-thumbs {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 40px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.pdv2-slider-thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.pdv2-slider-thumb {
+  flex: 0 0 110px;
+  height: 68px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.5;
+  border: 2px solid transparent;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.pdv2-slider-thumb:hover {
+  opacity: 0.7;
+}
+
+.pdv2-slider-thumb.active {
+  opacity: 1;
+  border-color: var(--colors--theme-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.pdv2-slider-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pdv2-slider-thumbs-container::before,
+.pdv2-slider-thumbs-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.pdv2-slider-thumbs-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--colors--theme-white), transparent);
+}
+
+.pdv2-slider-thumbs-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--colors--theme-white), transparent);
+}
+
+.thumb-video-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1d24;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+/* Lightbox */
+.pdv2-lightbox { position: fixed; inset: 0; z-index: 100000; background: rgba(0,0,0,0.94); display: flex; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; cursor: pointer; }
+.pdv2-lightbox img,
+.pdv2-lightbox video { max-width: 85vw; max-height: 78vh; object-fit: contain; border-radius: 8px; }
+.pdv2-lb-close { position: absolute; top: 24px; right: 32px; font-size: 24px; color: #fff; background: none; border: none; cursor: pointer; transition: color 0.3s ease; z-index: 2; }
+.pdv2-lb-close:hover { color: var(--colors--theme-orange); }
+.pdv2-lb-nav { display: flex; align-items: center; gap: 24px; margin-top: 20px; }
+.pdv2-lb-nav button { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 18px; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+.pdv2-lb-nav button:hover { border-color: var(--colors--theme-orange); color: var(--colors--theme-orange); }
+.pdv2-lb-nav span { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); }
+
+/* Lightbox WhatsApp CTA */
+.pdv2-lb-whatsapp-container {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+}
+.pdv2-lb-whatsapp-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pdv2-lb-whatsapp-btn:hover {
+  background: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .pdv2-lb-whatsapp-container {
+    bottom: 24px;
+    right: 50%;
+    transform: translateX(50%);
+    width: auto;
+    white-space: nowrap;
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
