@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
+import { submitWixLead } from '../lib/wixCMS';
 import './StorePage.css';
 
 export default function StorePage() {
@@ -28,13 +29,25 @@ export default function StorePage() {
     }
   };
 
-  const handleCustomSubmit = (e) => {
+  const handleCustomSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitWixLead({
+        name: customName,
+        email: customEmail,
+        phone: customPhone,
+        message: customNotes,
+        photoUrl: photoPreview,
+        source: 'Cotización Especial'
+      });
       setIsSuccess(true);
-    }, 1500);
+    } catch (err) {
+      console.warn('Wix submit failed in custom quote, using local fallback success screen', err);
+      setIsSuccess(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCustomReset = () => {

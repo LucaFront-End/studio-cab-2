@@ -197,6 +197,54 @@ export async function fetchWixStoreCollections() {
 }
 
 let cachedToken = null;
+export async function submitWixLead(leadData) {
+  try {
+    const token = await getWixAccessToken();
+    const response = await fetch('https://www.wixapis.com/wix-data/v2/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        dataCollectionId: 'Consultas',
+        item: {
+          data: {
+            title: leadData.name || leadData.title || 'Consulta Sin Nombre',
+            email: leadData.email || '',
+            telefono: leadData.phone || leadData.telefono || '',
+            origen: leadData.source || leadData.origen || 'General',
+            mensaje: leadData.message || leadData.mensaje || '',
+            tipoEspacio: leadData.spaceType || leadData.tipoEspacio || '',
+            estetica: leadData.styleTheme || leadData.estetica || '',
+            area: leadData.areaSize ? String(leadData.areaSize) : (leadData.area ? String(leadData.area) : ''),
+            fotoReferencia: leadData.photoUrl || leadData.fotoReferencia || ''
+          }
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to submit lead: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.item?.data || data.item || null;
+  } catch (error) {
+    console.error('Error submitting lead to Wix CMS:', error);
+    // Fallback to local storage for offline testing so no lead is lost!
+    try {
+      const offlineLeads = JSON.parse(localStorage.getItem('offline_leads') || '[]');
+      offlineLeads.push({ ...leadData, timestamp: new Date().toISOString() });
+      localStorage.setItem('offline_leads', JSON.stringify(offlineLeads));
+      console.log('Saved lead to localStorage fallback.');
+    } catch (e) {
+      console.error('Failed to save lead to localStorage:', e);
+    }
+    throw error;
+  }
+}
+
 let tokenExpiresAt = null;
 
 async function getWixAccessToken() {

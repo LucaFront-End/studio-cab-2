@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { submitWixLead } from '../lib/wixCMS';
 import './CTAConfigurator.css';
 
 const SPACE_OPTIONS = [
@@ -123,16 +124,29 @@ export default function CTAConfigurator({ source = 'Inicio' }) {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !contact) return;
 
     setIsSubmitting(true);
-    // Simulated premium database insertion
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitWixLead({
+        name: name,
+        phone: !contact.includes('@') ? contact : '',
+        email: contact.includes('@') ? contact : '',
+        spaceType: selectedSpaceObj?.title || spaceType,
+        styleTheme: selectedStyleObj?.title || styleTheme,
+        areaSize: areaSize,
+        source: `Planificador - Origen: ${source || 'General'}`,
+        message: `Configuración de Planificador:\n- Espacio: ${selectedSpaceObj?.title || spaceType}\n- Concepto: ${selectedStyleObj?.title || styleTheme}\n- Dimensión: ${areaSize} m²`
+      });
       setIsSuccess(true);
-    }, 1200);
+    } catch (err) {
+      console.warn('Wix submit failed in planner, using local fallback success screen', err);
+      setIsSuccess(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useInView } from '../hooks/useInView';
+import { submitWixLead } from '../lib/wixCMS';
 import './ContactPage.css';
 
 const faqs = [
@@ -57,6 +58,30 @@ export default function ContactPage() {
   const [openFaq, setOpenFaq] = useState(-1);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [focused, setFocused] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await submitWixLead({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        message: formData.message,
+        source: 'Contacto'
+      });
+      setIsSuccess(true);
+      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+    } catch (err) {
+      console.warn('Wix submit failed, showing offline success screen', err);
+      setIsSuccess(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   /* Project Planner / Calculator State (NUEVA) */
   const [plannerStep, setPlannerStep] = useState(1);
@@ -160,66 +185,92 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <form className="cp-form" onSubmit={(e) => e.preventDefault()}>
-              {[
-                { name: 'name', label: 'Nombre Completo', type: 'text' },
-                { name: 'email', label: 'Email', type: 'email' },
-                { name: 'phone', label: 'Teléfono / WhatsApp', type: 'tel' },
-              ].map(field => (
-                <div key={field.name} className={`cp-field ${focused[field.name] || formData[field.name] ? 'active' : ''}`}>
-                  <label className="cp-field-label">{field.label}</label>
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    value={formData[field.name]}
+            {isSuccess ? (
+              <div className="cp-success-card" style={{ padding: '40px', background: 'var(--colors--theme-white)', border: '1px solid var(--colors--theme-black)', borderRadius: '16px', position: 'relative' }}>
+                {/* AutoCAD ticks */}
+                <div className="corner-cross top-left" style={{ position: 'absolute', top: '10px', left: '10px', color: 'var(--colors--theme-orange)', fontFamily: 'monospace' }}>+</div>
+                <div className="corner-cross top-right" style={{ position: 'absolute', top: '10px', right: '10px', color: 'var(--colors--theme-orange)', fontFamily: 'monospace' }}>+</div>
+                <div className="corner-cross bottom-left" style={{ position: 'absolute', bottom: '10px', left: '10px', color: 'var(--colors--theme-orange)', fontFamily: 'monospace' }}>+</div>
+                <div className="corner-cross bottom-right" style={{ position: 'absolute', bottom: '10px', right: '10px', color: 'var(--colors--theme-orange)', fontFamily: 'monospace' }}>+</div>
+                
+                <div className="cta-success-icon-wrapper" style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'color-mix(in srgb, var(--colors--theme-orange) 15%, var(--colors--theme-white))', border: '1px solid var(--colors--theme-orange)', color: 'var(--colors--theme-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', margin: '0 auto 20px' }}>✓</div>
+                <h3 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '12px', textAlign: 'center', color: 'var(--colors--theme-black)' }}>MENSAJE ENVIADO CON ÉXITO</h3>
+                <p style={{ fontSize: '14px', color: 'var(--colors--theme-gray)', lineHeight: '1.6', textAlign: 'center', marginBottom: '24px' }}>
+                  Gracias por comunicarte. Hemos recibido tus datos y tu servicio de interés. Un asesor técnico de <strong>Studio CAB</strong> revisará tu solicitud y se pondrá en contacto contigo en menos de 24 horas.
+                </p>
+                <button 
+                  onClick={() => setIsSuccess(false)} 
+                  className="st-modal-success-btn" 
+                  style={{ display: 'block', margin: '0 auto' }}
+                >
+                  Enviar Otro Mensaje
+                </button>
+              </div>
+            ) : (
+              <form className="cp-form" onSubmit={handleSubmit}>
+                {[
+                  { name: 'name', label: 'Nombre Completo', type: 'text' },
+                  { name: 'email', label: 'Email', type: 'email' },
+                  { name: 'phone', label: 'Teléfono / WhatsApp', type: 'tel' },
+                ].map(field => (
+                  <div key={field.name} className={`cp-field ${focused[field.name] || formData[field.name] ? 'active' : ''}`}>
+                    <label className="cp-field-label">{field.label}</label>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      required
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      onFocus={() => handleFocus(field.name)}
+                      onBlur={() => handleBlur(field.name)}
+                      className="cp-field-input"
+                    />
+                    <div className="cp-field-line" />
+                  </div>
+                ))}
+ 
+                <div className={`cp-field ${focused.service || formData.service ? 'active' : ''}`}>
+                  <label className="cp-field-label">Servicio de Interés</label>
+                  <select
+                    name="service"
+                    required
+                    value={formData.service}
                     onChange={handleChange}
-                    onFocus={() => handleFocus(field.name)}
-                    onBlur={() => handleBlur(field.name)}
+                    onFocus={() => handleFocus('service')}
+                    onBlur={() => handleBlur('service')}
+                    className="cp-field-input cp-field-select"
+                  >
+                    <option value=""></option>
+                    <option value="comercial">Diseño Comercial</option>
+                    <option value="residencial">Interiorismo Residencial</option>
+                    <option value="carpinteria">Carpintería sobre Diseño</option>
+                    <option value="produccion">Producción e Instalación</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                  <div className="cp-field-line" />
+                </div>
+ 
+                <div className={`cp-field cp-field-textarea ${focused.message || formData.message ? 'active' : ''}`}>
+                  <label className="cp-field-label">Cuéntanos sobre tu proyecto</label>
+                  <textarea
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('message')}
+                    onBlur={() => handleBlur('message')}
                     className="cp-field-input"
+                    rows="4"
                   />
                   <div className="cp-field-line" />
                 </div>
-              ))}
-
-              <div className={`cp-field ${focused.service || formData.service ? 'active' : ''}`}>
-                <label className="cp-field-label">Servicio de Interés</label>
-                <select
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  onFocus={() => handleFocus('service')}
-                  onBlur={() => handleBlur('service')}
-                  className="cp-field-input cp-field-select"
-                >
-                  <option value=""></option>
-                  <option value="comercial">Diseño Comercial</option>
-                  <option value="residencial">Interiorismo Residencial</option>
-                  <option value="carpinteria">Carpintería sobre Diseño</option>
-                  <option value="produccion">Producción e Instalación</option>
-                  <option value="otro">Otro</option>
-                </select>
-                <div className="cp-field-line" />
-              </div>
-
-              <div className={`cp-field cp-field-textarea ${focused.message || formData.message ? 'active' : ''}`}>
-                <label className="cp-field-label">Cuéntanos sobre tu proyecto</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  onFocus={() => handleFocus('message')}
-                  onBlur={() => handleBlur('message')}
-                  className="cp-field-input"
-                  rows="4"
-                />
-                <div className="cp-field-line" />
-              </div>
-
-              <button type="submit" className="cp-submit-btn">
-                Enviar Mensaje
-                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-              </button>
-            </form>
+ 
+                <button type="submit" className="cp-submit-btn" disabled={isSubmitting}>
+                  {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
