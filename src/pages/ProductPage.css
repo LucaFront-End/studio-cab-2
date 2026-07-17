@@ -444,3 +444,57 @@
   .prp-action-buttons { flex-direction: column; width: 100%; }
   .prp-whatsapp-btn, .prp-planner-btn { width: 100%; box-sizing: border-box; }
 }
+
+/* CUSTOMER REVIEWS TABS */
+.prp-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.prp-review-item {
+  padding: 20px;
+  background: color-mix(in srgb, var(--colors--theme-white) 96%, var(--colors--theme-black));
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: border-color 0.3s ease;
+}
+
+.prp-review-item:hover {
+  border-color: var(--colors--theme-orange);
+}
+
+.prp-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.prp-review-author {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+}
+
+.prp-review-stars {
+  color: var(--colors--theme-orange);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.prp-review-date {
+  font-size: 11px;
+  color: var(--colors--theme-gray);
+  font-family: monospace;
+}
+
+.prp-review-comment {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--colors--theme-gray);
+  font-style: italic;
+}

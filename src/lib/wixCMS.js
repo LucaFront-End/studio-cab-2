@@ -170,6 +170,32 @@ export async function fetchWixStoreProducts() {
   }
 }
 
+export async function fetchWixStoreCollections() {
+  try {
+    const token = await getWixAccessToken();
+    const response = await fetch('https://www.wixapis.com/stores/v1/collections/query', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        query: {}
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Store collections query failed: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.collections || [];
+  } catch (error) {
+    console.warn('[Wix Stores] Failed to query collections.', error);
+    return [];
+  }
+}
+
 let cachedToken = null;
 let tokenExpiresAt = null;
 

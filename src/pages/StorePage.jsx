@@ -5,7 +5,7 @@ import { useWixCMSData } from '../hooks/useWixCMS';
 import './StorePage.css';
 
 export default function StorePage() {
-  const { productos, loading } = useWixCMSData();
+  const { productos, colecciones, loading } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
@@ -15,15 +15,10 @@ export default function StorePage() {
 
   // Map live Wix products to our layout structure
   const mappedProducts = (productos || []).map(p => {
-    const colMap = {
-      '9412b68c-f9a3-0f76-303c-62dc441f8ab7': 'Sillas',
-      'd5e57831-3481-3adf-d857-2ba34ed1fabc': 'Muebles sobre Diseño',
-      '42c9a723-70b8-3bfb-4865-eec96dd795ee': 'Archivero',
-      '96befe81-d8aa-1228-85ef-96d2c67d1aec': 'Closet',
-      'e730e772-0355-ef09-12aa-a6fd3a61a6d5': 'Mini',
-      'f84954f0-2bce-3f7a-2c98-203577ac2a14': 'Agua',
-      '82f0b8b7-6684-6b61-4c58-89a6d4265429': 'Tierra'
-    };
+    const colMap = {};
+    (colecciones || []).forEach(c => {
+      colMap[c.id] = c.name;
+    });
 
     const collections = (p.collectionIds || []).map(id => colMap[id] || '').filter(name => name !== '');
     const primaryCategory = collections[0] || 'Accesorios';

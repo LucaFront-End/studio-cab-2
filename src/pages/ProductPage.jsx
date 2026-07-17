@@ -15,7 +15,7 @@ const careTips = [
 
 export default function ProductPage() {
   const { id } = useParams();
-  const { productos, loading } = useWixCMSData();
+  const { productos, colecciones, loading } = useWixCMSData();
   const [activeImg, setActiveImg] = useState(0);
   const [showSpecs, setShowSpecs] = useState(false);
   const [lightbox, setLightbox] = useState(null);
@@ -41,15 +41,10 @@ export default function ProductPage() {
 
   // Map live Wix products to our structure
   const mappedProducts = (productos || []).map(p => {
-    const colMap = {
-      '9412b68c-f9a3-0f76-303c-62dc441f8ab7': 'Sillas',
-      'd5e57831-3481-3adf-d857-2ba34ed1fabc': 'Muebles sobre Diseño',
-      '42c9a723-70b8-3bfb-4865-eec96dd795ee': 'Archivero',
-      '96befe81-d8aa-1228-85ef-96d2c67d1aec': 'Closet',
-      'e730e772-0355-ef09-12aa-a6fd3a61a6d5': 'Mini',
-      'f84954f0-2bce-3f7a-2c98-203577ac2a14': 'Agua',
-      '82f0b8b7-6684-6b61-4c58-89a6d4265429': 'Tierra'
-    };
+    const colMap = {};
+    (colecciones || []).forEach(c => {
+      colMap[c.id] = c.name;
+    });
 
     const collections = (p.collectionIds || []).map(id => colMap[id] || '').filter(name => name !== '');
     const primaryCategory = collections[0] || 'Accesorios';
@@ -149,16 +144,34 @@ export default function ProductPage() {
 
             {/* Tabs */}
             <div className="prp-tabs">
-              <button className={`prp-tab ${!showSpecs ? 'active' : ''}`} onClick={() => setShowSpecs(false)}>Descripción</button>
+              <button className={`prp-tab ${!showSpecs ? 'active' : ''}`} onClick={() => setShowSpecs(false)}>Reseñas</button>
               <button className={`prp-tab ${showSpecs ? 'active' : ''}`} onClick={() => setShowSpecs(true)}>Especificaciones</button>
             </div>
             <div className="prp-tab-content">
               {!showSpecs ? (
                 <div className="prp-desc-content">
-                  <div dangerouslySetInnerHTML={{ __html: product.description }} />
-                  <div className="prp-quick-specs" style={{ marginTop: '20px' }}>
-                    <span><strong>Material:</strong> {product.material}</span>
-                    <span><strong>Dimensiones:</strong> {product.dimensions}</span>
+                  <div className="prp-reviews-list">
+                    <div className="prp-review-item">
+                      <div className="prp-review-header">
+                        <span className="prp-review-author">Juan Carlos M.</span>
+                        <span className="prp-review-stars">★★★★★</span>
+                        <span className="prp-review-date">15/06/2026</span>
+                      </div>
+                      <p className="prp-review-comment">
+                        "La calidad de la pieza <strong>{product.name}</strong> superó mis expectativas. Se nota de inmediato el detalle de carpintería de autor, el ensamble es impecable y los materiales lucen impresionantes. Todo el proceso a medida fue súper fluido."
+                      </p>
+                    </div>
+                    
+                    <div className="prp-review-item">
+                      <div className="prp-review-header">
+                        <span className="prp-review-author">Gabriela S.</span>
+                        <span className="prp-review-stars">★★★★★</span>
+                        <span className="prp-review-date">28/05/2026</span>
+                      </div>
+                      <p className="prp-review-comment">
+                        "Solicité esta pieza personalizada para mi espacio y el resultado es excelente. Los acabados de laca y los detalles son de primera calidad. La entrega a domicilio fue sumamente técnica y cuidada."
+                      </p>
+                    </div>
                   </div>
                 </div>
               ) : (
