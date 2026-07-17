@@ -175,6 +175,33 @@ export default function ServiceDetailPage() {
     return false;
   });
 
+  // Extraer las subcategorías únicas presentes en los subservicios cargados
+  const uniqueSubcategories = Array.from(
+    new Set(
+      currentSubservices.map(sub => {
+        const data = sub.data || sub;
+        return data.subcategoria || data.subcategora || data.subcategory || 'General';
+      })
+    )
+  ).sort();
+
+  const [activeSubcat, setActiveSubcat] = useState('Todos');
+
+  // Resetear el filtro al cambiar de sección de servicio
+  useEffect(() => {
+    setTimeout(() => {
+      setActiveSubcat('Todos');
+    }, 0);
+  }, [id]);
+
+  const filteredSubservices = activeSubcat === 'Todos'
+    ? currentSubservices
+    : currentSubservices.filter(sub => {
+        const data = sub.data || sub;
+        const cat = data.subcategoria || data.subcategora || data.subcategory || 'General';
+        return cat === activeSubcat;
+      });
+
   const [heroRef, heroVis] = useInView({ threshold: 0.05 });
   const [introRef, introVis] = useInView({ threshold: 0.15 });
   const [subsRef, subsVis] = useInView({ threshold: 0.15 });
@@ -323,8 +350,36 @@ export default function ServiceDetailPage() {
             <span className={`section-eyebrow ${subsVis ? 'in-view' : ''}`}>[02.1 // ESPECIALIZACIONES]</span>
             <h2 className={`section-heading ${subsVis ? 'in-view' : ''}`}>Subservicios de <em>{service.title}</em>.</h2>
             
+            {/* Pestañas de Subcategorías */}
+            {uniqueSubcategories.length > 0 && (
+              <div className="sdv2-subcat-tabs">
+                <button 
+                  className={`sdv2-subcat-tab-btn ${activeSubcat === 'Todos' ? 'active' : ''}`}
+                  onClick={() => setActiveSubcat('Todos')}
+                >
+                  Todos <span className="tab-count">({currentSubservices.length})</span>
+                </button>
+                {uniqueSubcategories.map((subcat, idx) => {
+                  const count = currentSubservices.filter(sub => {
+                    const data = sub.data || sub;
+                    const cat = data.subcategoria || data.subcategora || data.subcategory || 'General';
+                    return cat === subcat;
+                  }).length;
+                  return (
+                    <button
+                      key={idx}
+                      className={`sdv2-subcat-tab-btn ${activeSubcat === subcat ? 'active' : ''}`}
+                      onClick={() => setActiveSubcat(subcat)}
+                    >
+                      {subcat} <span className="tab-count">({count})</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             <div className="sdv2-subs-grid">
-              {currentSubservices.map((sub, idx) => {
+              {filteredSubservices.map((sub, idx) => {
                 const data = sub.data || sub;
                 const title = data.title || data.subservicio || '';
                 const description = data.descripcin || data.description || `Especialidad en ${title} con materiales premium y acabados de lujo.`;

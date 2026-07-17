@@ -49,6 +49,52 @@
   border-top: 1px solid var(--color-border);
 }
 
+/* Subcategory Tabs */
+.sdv2-subcat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+  margin-bottom: 8px;
+}
+
+.sdv2-subcat-tab-btn {
+  background: var(--colors--theme-white);
+  border: 1px solid var(--color-border);
+  color: var(--colors--theme-gray);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sdv2-subcat-tab-btn .tab-count {
+  font-size: 11px;
+  opacity: 0.65;
+  font-weight: 500;
+}
+
+.sdv2-subcat-tab-btn:hover {
+  border-color: color-mix(in srgb, var(--colors--theme-orange) 60%, transparent);
+  color: var(--colors--theme-black);
+}
+
+.sdv2-subcat-tab-btn.active {
+  background: var(--colors--theme-black);
+  border-color: var(--colors--theme-black);
+  color: var(--colors--theme-white);
+}
+
+.sdv2-subcat-tab-btn.active .tab-count {
+  color: var(--colors--theme-orange);
+  opacity: 1;
+}
+
 .sdv2-subs-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
