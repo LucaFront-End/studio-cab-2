@@ -99,6 +99,77 @@ export const mockProyectos = [
   }
 ];
 
+export const mockProducts = [
+  {
+    id: 'mesa-nogal',
+    slug: 'mesa-rustica-nogal',
+    name: 'Mesa Rústica Nogal',
+    price: { formatted: { price: '$28,500.00' } },
+    collectionIds: ['d5e57831-3481-3adf-d857-2ba34ed1fabc'],
+    media: {
+      mainMedia: { image: { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' } },
+      items: [
+        { image: { url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' } },
+        { image: { url: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&q=80' } }
+      ]
+    },
+    description: 'Mesa de comedor tallada en una sola pieza de nogal negro americano.',
+    additionalInfoSections: [
+      { title: 'Material', description: 'Nogal macizo' },
+      { title: 'Dimensiones', description: '200 × 90 × 75 cm' },
+      { title: 'Acabado', description: 'Aceite natural' }
+    ],
+    weight: 45
+  },
+  {
+    id: 'silla-roble',
+    slug: 'silla-escultura-roble',
+    name: 'Silla Escultura Roble',
+    price: { formatted: { price: '$12,800.00' } },
+    collectionIds: ['9412b68c-f9a3-0f76-303c-62dc441f8ab7'],
+    media: {
+      mainMedia: { image: { url: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=80' } },
+      items: [
+        { image: { url: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=80' } },
+        { image: { url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80' } }
+      ]
+    },
+    description: 'Silla de diseño esculpida en roble europeo con curvatura ergonómica.',
+    additionalInfoSections: [
+      { title: 'Material', description: 'Roble europeo' },
+      { title: 'Dimensiones', description: '55 × 50 × 82 cm' },
+      { title: 'Acabado', description: 'Laca satinada' }
+    ],
+    weight: 8
+  }
+];
+
+export async function fetchWixStoreProducts() {
+  try {
+    const token = await getWixAccessToken();
+    const response = await fetch('https://www.wixapis.com/stores/v1/products/query', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        query: {}
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Store products query failed: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.products || [];
+  } catch (error) {
+    console.warn('[Wix Stores] Failed to query products. Falling back to local database.', error);
+    return mockProducts;
+  }
+}
+
 let cachedToken = null;
 let tokenExpiresAt = null;
 

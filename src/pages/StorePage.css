@@ -196,3 +196,31 @@
   .st-craft-image-box { height: 350px; }
 }
 @media (max-width: 600px) { .st-product-grid { grid-template-columns: 1fr; } .st-newsletter-form { flex-direction: column; } }
+
+/* STORE LOADING STATE */
+.store-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  background: var(--colors--theme-white);
+  color: var(--colors--theme-black);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.store-loading .spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(0, 0, 0, 0.05);
+  border-top-color: var(--colors--theme-orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { fetchWixCollection } from '../lib/wixCMS';
+import { fetchWixCollection, fetchWixStoreProducts } from '../lib/wixCMS';
 
 export function useWixCMSData() {
-  const [data, setData] = useState({ servicios: [], subservicios: [], proyectos: [] });
+  const [data, setData] = useState({ servicios: [], subservicios: [], proyectos: [], productos: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,13 +11,14 @@ export function useWixCMSData() {
 
     async function load() {
       try {
-        const [servs, subServs, proys] = await Promise.all([
+        const [servs, subServs, proys, prods] = await Promise.all([
           fetchWixCollection('Servicios'),
           fetchWixCollection('Subservicios'),
-          fetchWixCollection('Proyectos')
+          fetchWixCollection('Proyectos'),
+          fetchWixStoreProducts()
         ]);
         if (!cancelled) {
-          setData({ servicios: servs, subservicios: subServs, proyectos: proys });
+          setData({ servicios: servs, subservicios: subServs, proyectos: proys, productos: prods });
         }
       } catch (err) {
         if (!cancelled) setError(err);

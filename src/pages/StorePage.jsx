@@ -1,34 +1,79 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
+import { useWixCMSData } from '../hooks/useWixCMS';
 import './StorePage.css';
 
-const products = [
-  { id: 'mesa-nogal', name: 'Mesa Rústica Nogal', price: '$28,500', category: 'mesas', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=80', image2: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=500&q=80' },
-  { id: 'silla-roble', name: 'Silla Escultura Roble', price: '$12,800', category: 'sillas', image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=500&q=80', image2: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=80' },
-  { id: 'lampara-arco', name: 'Lámpara Arco Latón', price: '$18,200', category: 'iluminacion', image: 'https://images.unsplash.com/photo-1507473885765-e6ed057ab3fe?w=500&q=80', image2: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=500&q=80' },
-  { id: 'estante-metal', name: 'Estante Industrial', price: '$15,900', category: 'accesorios', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500&q=80', image2: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=80' },
-  { id: 'mesa-marmol', name: 'Mesa Centro Mármol', price: '$34,000', category: 'mesas', image: 'https://images.unsplash.com/photo-1611269154421-4e27233ac5c7?w=500&q=80', image2: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=500&q=80' },
-  { id: 'sillon-cuero', name: 'Sillón Cuero Natural', price: '$42,500', category: 'sillas', image: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=80', image2: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=500&q=80' },
-  { id: 'espejo-arco', name: 'Espejo Arco Bronce', price: '$9,800', category: 'accesorios', image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=500&q=80', image2: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=500&q=80' },
-  { id: 'lampara-mesa', name: 'Lámpara Mesa Onyx', price: '$7,600', category: 'iluminacion', image: 'https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?w=500&q=80', image2: 'https://images.unsplash.com/photo-1507473885765-e6ed057ab3fe?w=500&q=80' },
-];
-
-const filters = ['Todos', 'Mesas', 'Sillas', 'Iluminación', 'Accesorios'];
-
 export default function StorePage() {
+  const { productos, loading } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
+
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
-  const [gridRefs, gridVis] = useStaggerInView(products.length, { staggerDelay: 80 });
   const [featRef, featVis] = useInView({ threshold: 0.15 });
   const [craftRef, craftVis] = useInView({ threshold: 0.15 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
-  const filtered = activeFilter === 'Todos'
-    ? products
-    : products.filter(p => p.category === activeFilter.toLowerCase().replace('ó', 'o'));
+  // Map live Wix products to our layout structure
+  const mappedProducts = (productos || []).map(p => {
+    const colMap = {
+      '9412b68c-f9a3-0f76-303c-62dc441f8ab7': 'Sillas',
+      'd5e57831-3481-3adf-d857-2ba34ed1fabc': 'Muebles sobre Diseño',
+      '42c9a723-70b8-3bfb-4865-eec96dd795ee': 'Archivero',
+      '96befe81-d8aa-1228-85ef-96d2c67d1aec': 'Closet',
+      'e730e772-0355-ef09-12aa-a6fd3a61a6d5': 'Mini',
+      'f84954f0-2bce-3f7a-2c98-203577ac2a14': 'Agua',
+      '82f0b8b7-6684-6b61-4c58-89a6d4265429': 'Tierra'
+    };
 
-  const featuredProduct = products[4]; // Mesa Mármol
+    const collections = (p.collectionIds || []).map(id => colMap[id] || '').filter(name => name !== '');
+    const primaryCategory = collections[0] || 'Accesorios';
+
+    const images = (p.media?.items || []).map(item => item.image?.url).filter(url => !!url);
+    if (images.length === 0 && p.media?.mainMedia?.image?.url) {
+      images.push(p.media.mainMedia.image.url);
+    }
+
+    return {
+      id: p.id || p._id,
+      slug: p.slug,
+      name: p.name,
+      price: p.price?.formatted?.price || p.priceData?.formatted?.price || (p.price?.price ? `$${p.price.price}` : ''),
+      category: primaryCategory.toLowerCase(),
+      collectionNames: collections,
+      image: p.media?.mainMedia?.image?.url || '',
+      image2: p.media?.items?.[1]?.image?.url || p.media?.mainMedia?.image?.url || '',
+      images: images,
+      description: p.description || 'Mobiliario de autor diseñado y fabricado a mano en nuestro taller de CDMX con materiales premium.',
+      material: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('material'))?.description || 'Maderas selectas / MDF de alta densidad',
+      dimensions: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('dimens'))?.description || 'Medidas sobre diseño ejecutivo',
+      weight: p.weight ? `${p.weight} kg` : 'Sobre cotización',
+      finish: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('acabado'))?.description || 'Barniz o laca premium',
+    };
+  });
+
+  const [gridRefs, gridVis] = useStaggerInView(mappedProducts.length > 0 ? mappedProducts.length : 1, { staggerDelay: 80 });
+
+  if (loading) {
+    return (
+      <div className="store-loading page-enter">
+        <div className="spinner"></div>
+        <p>Cargando productos de la tienda...</p>
+      </div>
+    );
+  }
+
+  // Derive unique categories dynamically from actual live products
+  const uniqueCategories = Array.from(
+    new Set(mappedProducts.flatMap(p => p.collectionNames))
+  ).filter(cat => cat !== '');
+
+  const filters = ['Todos', ...uniqueCategories];
+
+  const filtered = activeFilter === 'Todos'
+    ? mappedProducts
+    : mappedProducts.filter(p => p.collectionNames.includes(activeFilter));
+
+  const featuredProduct = mappedProducts[0] || null;
 
   return (
     <div className="store-page page-enter">
@@ -43,7 +88,7 @@ export default function StorePage() {
         </div>
         <div className="st-marquee-wrapper">
           <div className="st-marquee-track">
-            {[...products, ...products, ...products].map((p, i) => (
+            {[...mappedProducts, ...mappedProducts, ...mappedProducts].map((p, i) => (
               <span key={i} className="st-marquee-item">{p.name} <span className="st-marquee-sep">✦</span></span>
             ))}
           </div>
@@ -75,7 +120,7 @@ export default function StorePage() {
                 </div>
                 <div className="st-product-info">
                   <h3 className="st-product-name">{product.name}</h3>
-                  <span className="st-product-price">{product.price} MXN</span>
+                  <span className="st-product-price">{product.price}</span>
                 </div>
                 <span className="st-product-view">Ver Detalle →</span>
               </Link>
@@ -85,20 +130,22 @@ export default function StorePage() {
       </section>
 
       {/* ═══ 4: FEATURED PRODUCT ═══ */}
-      <section className="st-featured" ref={featRef}>
-        <div className={`st-featured-inner ${featVis ? 'in-view' : ''}`}>
-          <div className="st-featured-image-wrapper">
-            <img src={featuredProduct.image.replace('w=500', 'w=1200')} alt={featuredProduct.name} />
+      {featuredProduct && (
+        <section className="st-featured" ref={featRef}>
+          <div className={`st-featured-inner ${featVis ? 'in-view' : ''}`}>
+            <div className="st-featured-image-wrapper">
+              <img src={featuredProduct.image} alt={featuredProduct.name} />
+            </div>
+            <div className="st-featured-content">
+              <span className="st-featured-badge">Destacado</span>
+              <h2 className="st-featured-title">{featuredProduct.name}</h2>
+              <p className="st-featured-price">{featuredProduct.price}</p>
+              <p className="st-featured-desc">{featuredProduct.description}</p>
+              <Link to={`/tienda/${featuredProduct.id}`} className="st-featured-cta">Ver Producto</Link>
+            </div>
           </div>
-          <div className="st-featured-content">
-            <span className="st-featured-badge">Destacado</span>
-            <h2 className="st-featured-title">{featuredProduct.name}</h2>
-            <p className="st-featured-price">{featuredProduct.price} MXN</p>
-            <p className="st-featured-desc">Mesa de centro esculpida en mármol travertine con base de acero inoxidable. Pieza única fabricada a mano en nuestro taller.</p>
-            <Link to={`/tienda/${featuredProduct.id}`} className="st-featured-cta">Ver Producto</Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ═══ 5: EL ALMA DEL TALLER (NUEVA) ═══ */}
       <section className="st-craftsmanship" ref={craftRef}>
