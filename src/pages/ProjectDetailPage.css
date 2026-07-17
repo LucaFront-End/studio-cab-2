@@ -502,3 +502,40 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Lightbox WhatsApp CTA */
+.pdv2-lb-whatsapp-container {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+}
+.pdv2-lb-whatsapp-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pdv2-lb-whatsapp-btn:hover {
+  background: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .pdv2-lb-whatsapp-container {
+    bottom: 24px;
+    right: 50%;
+    transform: translateX(50%);
+    width: auto;
+    white-space: nowrap;
+  }
+}

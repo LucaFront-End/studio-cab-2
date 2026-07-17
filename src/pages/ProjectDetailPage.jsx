@@ -6,6 +6,7 @@ import './ProjectDetailPage.css';
 
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { resolveWixImage, resolveWixVideo } from '../lib/wixCMS';
+import CTAConfigurator from '../components/CTAConfigurator';
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
@@ -317,6 +318,23 @@ export default function ProjectDetailPage() {
             <span>{lightbox + 1} / {project.gallery.length}</span>
             <button onClick={(e) => { e.stopPropagation(); setLightbox(lightbox < project.gallery.length - 1 ? lightbox + 1 : 0); }}>→</button>
           </div>
+          
+          {/* WhatsApp CTA Button in Lightbox */}
+          <div className="pdv2-lb-whatsapp-container" onClick={(e) => e.stopPropagation()}>
+            <a 
+              href={`https://wa.me/525512345678?text=${encodeURIComponent(
+                `Hola Studio CAB, me interesa cotizar un diseño similar a este detalle del proyecto *${project.title}*: ${project.gallery[lightbox].originalUrl || project.gallery[lightbox].url}`
+              )}`}
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="pdv2-lb-whatsapp-btn"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style={{ marginRight: '8px' }}>
+                <path d="M12.012 2C6.48 2 2 6.48 2 12.012c0 1.812.48 3.564 1.392 5.124L2 22l5.004-1.308c1.512.828 3.204 1.272 4.992 1.272C17.52 22 22 17.52 22 12.012c0-2.676-1.044-5.184-2.928-7.08C17.184 3.036 14.688 2 12.012 2zm5.724 14.124c-.252.708-1.464 1.296-2.004 1.344-.492.048-.972.24-3.156-.624-2.772-1.104-4.524-3.924-4.656-4.104-.132-.18-1.092-1.452-1.092-2.772 0-1.32.684-1.968.936-2.232.252-.264.672-.384 1.08-.384.144 0 .276.012.396.012.348.012.516.036.744.576.228.552.792 1.932.864 2.076.072.144.12.312.024.504-.096.192-.144.312-.288.48-.144.168-.312.384-.444.516-.144.144-.3.3-.132.588.168.288.756 1.248 1.62 2.016.924.816 1.704 1.068 1.944 1.188.24.12.384.108.528-.06.144-.168.624-.72.792-.96.168-.24.336-.204.564-.12.228.084 1.452.684 1.704.816.252.132.42.192.48.3.06.108.06.624-.192 1.332z" />
+              </svg>
+              <span>Consultar este detalle</span>
+            </a>
+          </div>
         </div>,
         document.body
       )}
@@ -410,6 +428,9 @@ export default function ProjectDetailPage() {
           </div>
         </section>
       )}
+
+      {/* ═══ 8: CONFIGURATOR CTA BANNER ═══ */}
+      <CTAConfigurator source={`Proyecto: ${project.title}`} />
     </div>
   );
 }
