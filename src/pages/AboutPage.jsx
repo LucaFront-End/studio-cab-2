@@ -20,12 +20,14 @@ const timelineData = [
 // ];
 
 const workshopImages = [
-  { src: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&q=80', alt: 'Taller CNC', caption: 'Maquinaria CNC de precisión' },
-  { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80', alt: 'Carpintería artesanal', caption: 'Acabados artesanales a mano' },
-  { src: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80', alt: 'Herrería', caption: 'Herrería arquitectónica' },
-  { src: 'https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=600&q=80', alt: 'Materiales', caption: 'Selección de materiales premium' },
-  { src: 'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&q=80', alt: 'Proceso', caption: 'Control de calidad riguroso' },
-  { src: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&q=80', alt: 'Showroom', caption: 'Showroom en Polanco' },
+  { src: '/taller/DSC09051.jpg', alt: 'Taller precisión CNC', caption: 'Corte y fresado CNC de alta precisión' },
+  { src: '/taller/DSC09054.jpg', alt: 'Ensamble de madera', caption: 'Alineación de tableros y ensambles' },
+  { src: '/taller/DSC09056.jpg', alt: 'Maquinaria en taller', caption: 'Calibración digital y maquinado' },
+  { src: '/taller/DSC09069.jpg', alt: 'Selección de maderas', caption: 'Inspección de vetas y maderas selectas' },
+  { src: '/taller/DSC09160.jpg', alt: 'Artesano de carpintería', caption: 'Ajuste manual y carpintería artesanal' },
+  { src: '/taller/DSC09185.jpg', alt: 'Taller de producción', caption: 'Estructuras integradas de madera y acero' },
+  { src: '/taller/DSC09263.jpg', alt: 'Maquinaria pesada', caption: 'Maquinaria de vanguardia en taller' },
+  { src: '/taller/DSC09288.jpg', alt: 'Control de calidad', caption: 'Mobiliario terminado listo para su entrega' },
 ];
 
 const awardsData = [
