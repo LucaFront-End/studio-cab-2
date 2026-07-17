@@ -221,9 +221,7 @@ export async function submitWixLead(leadData) {
       },
       body: JSON.stringify({
         dataCollectionId: 'Consultas',
-        item: {
-          data: payload
-        }
+        item: payload
       })
     });
 
