@@ -21,7 +21,7 @@ const rawMapHotspots = [
 ];
 
 export default function ProjectsPage() {
-  const { proyectos, loading } = useWixCMSData();
+  const { proyectos } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
 

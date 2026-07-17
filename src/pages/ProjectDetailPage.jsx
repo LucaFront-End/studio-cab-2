@@ -402,7 +402,7 @@ export default function ProjectDetailPage() {
           <div className="container-default">
             <h2 className="section-heading anim-fade-up in-view">Más <em>proyectos</em>.</h2>
             <div className={`pdv2-related-grid ${relVis ? 'in-view' : ''}`}>
-              {project.related.map((relId) => {
+              {project.related.map(() => {
                 // If related is used, would need to map from CMS too
                 return null;
               })}

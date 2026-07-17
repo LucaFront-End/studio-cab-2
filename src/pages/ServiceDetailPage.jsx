@@ -328,16 +328,6 @@ export default function ServiceDetailPage() {
                 const data = sub.data || sub;
                 const title = data.title || data.subservicio || '';
                 const description = data.descripcin || data.description || `Especialidad en ${title} con materiales premium y acabados de lujo.`;
-                
-                const rawSubcat = data.subcategora || data.subcategoria || '';
-                const cleanSubcat = rawSubcat
-                  .toLowerCase()
-                  .normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-                  .trim();
-                
-                const hasBusinessPage = ['gimnasios', 'hoteles', 'oficinas', 'restaurantes'].includes(cleanSubcat);
-                
                 let waLink = data.enlaceDeWhatsapp || '';
                 if (waLink) {
                   if (waLink.startsWith('https://wa.me/?text=')) {

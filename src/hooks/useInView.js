@@ -47,7 +47,9 @@ export function useStaggerInView(count, { threshold = 0.1, rootMargin = '0px 0px
   const [visibleItems, setVisibleItems] = useState([]);
 
   useEffect(() => {
-    setVisibleItems(new Array(count).fill(false));
+    setTimeout(() => {
+      setVisibleItems(new Array(count).fill(false));
+    }, 0);
   }, [count]);
 
   useEffect(() => {

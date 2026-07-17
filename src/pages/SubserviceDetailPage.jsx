@@ -23,8 +23,10 @@ export default function SubserviceDetailPage() {
 
   useEffect(() => {
     if (!loading && subservicios) {
-      const found = subservicios.find(item => item.slug === slug || (item.data && item.data.slug === slug));
-      setSubservice(found || null);
+      setTimeout(() => {
+        const found = subservicios.find(item => item.slug === slug || (item.data && item.data.slug === slug));
+        setSubservice(found || null);
+      }, 0);
     }
   }, [slug, subservicios, loading]);
 

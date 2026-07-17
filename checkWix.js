@@ -15,9 +15,6 @@ async function check() {
     const token = tokenData.access_token;
     console.log('Token acquired!');
 
-    const fs = await import('fs');
-    const results = {};
-
     const allKeys = new Set();
     for (const col of ['Subservicios']) {
       console.log(`\nQuerying "${col}"...`);
