@@ -1,5 +1,8 @@
 const WIX_CLIENT_ID = '8f4920b3-137c-4fd6-a0a5-dc4957f08701';
 
+// Reemplazar con el dominio premium de tu web (ej. 'https://studiocab.mx') o la URL gratuita de Wix
+const WIX_SITE_URL = 'https://studiocab.wixsite.com/misitio';
+
 // Rich fallback mock database representing the Wix CMS schema
 export const mockServicios = [
   { _id: 'comercial', title: 'Diseño Comercial', description: 'Transformamos locales comerciales en experiencias de marca que generan resultados medibles.' },
@@ -198,7 +201,44 @@ export async function fetchWixStoreCollections() {
 
 let cachedToken = null;
 export async function submitWixLead(leadData) {
+  const payload = {
+    title: leadData.name || leadData.title || 'Consulta Sin Nombre',
+    nombre: leadData.name || leadData.title || 'Consulta Sin Nombre',
+    email: leadData.email || '',
+    telefono: leadData.phone || leadData.telefono || '',
+    origen: leadData.source || leadData.origen || 'General',
+    mensaje: leadData.message || leadData.mensaje || '',
+    espacio: leadData.spaceType || leadData.tipoEspacio || '',
+    estetica: leadData.styleTheme || leadData.estetica || '',
+    area: leadData.areaSize ? String(leadData.areaSize) : (leadData.area ? String(leadData.area) : ''),
+    foto: leadData.photoUrl || leadData.fotoReferencia || ''
+  };
+
   try {
+    // 1. Intentar enviar a través de Wix Velo HTTP Function (Recomendado/Seguro)
+    if (WIX_SITE_URL && !WIX_SITE_URL.includes('misitio')) {
+      const cleanUrl = WIX_SITE_URL.endsWith('/') ? WIX_SITE_URL.slice(0, -1) : WIX_SITE_URL;
+      const veloUrl = `${cleanUrl}/_functions/submitLead`;
+      console.log('[Wix CMS] Intentando enviar a Velo:', veloUrl);
+      
+      const response = await fetch(veloUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      if (response.ok) {
+        const resData = await response.json();
+        console.log('[Wix CMS] Guardado en Wix con éxito vía Velo.');
+        return resData.item || resData;
+      }
+      console.warn(`[Wix CMS] La función Velo falló: ${response.statusText}. Intentando API REST...`);
+    }
+
+    // 2. Fallback al API REST v2 directo
+    console.log('[Wix CMS] Enviando vía API REST v2 directo...');
     const token = await getWixAccessToken();
     const response = await fetch('https://www.wixapis.com/wix-data/v2/items', {
       method: 'POST',
@@ -209,27 +249,17 @@ export async function submitWixLead(leadData) {
       body: JSON.stringify({
         dataCollectionId: 'Consultas',
         item: {
-          data: {
-            title: leadData.name || leadData.title || 'Consulta Sin Nombre',
-            nombre: leadData.name || leadData.title || 'Consulta Sin Nombre',
-            email: leadData.email || '',
-            telefono: leadData.phone || leadData.telefono || '',
-            origen: leadData.source || leadData.origen || 'General',
-            mensaje: leadData.message || leadData.mensaje || '',
-            espacio: leadData.spaceType || leadData.tipoEspacio || '',
-            estetica: leadData.styleTheme || leadData.estetica || '',
-            area: leadData.areaSize ? String(leadData.areaSize) : (leadData.area ? String(leadData.area) : ''),
-            foto: leadData.photoUrl || leadData.fotoReferencia || ''
-          }
+          data: payload
         }
       })
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to submit lead: ${response.statusText}`);
+      throw new Error(`Failed with status: ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('[Wix CMS] Guardado en Wix con éxito vía API REST.');
     return data.item?.data || data.item || null;
   } catch (error) {
     console.error('Error submitting lead to Wix CMS:', error);
