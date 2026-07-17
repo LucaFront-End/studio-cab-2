@@ -161,22 +161,39 @@ export default function StorePage() {
                 <span className="st-product-view">Ver Detalle →</span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Custom Quote Product Card */}
-            <div 
-              className="st-product-card st-custom-quote-card in-view" 
-              onClick={() => setShowCustomModal(true)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="st-product-images">
-                <img src="/custom_furniture_sketch.png" alt="Diseño Personalizado" className="st-product-img st-img-primary" />
-                <img src="/custom_furniture_sketch.png" alt="Diseño Personalizado" className="st-product-img st-img-secondary" />
+      {/* ═══ 3.5: CUSTOM DESIGN BANNER (NUEVA) ═══ */}
+      <section className="st-custom-banner-section">
+        <div className="container-default">
+          <div className="st-custom-banner-inner">
+            {/* AutoCAD ticks */}
+            <div className="corner-cross top-left">+</div>
+            <div className="corner-cross top-right">+</div>
+            <div className="corner-cross bottom-left">+</div>
+            <div className="corner-cross bottom-right">+</div>
+
+            <div className="st-custom-banner-grid">
+              <div className="st-custom-banner-img">
+                <img src="/custom_furniture_sketch.png" alt="Boceto Técnico de Mobiliario" />
               </div>
-              <div className="st-product-info">
-                <h3 className="st-product-name" style={{ color: 'var(--colors--theme-orange)' }}>Tu Pieza a Medida</h3>
-                <span className="st-product-price">Bajo Cotización</span>
+              <div className="st-custom-banner-info">
+                <span className="st-custom-banner-tag">[SHEET M-102 // DISEÑO SOBRE ESPECIFICACIÓN]</span>
+                <h2 className="st-custom-banner-title">Mobiliario de autor a la <em>medida de tus espacios</em></h2>
+                <p className="st-custom-banner-desc">
+                  ¿Tienes en mente un diseño particular o necesitas adaptar alguna pieza de nuestro catálogo a dimensiones especiales?
+                  Enviándonos una foto de referencia o boceto técnico, nuestro equipo de diseño estructurará una propuesta viable con
+                  costos de fabricación.
+                </p>
+                <button 
+                  onClick={() => setShowCustomModal(true)} 
+                  className="st-custom-banner-btn"
+                >
+                  Subir Boceto y Cotizar
+                </button>
               </div>
-              <span className="st-product-view" style={{ color: 'var(--colors--theme-orange)' }}>Subir Foto y Cotizar →</span>
             </div>
           </div>
         </div>

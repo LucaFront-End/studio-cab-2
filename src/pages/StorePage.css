@@ -508,3 +508,108 @@
 .st-modal-success-btn:hover {
   background: var(--colors--theme-orange);
 }
+
+/* Custom Design Banner Section */
+.st-custom-banner-section {
+  padding: 40px 20px 80px;
+  background: var(--colors--theme-white);
+}
+
+.st-custom-banner-inner {
+  position: relative;
+  background: color-mix(in srgb, var(--colors--theme-white) 96%, var(--colors--theme-black));
+  border: 1px solid var(--colors--theme-black);
+  border-radius: 16px;
+  padding: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.st-custom-banner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.st-custom-banner-img {
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--colors--theme-white);
+}
+.st-custom-banner-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.st-custom-banner-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.st-custom-banner-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--colors--theme-orange);
+  font-family: monospace;
+  margin-bottom: 12px;
+}
+
+.st-custom-banner-title {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 900;
+  color: var(--colors--theme-black);
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.st-custom-banner-desc {
+  font-size: 14.5px;
+  color: var(--colors--theme-gray);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.st-custom-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: var(--colors--theme-black);
+  color: var(--colors--theme-white);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+.st-custom-banner-btn:hover {
+  background: var(--colors--theme-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(239, 191, 4, 0.2);
+}
+
+@media (max-width: 991px) {
+  .st-custom-banner-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .st-custom-banner-img {
+    height: 240px;
+  }
+  .st-custom-banner-inner {
+    padding: 32px;
+  }
+}
