@@ -221,7 +221,9 @@ export async function submitWixLead(leadData) {
       },
       body: JSON.stringify({
         dataCollectionId: 'Consultas',
-        item: payload
+        dataItem: {
+          data: payload
+        }
       })
     });
 
@@ -231,7 +233,7 @@ export async function submitWixLead(leadData) {
 
     const data = await response.json();
     console.log('[Wix CMS] Guardado en Wix con éxito.');
-    return data.item?.data || data.item || null;
+    return data.dataItem?.data || data.dataItem || null;
   } catch (error) {
     console.error('Error submitting lead to Wix CMS:', error);
     // Fallback to local storage for offline testing so no lead is lost!
