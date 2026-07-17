@@ -224,3 +224,287 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Custom quote card distinctive borders */
+.st-custom-quote-card {
+  border: 1px dashed var(--colors--theme-orange) !important;
+  background: color-mix(in srgb, var(--colors--theme-white) 98%, var(--colors--theme-orange)) !important;
+}
+.st-custom-quote-card:hover {
+  border-style: solid !important;
+  box-shadow: 0 10px 30px rgba(239, 191, 4, 0.08) !important;
+}
+
+/* Modal Backdrop */
+.st-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Modal Card with AutoCAD CAD look and feel */
+.st-modal-card {
+  background: var(--colors--theme-white);
+  border: 1px solid var(--colors--theme-black);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  animation: modalEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalEnter {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.st-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--colors--theme-gray);
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+.st-modal-close:hover {
+  color: var(--colors--theme-orange);
+}
+
+.st-modal-header {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.st-modal-tech-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--colors--theme-orange);
+  font-family: monospace;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.st-modal-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--colors--theme-black);
+  margin-bottom: 6px;
+}
+
+.st-modal-subtitle {
+  font-size: 13.5px;
+  color: var(--colors--theme-gray);
+  line-height: 1.5;
+}
+
+/* Image Upload Area */
+.st-upload-container {
+  margin-bottom: 24px;
+  border: 1px dashed var(--color-border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--colors--theme-white) 97%, var(--colors--theme-black));
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.st-upload-container:hover {
+  border-color: var(--colors--theme-orange);
+  background: color-mix(in srgb, var(--colors--theme-white) 98%, var(--colors--theme-orange));
+}
+
+.st-upload-label {
+  display: block;
+  cursor: pointer;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.st-file-input {
+  display: none;
+}
+
+.st-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.st-upload-placeholder .upload-icon {
+  font-size: 28px;
+}
+
+.st-upload-placeholder .upload-text {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+}
+
+.st-upload-placeholder .upload-limit {
+  font-size: 10px;
+  color: var(--colors--theme-gray);
+  font-family: monospace;
+}
+
+.st-upload-preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.st-upload-preview img {
+  max-height: 160px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+.st-upload-change-btn {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--colors--theme-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Fields Grid */
+.st-modal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.st-modal-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.st-modal-input-group {
+  position: relative;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 6px;
+}
+
+.st-modal-input, .st-modal-textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--colors--theme-black);
+  outline: none;
+  padding: 6px 0;
+}
+.st-modal-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.st-modal-input::placeholder, .st-modal-textarea::placeholder {
+  color: var(--colors--theme-gray);
+  opacity: 0.6;
+}
+
+.st-modal-tech-label {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--colors--theme-gray);
+  font-family: monospace;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.st-modal-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--colors--theme-black);
+  color: var(--colors--theme-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+.st-modal-submit-btn:hover:not(:disabled) {
+  background: var(--colors--theme-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(239, 191, 4, 0.25);
+}
+.st-modal-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success Screen */
+.st-modal-success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.st-modal-success-icon {
+  width: 60px;
+  height: 60px;
+  background: color-mix(in srgb, var(--colors--theme-orange) 15%, var(--colors--theme-white));
+  border: 1px solid var(--colors--theme-orange);
+  color: var(--colors--theme-orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 20px;
+}
+
+.st-modal-success h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--colors--theme-black);
+  margin-bottom: 12px;
+}
+
+.st-modal-success p {
+  font-size: 14px;
+  color: var(--colors--theme-gray);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.st-modal-success-btn {
+  padding: 14px 28px;
+  background: var(--colors--theme-black);
+  color: var(--colors--theme-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.st-modal-success-btn:hover {
+  background: var(--colors--theme-orange);
+}

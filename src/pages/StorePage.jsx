@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import './StorePage.css';
@@ -7,6 +8,44 @@ import './StorePage.css';
 export default function StorePage() {
   const { productos, colecciones, loading } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
+  const [showCustomModal, setShowCustomModal] = useState(false);
+  const [customName, setCustomName] = useState('');
+  const [customEmail, setCustomEmail] = useState('');
+  const [customPhone, setCustomPhone] = useState('');
+  const [customNotes, setCustomNotes] = useState('');
+  const [photoPreview, setPhotoPreview] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCustomSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+    }, 1500);
+  };
+
+  const handleCustomReset = () => {
+    setCustomName('');
+    setCustomEmail('');
+    setCustomPhone('');
+    setCustomNotes('');
+    setPhotoPreview('');
+    setIsSuccess(false);
+    setShowCustomModal(false);
+  };
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [featRef, featVis] = useInView({ threshold: 0.15 });
@@ -122,6 +161,23 @@ export default function StorePage() {
                 <span className="st-product-view">Ver Detalle →</span>
               </Link>
             ))}
+
+            {/* Custom Quote Product Card */}
+            <div 
+              className="st-product-card st-custom-quote-card" 
+              onClick={() => setShowCustomModal(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="st-product-images">
+                <img src="/custom_furniture_sketch.png" alt="Diseño Personalizado" className="st-product-img st-img-primary" />
+                <img src="/custom_furniture_sketch.png" alt="Diseño Personalizado" className="st-product-img st-img-secondary" />
+              </div>
+              <div className="st-product-info">
+                <h3 className="st-product-name" style={{ color: 'var(--colors--theme-orange)' }}>Tu Pieza a Medida</h3>
+                <span className="st-product-price">Bajo Cotización</span>
+              </div>
+              <span className="st-product-view" style={{ color: 'var(--colors--theme-orange)' }}>Subir Foto y Cotizar →</span>
+            </div>
           </div>
         </div>
       </section>
@@ -201,6 +257,127 @@ export default function StorePage() {
           </form>
         </div>
       </section>
+
+      {/* Custom Product Quotation Modal */}
+      {showCustomModal && createPortal(
+        <div className="st-modal-backdrop" onClick={handleCustomReset}>
+          <div className="st-modal-card" onClick={e => e.stopPropagation()}>
+            <button className="st-modal-close" onClick={handleCustomReset}>✕</button>
+            
+            {/* Corner crosshairs for architectural feel */}
+            <div className="corner-cross top-left">+</div>
+            <div className="corner-cross top-right">+</div>
+            <div className="corner-cross bottom-left">+</div>
+            <div className="corner-cross bottom-right">+</div>
+
+            <div className="st-modal-header">
+              <span className="st-modal-tech-tag">[SHEET M-101 // PIEZA A MEDIDA]</span>
+              <h3 className="st-modal-title">Diseño y Fabricación Especial</h3>
+              <p className="st-modal-subtitle">Envíanos tu idea o boceto de referencia para cotizar con nuestro taller.</p>
+            </div>
+
+            {isSuccess ? (
+              <div className="st-modal-success">
+                <div className="st-modal-success-icon">✓</div>
+                <h4>Propuesta Recibida con Éxito</h4>
+                <p>
+                  Gracias, <strong>{customName}</strong>. Hemos registrado tu solicitud y la imagen de referencia. 
+                  Nuestro equipo de diseño técnico analizará la viabilidad y te contactará mediante 
+                  <strong> {customEmail}</strong> o <strong>{customPhone}</strong> con una propuesta económica formal.
+                </p>
+                <button className="st-modal-success-btn" onClick={handleCustomReset}>Volver a la Tienda</button>
+              </div>
+            ) : (
+              <form className="st-modal-form" onSubmit={handleCustomSubmit}>
+                
+                {/* Image Upload Area */}
+                <div className="st-upload-container">
+                  <label className="st-upload-label">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      required 
+                      onChange={handlePhotoChange} 
+                      className="st-file-input" 
+                    />
+                    {photoPreview ? (
+                      <div className="st-upload-preview">
+                        <img src={photoPreview} alt="Vista previa del boceto" />
+                        <span className="st-upload-change-btn">Cambiar Foto</span>
+                      </div>
+                    ) : (
+                      <div className="st-upload-placeholder">
+                        <span className="upload-icon">📷</span>
+                        <span className="upload-text">Selecciona una imagen o foto de referencia</span>
+                        <span className="upload-limit">[JPG, PNG // MAX 5MB]</span>
+                      </div>
+                    )}
+                  </label>
+                </div>
+
+                <div className="st-modal-grid">
+                  <div className="st-modal-input-group">
+                    <input 
+                      type="text" 
+                      required 
+                      placeholder="Nombre Completo" 
+                      value={customName} 
+                      onChange={e => setCustomName(e.target.value)} 
+                      className="st-modal-input" 
+                    />
+                    <span className="st-modal-tech-label">[CLIENTE / ID]</span>
+                  </div>
+
+                  <div className="st-modal-grid-2col">
+                    <div className="st-modal-input-group">
+                      <input 
+                        type="email" 
+                        required 
+                        placeholder="Correo Electrónico" 
+                        value={customEmail} 
+                        onChange={e => setCustomEmail(e.target.value)} 
+                        className="st-modal-input" 
+                      />
+                      <span className="st-modal-tech-label">[EMAIL / ENVELOPE]</span>
+                    </div>
+
+                    <div className="st-modal-input-group">
+                      <input 
+                        type="tel" 
+                        required 
+                        placeholder="Teléfono" 
+                        value={customPhone} 
+                        onChange={e => setCustomPhone(e.target.value)} 
+                        className="st-modal-input" 
+                      />
+                      <span className="st-modal-tech-label">[TEL / MOBILE]</span>
+                    </div>
+                  </div>
+
+                  <div className="st-modal-input-group">
+                    <textarea 
+                      placeholder="Notas sobre medidas, maderas, acabados o especificaciones adicionales..." 
+                      value={customNotes} 
+                      onChange={e => setCustomNotes(e.target.value)} 
+                      className="st-modal-textarea" 
+                    />
+                    <span className="st-modal-tech-label">[NOTAS TÉCNICAS]</span>
+                  </div>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="st-modal-submit-btn" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Analizando Viabilidad...' : 'Enviar Solicitud de Cotización'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
