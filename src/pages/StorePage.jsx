@@ -43,7 +43,9 @@ export default function StorePage() {
       image: p.media?.mainMedia?.image?.url || '',
       image2: p.media?.items?.[1]?.image?.url || p.media?.mainMedia?.image?.url || '',
       images: images,
-      description: p.description || 'Mobiliario de autor diseñado y fabricado a mano en nuestro taller de CDMX con materiales premium.',
+      description: p.description 
+        ? p.description.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim().slice(0, 160) + (p.description.replace(/<[^>]*>/g, '').trim().length > 160 ? '...' : '')
+        : 'Mobiliario de autor diseñado y fabricado a mano en nuestro taller de CDMX con materiales premium.',
       material: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('material'))?.description || 'Maderas selectas / MDF de alta densidad',
       dimensions: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('dimens'))?.description || 'Medidas sobre diseño ejecutivo',
       weight: p.weight ? `${p.weight} kg` : 'Sobre cotización',

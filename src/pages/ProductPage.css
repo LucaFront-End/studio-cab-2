@@ -7,6 +7,11 @@
 .prp-hero-grid.in-view { opacity: 1; transform: translateY(0); }
 
 /* Gallery */
+.prp-gallery {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
 .prp-main-image { border-radius: 14px; overflow: hidden; margin-bottom: 16px; background: color-mix(in srgb, var(--colors--theme-white) 90%, var(--colors--theme-black)); position: relative; }
 .prp-main-img { width: 100%; height: 480px; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 .prp-main-image:hover .prp-main-img { transform: scale(1.06); }
@@ -432,6 +437,7 @@
   .prp-care-grid { grid-template-columns: 1fr; gap: 20px; }
   .prp-custom-inner { grid-template-columns: 1fr; gap: 40px; }
   .prp-trust-badges { grid-template-columns: 1fr; gap: 16px; }
+  .prp-gallery { position: relative; top: 0; }
 }
 @media (max-width: 600px) { 
   .prp-related-grid { flex-direction: column; gap: 20px; } 
