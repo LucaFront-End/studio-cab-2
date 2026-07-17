@@ -117,16 +117,11 @@ const Hero = () => {
                 loop
                 muted
                 playsInline
-                poster="https://cdn.prod.website-files.com/674be2e56067c08a08f60d4c%2F674d2b070a51536aef2cbd01_Home_1_Title_1699839_House_Contemporary_1920x1080-poster-00001.jpg"
                 className="hero-banner-video"
               >
                 <source
-                  src="https://cdn.prod.website-files.com/674be2e56067c08a08f60d4c%2F674d2b070a51536aef2cbd01_Home_1_Title_1699839_House_Contemporary_1920x1080-transcode.mp4"
+                  src="/grupo-cab-web.mp4"
                   type="video/mp4"
-                />
-                <source
-                  src="https://cdn.prod.website-files.com/674be2e56067c08a08f60d4c%2F674d2b070a51536aef2cbd01_Home_1_Title_1699839_House_Contemporary_1920x1080-transcode.webm"
-                  type="video/webm"
                 />
               </video>
             </div>
