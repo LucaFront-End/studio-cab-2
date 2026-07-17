@@ -12,12 +12,12 @@ const timelineData = [
   { year: '2025', title: 'Internacionalización', text: 'Primeros proyectos internacionales y lanzamiento de nuestra línea de mobiliario de autor.' },
 ];
 
-const teamMembers = [
-  { name: 'Carlos A. Bravo', role: 'Director Creativo & Fundador', specialty: 'Arquitectura de interiores comerciales', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80' },
-  { name: 'Ana Beltrán', role: 'Directora de Proyectos', specialty: 'Gestión integral y producción en sitio', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80' },
-  { name: 'Diego Fuentes', role: 'Jefe de Taller', specialty: 'Carpintería fina y CNC avanzado', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80' },
-  { name: 'Mariana Torres', role: 'Diseñadora Senior', specialty: 'Interiorismo residencial de alta gama', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80' },
-];
+// const teamMembers = [
+//   { name: 'Carlos A. Bravo', role: 'Director Creativo & Fundador', specialty: 'Arquitectura de interiores comerciales', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80' },
+//   { name: 'Ana Beltrán', role: 'Directora de Proyectos', specialty: 'Gestión integral y producción en sitio', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80' },
+//   { name: 'Diego Fuentes', role: 'Jefe de Taller', specialty: 'Carpintería fina y CNC avanzado', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80' },
+//   { name: 'Mariana Torres', role: 'Diseñadora Senior', specialty: 'Interiorismo residencial de alta gama', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80' },
+// ];
 
 const workshopImages = [
   { src: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&q=80', alt: 'Taller CNC', caption: 'Maquinaria CNC de precisión' },
@@ -50,17 +50,17 @@ export default function AboutPage() {
   const [philRef, philVisible] = useInView({ threshold: 0.2 });
 
   /* ── Section 4: Team ── */
-  const [teamRefs, teamVisible] = useStaggerInView(teamMembers.length, { staggerDelay: 150 });
-  const [flippedCards, setFlippedCards] = useState(new Set());
-
-  const toggleFlip = (index) => {
-    setFlippedCards(prev => {
-      const next = new Set(prev);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      return next;
-    });
-  };
+  // const [teamRefs, teamVisible] = useStaggerInView(teamMembers?.length || 0, { staggerDelay: 150 });
+  // const [flippedCards, setFlippedCards] = useState(new Set());
+  //
+  // const toggleFlip = (index) => {
+  //   setFlippedCards(prev => {
+  //     const next = new Set(prev);
+  //     if (next.has(index)) next.delete(index);
+  //     else next.add(index);
+  //     return next;
+  //   });
+  // };
 
   /* ── Section 5: Workshop Gallery ── */
   const [galleryRefs, galleryVisible] = useStaggerInView(workshopImages.length, { staggerDelay: 100 });
@@ -228,7 +228,7 @@ export default function AboutPage() {
       {/* ═══════════════════════════════════════════
           SECTION 4: TEAM
           ═══════════════════════════════════════════ */}
-      <section className="about-team">
+      {/* <section className="about-team">
         <div className="container-default">
           <span className="section-eyebrow anim-fade-up in-view">El Equipo</span>
           <h2 className="section-heading anim-fade-up in-view">
@@ -270,7 +270,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ═══════════════════════════════════════════
           SECTION 5: WORKSHOP GALLERY
