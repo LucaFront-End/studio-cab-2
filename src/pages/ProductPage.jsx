@@ -188,7 +188,7 @@ export default function ProductPage() {
 
             <div className="prp-action-buttons">
               <a 
-                href={`https://wa.me/525512345678?text=${encodeURIComponent(
+                href={`https://wa.me/525516406963?text=${encodeURIComponent(
                   `Hola Studio CAB. Me interesa cotizar y personalizar el mueble "${product.name}" de su catálogo. ¿Me podrían dar información sobre costos y tiempos de entrega?`
                 )}`}
                 target="_blank"
@@ -310,7 +310,7 @@ export default function ProductPage() {
           {/* WhatsApp CTA Button in Lightbox */}
           <div className="pdv2-lb-whatsapp-container" onClick={(e) => e.stopPropagation()}>
             <a 
-              href={`https://wa.me/525512345678?text=${encodeURIComponent(
+              href={`https://wa.me/525516406963?text=${encodeURIComponent(
                 `Hola Studio CAB, me interesa cotizar un diseño de la pieza de catálogo "${product.name}": ${product.images[lightbox]}`
               )}`}
               target="_blank" 

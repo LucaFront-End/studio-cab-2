@@ -60,11 +60,11 @@ export default function Footer() {
               </li>
               <li className="contact-item">
                 <span className="contact-label">[TEL / WHATSAPP]</span>
-                <a href="tel:+525512345678" className="contact-val link">+52 55 1234 5678</a>
+                <a href="tel:+525516406963" className="contact-val link">+52 55 1640 6963</a>
               </li>
               <li className="contact-item">
                 <span className="contact-label">[EMAIL]</span>
-                <a href="mailto:proyectos@studiocab.com" className="contact-val link">proyectos@studiocab.com</a>
+                <a href="mailto:proyectos@studiocab.mx" className="contact-val link">proyectos@studiocab.mx</a>
               </li>
             </ul>
           </div>

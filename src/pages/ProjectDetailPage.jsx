@@ -322,7 +322,7 @@ export default function ProjectDetailPage() {
           {/* WhatsApp CTA Button in Lightbox */}
           <div className="pdv2-lb-whatsapp-container" onClick={(e) => e.stopPropagation()}>
             <a 
-              href={`https://wa.me/525512345678?text=${encodeURIComponent(
+              href={`https://wa.me/525516406963?text=${encodeURIComponent(
                 `Hola Studio CAB, me interesa cotizar un diseño similar a este detalle del proyecto *${project.title}*: ${project.gallery[lightbox].originalUrl || project.gallery[lightbox].url}`
               )}`}
               target="_blank" 

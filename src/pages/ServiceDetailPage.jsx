@@ -386,11 +386,11 @@ export default function ServiceDetailPage() {
                 let waLink = data.enlaceDeWhatsapp || '';
                 if (waLink) {
                   if (waLink.startsWith('https://wa.me/?text=')) {
-                    waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525512345678?text=');
+                    waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525516406963?text=');
                   }
                 } else {
                   const waMessage = encodeURIComponent(data.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${title}*.`);
-                  waLink = `https://wa.me/525512345678?text=${waMessage}`;
+                  waLink = `https://wa.me/525516406963?text=${waMessage}`;
                 }
                 
                 return (
