@@ -6,18 +6,19 @@ import './ProjectsPage.css';
 
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { resolveWixImage } from '../lib/wixCMS';
+import CdmxVectorMap from '../components/CdmxVectorMap';
 
 const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 
 const rawMapHotspots = [
-  { lat: '35%', lng: '45%' },
-  { lat: '45%', lng: '35%' },
-  { lat: '25%', lng: '25%' },
-  { lat: '65%', lng: '15%' },
-  { lat: '20%', lng: '55%' },
-  { lat: '85%', lng: '60%' },
-  { lat: '30%', lng: '40%' },
-  { lat: '60%', lng: '50%' },
+  { lat: '31%', lng: '43%' },
+  { lat: '43%', lng: '53%' },
+  { lat: '51%', lng: '43%' },
+  { lat: '34%', lng: '56%' },
+  { lat: '52%', lng: '16%' },
+  { lat: '65%', lng: '50%' },
+  { lat: '80%', lng: '52%' },
+  { lat: '78%', lng: '36%' },
 ];
 
 export default function ProjectsPage() {
@@ -150,8 +151,8 @@ export default function ProjectsPage() {
           
           <div className={`pp-map-container ${mapVis ? 'in-view' : ''}`}>
             <div className="pp-map-visual">
-              {/* Map vector background image */}
-              <img src="/cdmx_dark_map.webp" alt="Mapa de Ubicaciones CDMX Studio CAB" className="pp-map-bg-img" />
+              {/* Architectural Vector SVG Map of CDMX */}
+              <CdmxVectorMap />
               {/* Styled background grid representing the map */}
               <div className="pp-map-grid-overlay" />
               
