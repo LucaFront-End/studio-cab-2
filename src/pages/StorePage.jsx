@@ -235,7 +235,7 @@ export default function StorePage() {
         <div className="container-default">
           <div className={`st-craft-grid ${craftVis ? 'in-view' : ''}`}>
             <div className="st-craft-image-box">
-              <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80" alt="Carpintería Artesanal" />
+              <img src="/alma_del_taller.webp" alt="El Alma del Taller - Carpintería Artesanal Studio CAB" />
               <div className="st-craft-image-badge">100% Hecho a Mano</div>
             </div>
             
