@@ -10,14 +10,14 @@ import { resolveWixImage } from '../lib/wixCMS';
 const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 
 const rawMapHotspots = [
-  { lat: '26.21%', lng: '37.07%' }, // Polanco
-  { lat: '35.25%', lng: '51.18%' }, // Roma Norte
-  { lat: '39.17%', lng: '45.72%' }, // Condesa
-  { lat: '30.13%', lng: '48.45%' }, // Juárez / Reforma
-  { lat: '70.53%', lng: '5.67%' },  // Santa Fe
-  { lat: '55.46%', lng: '48.00%' }, // Del Valle
-  { lat: '77.17%', lng: '50.27%' }, // Coyoacán
-  { lat: '78.98%', lng: '37.53%' }, // San Ángel
+  { lat: '32%', lng: '42%' }, // Polanco
+  { lat: '42%', lng: '56%' }, // Roma Norte
+  { lat: '48%', lng: '46%' }, // Condesa
+  { lat: '36%', lng: '52%' }, // Juárez / Reforma
+  { lat: '56%', lng: '22%' }, // Santa Fe
+  { lat: '62%', lng: '52%' }, // Del Valle
+  { lat: '78%', lng: '56%' }, // Coyoacán
+  { lat: '74%', lng: '38%' }, // San Ángel
 ];
 
 export default function ProjectsPage() {
