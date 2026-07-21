@@ -6,19 +6,18 @@ import './ProjectsPage.css';
 
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { resolveWixImage } from '../lib/wixCMS';
-import CdmxVectorMap from '../components/CdmxVectorMap';
 
 const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 
 const rawMapHotspots = [
-  { lat: '31%', lng: '43%' },
-  { lat: '43%', lng: '53%' },
-  { lat: '51%', lng: '43%' },
-  { lat: '34%', lng: '56%' },
-  { lat: '52%', lng: '16%' },
-  { lat: '65%', lng: '50%' },
-  { lat: '80%', lng: '52%' },
-  { lat: '78%', lng: '36%' },
+  { lat: '32%', lng: '52%' }, // Polanco / Reforma
+  { lat: '48%', lng: '55%' }, // Roma Norte
+  { lat: '52%', lng: '48%' }, // Condesa
+  { lat: '40%', lng: '68%' }, // Juárez
+  { lat: '25%', lng: '22%' }, // Santa Fe
+  { lat: '65%', lng: '58%' }, // Del Valle
+  { lat: '82%', lng: '58%' }, // Coyoacán
+  { lat: '78%', lng: '38%' }, // San Ángel
 ];
 
 export default function ProjectsPage() {
@@ -151,8 +150,8 @@ export default function ProjectsPage() {
           
           <div className={`pp-map-container ${mapVis ? 'in-view' : ''}`}>
             <div className="pp-map-visual">
-              {/* Architectural Vector SVG Map of CDMX */}
-              <CdmxVectorMap />
+              {/* Real Dark Street Map of CDMX */}
+              <img src="/cdmx_real_map.webp" alt="Mapa de la Ciudad de México Studio CAB" className="pp-map-bg-img" />
               {/* Styled background grid representing the map */}
               <div className="pp-map-grid-overlay" />
               
