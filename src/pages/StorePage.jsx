@@ -111,10 +111,14 @@ export default function StorePage() {
     );
   }
 
-  // Derive unique categories dynamically from actual live products
+  // Derive unique categories dynamically from actual live products (excluding Wix default 'All Products' collection)
   const uniqueCategories = Array.from(
     new Set(mappedProducts.flatMap(p => p.collectionNames))
-  ).filter(cat => cat !== '');
+  ).filter(cat => {
+    if (!cat) return false;
+    const lower = cat.trim().toLowerCase();
+    return lower !== 'all products' && lower !== 'all' && lower !== 'todos los productos' && lower !== 'todos';
+  });
 
   const filters = ['Todos', ...uniqueCategories];
 
