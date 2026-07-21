@@ -72,6 +72,26 @@ export default function ProjectsPage() {
 
   const featuredProject = projectsData.find(p => p.featured);
 
+  const getTooltipStyle = (spot) => {
+    if (!spot) return {};
+    const lng = parseFloat(spot.lng);
+    const lat = parseFloat(spot.lat);
+
+    let left = spot.lng;
+    let top = spot.lat;
+    let transform = 'translate(-50%, -115%)';
+
+    if (lng < 30) {
+      transform = 'translate(14px, -50%)';
+    } else if (lng > 70) {
+      transform = 'translate(calc(-100% - 14px), -50%)';
+    } else if (lat < 32) {
+      transform = 'translate(-50%, 20px)';
+    }
+
+    return { top, left, transform };
+  };
+
   return (
     <div className="projects-page page-enter">
 
@@ -171,7 +191,7 @@ export default function ProjectsPage() {
 
               {/* Tooltip detail card */}
               {activeHotspot && (
-                <div className="pp-map-tooltip" style={{ top: `calc(${activeHotspot.lat} - 10px)`, left: activeHotspot.lng }}>
+                <div className="pp-map-tooltip" style={getTooltipStyle(activeHotspot)}>
                   <span className="pp-tooltip-zone">{activeHotspot.zone}</span>
                   <h4 className="pp-tooltip-name">{activeHotspot.name}</h4>
                   <span className="pp-tooltip-tag">{activeHotspot.tag}</span>
