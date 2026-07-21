@@ -33,8 +33,8 @@
 .st-product-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--colors--theme-orange), transparent); transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 2; }
 .st-product-card:hover::after { transform: scaleX(1); }
 
-.st-product-images { position: relative; height: 280px; overflow: hidden; }
-.st-product-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease, transform 0.5s ease; }
+.st-product-images { position: relative; height: 280px; overflow: hidden; background: color-mix(in srgb, var(--colors--theme-black) 3%, transparent); }
+.st-product-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 16px; box-sizing: border-box; transition: opacity 0.5s ease, transform 0.5s ease; }
 .st-img-secondary { opacity: 0; }
 .st-product-card:hover .st-img-primary { opacity: 0; }
 .st-product-card:hover .st-img-secondary { opacity: 1; transform: scale(1.05); }
@@ -50,8 +50,8 @@
 .st-featured { padding: 0 20px 100px; }
 .st-featured-inner { display: grid; grid-template-columns: 1fr 1fr; border-radius: 16px; overflow: hidden; border: 1px solid var(--color-border); max-width: 1200px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
 .st-featured-inner.in-view { opacity: 1; transform: translateY(0); }
-.st-featured-image-wrapper { overflow: hidden; height: 400px; }
-.st-featured-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.st-featured-image-wrapper { overflow: hidden; height: 440px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--colors--theme-black) 3%, transparent); padding: 24px; box-sizing: border-box; }
+.st-featured-image-wrapper img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.6s ease; }
 .st-featured-inner:hover img { transform: scale(1.05); }
 .st-featured-content { display: flex; flex-direction: column; justify-content: center; padding: 48px; background: var(--colors--theme-white); }
 .st-featured-badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--colors--theme-orange); padding: 6px 16px; border: 1px solid var(--colors--theme-orange); border-radius: 24px; margin-bottom: 16px; align-self: flex-start; position: relative; overflow: hidden; }
