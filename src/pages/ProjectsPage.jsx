@@ -60,7 +60,8 @@ export default function ProjectsPage() {
     lng: rawMapHotspots[i % rawMapHotspots.length].lng,
   }));
 
-  const [activeHotspot, setActiveHotspot] = useState(mapHotspots[0] || null);
+  const [selectedHotspot, setSelectedHotspot] = useState(null);
+  const activeHotspot = selectedHotspot || mapHotspots[0] || null;
   const [mapRef, mapVis] = useInView({ threshold: 0.15 });
 
   const [c1Ref, c1] = useCountUp(150, { suffix: '+' });
@@ -149,6 +150,8 @@ export default function ProjectsPage() {
           
           <div className={`pp-map-container ${mapVis ? 'in-view' : ''}`}>
             <div className="pp-map-visual">
+              {/* Map vector background image */}
+              <img src="/cdmx_dark_map.webp" alt="Mapa de Ubicaciones CDMX Studio CAB" className="pp-map-bg-img" />
               {/* Styled background grid representing the map */}
               <div className="pp-map-grid-overlay" />
               
@@ -158,8 +161,8 @@ export default function ProjectsPage() {
                   key={spot.id}
                   className={`pp-map-pin ${activeHotspot?.id === spot.id ? 'active' : ''}`}
                   style={{ top: spot.lat, left: spot.lng }}
-                  onClick={() => setActiveHotspot(spot)}
-                  onMouseEnter={() => setActiveHotspot(spot)}
+                  onClick={() => setSelectedHotspot(spot)}
+                  onMouseEnter={() => setSelectedHotspot(spot)}
                 >
                   <span className="pp-pin-dot" />
                   <span className="pp-pin-pulse" />
@@ -173,7 +176,7 @@ export default function ProjectsPage() {
                   <h4 className="pp-tooltip-name">{activeHotspot.name}</h4>
                   <span className="pp-tooltip-tag">{activeHotspot.tag}</span>
                   <Link to={`/proyectos/${activeHotspot.id}`} className="pp-tooltip-link">Ver Detalle →</Link>
-                  <button className="pp-tooltip-close" onClick={() => setActiveHotspot(null)}>✕</button>
+                  <button className="pp-tooltip-close" onClick={() => setSelectedHotspot(null)}>✕</button>
                 </div>
               )}
             </div>
