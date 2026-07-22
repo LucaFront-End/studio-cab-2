@@ -194,26 +194,37 @@ export default function SubserviceDetailPage() {
     });
   });
 
-  // 3. Fallbacks estéticos en caso de que no haya proyectos asociados cargados todavía
-  if (gallery.length === 0) {
-    const fallbacks = {
-      'Diseño Comercial': [
-        { type: 'image', url: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1600&q=90' },
-        { type: 'image', url: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=1600&q=90' },
-        { type: 'image', url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=90' }
-      ],
-      'Interiorismo Residencial': [
-        { type: 'image', url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=90' },
-        { type: 'image', url: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1600&q=90' },
-        { type: 'image', url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=90' }
-      ],
-      'default': [
-        { type: 'image', url: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1600&q=90' },
-        { type: 'image', url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80', originalUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=90' }
-      ]
-    };
-    const selectedFallback = fallbacks[category] || fallbacks['default'];
-    gallery.push(...selectedFallback);
+  // 3. Si no hay proyectos multireferenciados específicos para este subservicio,
+  // alimentamos la galería con una selección representativa de TODOS los proyectos reales del CMS de Studio CAB
+  if (gallery.length === 0 && proyectos && proyectos.length > 0) {
+    proyectos.forEach(proj => {
+      const projData = proj.data || proj;
+      const projTitle = projData.title || projData.nombre || '';
+      const rawGallery = projData.mediagallery || [];
+      // Tomamos ítems reales del CMS para la Galería General
+      rawGallery.forEach(item => {
+        if (item.type === 'video') {
+          const posterUrl = item.settings?.posters?.[0]?.url 
+            ? `https://static.wixstatic.com/media/${item.settings.posters[0].url}` 
+            : '';
+          gallery.push({
+            type: 'video',
+            url: resolveWixVideo(item.slug || item.src),
+            poster: posterUrl,
+            projectName: projTitle,
+            isGeneral: true
+          });
+        } else {
+          gallery.push({
+            type: 'image',
+            url: resolveWixImage(item.src, 1200),
+            originalUrl: resolveWixImage(item.src, 'original'),
+            projectName: projTitle,
+            isGeneral: true
+          });
+        }
+      });
+    });
   }
 
   const handleThumbClick = (i) => {
@@ -327,8 +338,16 @@ export default function SubserviceDetailPage() {
       {gallery.length > 0 && (
         <section className="pdv2-gallery">
           <div className="container-default">
-            <span className="section-eyebrow">[GALERÍA DE TRABAJOS]</span>
-            <h2 className="section-heading">Proyectos y <em>detalles reales</em>.</h2>
+            <span className="section-eyebrow">
+              {gallery[0]?.isGeneral ? '[GALERÍA GENERAL DEL TALLER]' : '[GALERÍA DE TRABAJOS DE ESTE SUBSERVICIO]'}
+            </span>
+            <h2 className="section-heading">
+              {gallery[0]?.isGeneral ? (
+                <>Catálogo general de carpintería y <em>proyectos Studio CAB</em>.</>
+              ) : (
+                <>Proyectos y <em>detalles reales vinculados</em>.</>
+              )}
+            </h2>
             
             <div className={`pdv2-gallery-slider ${galVis ? 'in-view' : ''}`} ref={galRef}>
               <div className="pdv2-slider-viewport">
@@ -403,10 +422,22 @@ export default function SubserviceDetailPage() {
         <section className="sub-grid-gallery-section">
           <div className="container-default">
             <div className="sub-grid-gallery-header">
-              <span className="section-eyebrow">[GALERÍA COMPLETA DE PROYECTOS]</span>
-              <h2 className="section-heading">Fotografías y Renders <em>vinculados a {title}</em>.</h2>
+              <span className="section-eyebrow">
+                {gallery[0]?.isGeneral ? '[GALERÍA GENERAL REAL DE WIX]' : '[GALERÍA COMPLETA DE PROYECTOS]'}
+              </span>
+              <h2 className="section-heading">
+                {gallery[0]?.isGeneral ? (
+                  <>Fotografías y Renders <em>del catálogo de Studio CAB</em>.</>
+                ) : (
+                  <>Fotografías y Renders <em>vinculados a {title}</em>.</>
+                )}
+              </h2>
               <p className="sub-grid-gallery-sub">
-                Colección de detalles visuales y ejecuciones reales registradas en el CMS de proyectos de Studio CAB para esta especialidad.
+                {gallery[0]?.isGeneral ? (
+                  'Muestras de ejecuciones reales de nuestro taller registradas en el CMS de proyectos mientras vinculas proyectos específicos a esta especialidad.'
+                ) : (
+                  `Colección de detalles visuales y ejecuciones reales registradas en el CMS de proyectos de Studio CAB para ${title}.`
+                )}
               </p>
             </div>
 
