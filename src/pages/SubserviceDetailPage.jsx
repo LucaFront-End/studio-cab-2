@@ -134,16 +134,17 @@ export default function SubserviceDetailPage() {
       if (match) return true;
     }
 
-    // Coincidencia secundaria en campos de texto o IDs
+    // Coincidencia dinámica secundaria en campos de filtro o texto de Wix CMS
     const projSubservices = (
       projData.subserviciosTexto || 
       projData.subservicio || 
       projData.subserviciosAsociados || 
+      projData.filtroDeGalera ||
       ''
     );
     
-    if (projSubservices && typeof projSubservices === 'string') {
-      const textToSearch = projSubservices.toLowerCase();
+    if (projSubservices) {
+      const textToSearch = String(projSubservices).toLowerCase();
       if (
         textToSearch.includes(subserviceTitleNormalized) || 
         textToSearch.includes(subserviceSlugNormalized) ||
@@ -153,16 +154,16 @@ export default function SubserviceDetailPage() {
       }
     }
     
-    // Fallback: Coincidencia por palabra clave del subservicio en el título del proyecto
-    if (subserviceTitleNormalized.includes('terraza') && projData.title.toLowerCase().includes('terraza')) return true;
-    if (subserviceTitleNormalized.includes('boutique') && projData.title.toLowerCase().includes('boutique')) return true;
-    if (subserviceTitleNormalized.includes('oficina') && projData.title.toLowerCase().includes('workstation')) return true;
-    if (subserviceTitleNormalized.includes('hotel') && projData.title.toLowerCase().includes('barcelo')) return true;
-    if (subserviceTitleNormalized.includes('cama') && projData.title.toLowerCase().includes('barcelo')) return true;
-    if (subserviceTitleNormalized.includes('vestidor') && projData.title.toLowerCase().includes('condesa')) return true;
-    if (subserviceTitleNormalized.includes('cocina') && projData.title.toLowerCase().includes('condesa')) return true;
-    if (subserviceTitleNormalized.includes('gimnasio') && projData.title.toLowerCase().includes('gimnasio')) return true;
-    
+    // Coincidencia dinámica general por traslape de palabras clave del subservicio en el proyecto
+    const subWords = subserviceTitleNormalized.split(/\s+/).filter(w => w.length > 3);
+    const projTitleLower = (projData.title || '').toLowerCase();
+    const projDescLower = (projData.elReto || projData.laSolucin || projData.elImpacto || '').toLowerCase();
+
+    if (subWords.length > 0) {
+      const keywordMatch = subWords.some(word => projTitleLower.includes(word) || projDescLower.includes(word));
+      if (keywordMatch) return true;
+    }
+
     return false;
   });
 

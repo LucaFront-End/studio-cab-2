@@ -27,11 +27,38 @@ export default function ProjectsPage() {
 
   const projectsData = (proyectos || []).map(p => {
     let cat = 'comercial';
-    if (p.servicioPrincipal === '8e5d5551-a1fa-4272-958e-1a01eacdb7ff') cat = 'residencial';
-    else if (p.servicioPrincipal === '06a2037c-149b-4fd6-844f-b9814340f9b8') cat = 'carpinteria';
-    else if (p.servicioPrincipal === 'f9aa307d-3523-4a2c-a202-826a5889ea3d') cat = 'produccion';
-    
-    let tag = cat === 'comercial' ? 'Proyecto Comercial' : cat === 'residencial' ? 'Proyecto Residencial' : 'Producción Especializada';
+    let tag = 'Proyecto Comercial';
+
+    if (p.servicioPrincipal) {
+      const sp = p.servicioPrincipal;
+      const spTitle = (typeof sp === 'object' ? (sp.title || sp.nombre || '') : '').toLowerCase();
+      
+      if (spTitle.includes('residencial')) {
+        cat = 'residencial';
+        tag = typeof sp === 'object' ? sp.title : 'Proyecto Residencial';
+      } else if (spTitle.includes('carpintería') || spTitle.includes('carpinteria')) {
+        cat = 'carpinteria';
+        tag = typeof sp === 'object' ? sp.title : 'Carpintería sobre Diseño';
+      } else if (spTitle.includes('producción') || spTitle.includes('produccion') || spTitle.includes('instalación') || spTitle.includes('instalacion')) {
+        cat = 'produccion';
+        tag = typeof sp === 'object' ? sp.title : 'Producción e Instalación';
+      } else if (spTitle.includes('comercial')) {
+        cat = 'comercial';
+        tag = typeof sp === 'object' ? sp.title : 'Proyecto Comercial';
+      } else if (typeof sp === 'object' && sp.title) {
+        cat = sp.title.toLowerCase();
+        tag = sp.title;
+      }
+    } else if (p.servicioPrincipal === '8e5d5551-a1fa-4272-958e-1a01eacdb7ff') {
+      cat = 'residencial';
+      tag = 'Proyecto Residencial';
+    } else if (p.servicioPrincipal === '06a2037c-149b-4fd6-844f-b9814340f9b8') {
+      cat = 'carpinteria';
+      tag = 'Carpintería sobre Diseño';
+    } else if (p.servicioPrincipal === 'f9aa307d-3523-4a2c-a202-826a5889ea3d') {
+      cat = 'produccion';
+      tag = 'Producción e Instalación';
+    }
 
     return {
       id: p._id,
