@@ -170,6 +170,7 @@ export default function SubserviceDetailPage() {
   const gallery = [];
   relatedProjects.forEach(proj => {
     const projData = proj.data || proj;
+    const projTitle = projData.title || projData.nombre || '';
     const rawGallery = projData.mediagallery || [];
     rawGallery.forEach(item => {
       if (item.type === 'video') {
@@ -179,13 +180,15 @@ export default function SubserviceDetailPage() {
         gallery.push({
           type: 'video',
           url: resolveWixVideo(item.slug || item.src),
-          poster: posterUrl
+          poster: posterUrl,
+          projectName: projTitle
         });
       } else {
         gallery.push({
           type: 'image',
           url: resolveWixImage(item.src, 1200),
-          originalUrl: resolveWixImage(item.src, 'original')
+          originalUrl: resolveWixImage(item.src, 'original'),
+          projectName: projTitle
         });
       }
     });
@@ -391,6 +394,48 @@ export default function SubserviceDetailPage() {
                 </div>
               </div>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* ═══ MASONRY / GRID GALERÍA COMPLETA DE PROYECTOS VINCULADOS ═══ */}
+      {gallery.length > 0 && (
+        <section className="sub-grid-gallery-section">
+          <div className="container-default">
+            <div className="sub-grid-gallery-header">
+              <span className="section-eyebrow">[GALERÍA COMPLETA DE PROYECTOS]</span>
+              <h2 className="section-heading">Fotografías y Renders <em>vinculados a {title}</em>.</h2>
+              <p className="sub-grid-gallery-sub">
+                Colección de detalles visuales y ejecuciones reales registradas en el CMS de proyectos de Studio CAB para esta especialidad.
+              </p>
+            </div>
+
+            <div className="sub-grid-gallery">
+              {gallery.map((item, idx) => (
+                <div 
+                  key={idx} 
+                  className="sub-grid-card"
+                  onClick={() => setLightbox(idx)}
+                >
+                  {item.type === 'video' ? (
+                    <div className="sub-grid-media-box video-box">
+                      <video src={item.url} poster={item.poster} muted loop playsInline />
+                      <div className="sub-grid-play-badge">▶ Video Real</div>
+                    </div>
+                  ) : (
+                    <div className="sub-grid-media-box">
+                      <img src={item.url} alt={`${title} - Proyecto Studio CAB`} loading="lazy" />
+                      <div className="sub-grid-hover-overlay">
+                        <span>Ver en Alta Resolución ⊕</span>
+                      </div>
+                    </div>
+                  )}
+                  {item.projectName && (
+                    <span className="sub-grid-project-tag">{item.projectName}</span>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}
