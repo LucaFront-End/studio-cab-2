@@ -417,60 +417,6 @@ export default function SubserviceDetailPage() {
         </section>
       )}
 
-      {/* ═══ MASONRY / GRID GALERÍA COMPLETA DE PROYECTOS VINCULADOS ═══ */}
-      {gallery.length > 0 && (
-        <section className="sub-grid-gallery-section">
-          <div className="container-default">
-            <div className="sub-grid-gallery-header">
-              <span className="section-eyebrow">
-                {gallery[0]?.isGeneral ? '[GALERÍA GENERAL REAL DE WIX]' : '[GALERÍA COMPLETA DE PROYECTOS]'}
-              </span>
-              <h2 className="section-heading">
-                {gallery[0]?.isGeneral ? (
-                  <>Fotografías y Renders <em>del catálogo de Studio CAB</em>.</>
-                ) : (
-                  <>Fotografías y Renders <em>vinculados a {title}</em>.</>
-                )}
-              </h2>
-              <p className="sub-grid-gallery-sub">
-                {gallery[0]?.isGeneral ? (
-                  'Muestras de ejecuciones reales de nuestro taller registradas en el CMS de proyectos mientras vinculas proyectos específicos a esta especialidad.'
-                ) : (
-                  `Colección de detalles visuales y ejecuciones reales registradas en el CMS de proyectos de Studio CAB para ${title}.`
-                )}
-              </p>
-            </div>
-
-            <div className="sub-grid-gallery">
-              {gallery.map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className="sub-grid-card"
-                  onClick={() => setLightbox(idx)}
-                >
-                  {item.type === 'video' ? (
-                    <div className="sub-grid-media-box video-box">
-                      <video src={item.url} poster={item.poster} muted loop playsInline />
-                      <div className="sub-grid-play-badge">▶ Video Real</div>
-                    </div>
-                  ) : (
-                    <div className="sub-grid-media-box">
-                      <img src={item.url} alt={`${title} - Proyecto Studio CAB`} loading="lazy" />
-                      <div className="sub-grid-hover-overlay">
-                        <span>Ver en Alta Resolución ⊕</span>
-                      </div>
-                    </div>
-                  )}
-                  {item.projectName && (
-                    <span className="sub-grid-project-tag">{item.projectName}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Lightbox rendered in document.body Portal to escape transforms */}
       {lightbox !== null && createPortal(
         <div className="pdv2-lightbox" onClick={() => setLightbox(null)}>
