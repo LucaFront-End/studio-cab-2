@@ -109,28 +109,45 @@ export default function SubserviceDetailPage() {
 
   const bgImage = categoryImages[category] || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&q=80';
 
-  // 1. Filtrar proyectos asociados a este subservicio
+  // 1. Filtrar proyectos asociados a este subservicio mediante multireferencias dinámicas de Wix CMS
   const relatedProjects = (proyectos || []).filter(proj => {
     const projData = proj.data || proj;
-    
-    // Buscar en los campos de subservicio de texto
+    const subserviceId = data._id;
+    const subserviceTitleNormalized = title.toLowerCase().trim();
+    const subserviceSlugNormalized = (slug || '').toLowerCase().trim();
+
+    // Coincidencia directa en el arreglo de multireferencias de Wix Data
+    if (Array.isArray(projData.subservicios) && projData.subservicios.length > 0) {
+      const match = projData.subservicios.some(sub => {
+        if (!sub) return false;
+        const sId = sub._id || sub.id;
+        const sSlug = (sub.slug || '').toLowerCase().trim();
+        const sTitle = (sub.title || sub.subservicio || '').toLowerCase().trim();
+
+        return (
+          (sId && sId === subserviceId) ||
+          (sSlug && sSlug === subserviceSlugNormalized) ||
+          (sTitle && sTitle === subserviceTitleNormalized) ||
+          (subserviceTitleNormalized && sTitle.includes(subserviceTitleNormalized))
+        );
+      });
+      if (match) return true;
+    }
+
+    // Coincidencia secundaria en campos de texto o IDs
     const projSubservices = (
       projData.subserviciosTexto || 
-      projData.subservicios || 
       projData.subservicio || 
       projData.subserviciosAsociados || 
       ''
     );
     
-    const subserviceTitleNormalized = title.toLowerCase().trim();
-    const subserviceSlugNormalized = (slug || '').toLowerCase().trim();
-    
-    if (projSubservices) {
-      const textToSearch = String(projSubservices).toLowerCase();
+    if (projSubservices && typeof projSubservices === 'string') {
+      const textToSearch = projSubservices.toLowerCase();
       if (
         textToSearch.includes(subserviceTitleNormalized) || 
         textToSearch.includes(subserviceSlugNormalized) ||
-        textToSearch.includes(data._id)
+        (subserviceId && textToSearch.includes(subserviceId))
       ) {
         return true;
       }

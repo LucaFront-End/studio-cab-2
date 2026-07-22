@@ -289,6 +289,19 @@ export async function fetchWixCollection(collectionId) {
     const limit = 100;
     let hasMore = true;
 
+    // Single & Multi-Reference field keys across Wix CMS collections
+    const referenceFieldsToInclude = [
+      'subservicios',
+      'servicioPrincipal',
+      'servicioMayor',
+      'proyectos',
+      'proyectosRelacionados',
+      'subservicio',
+      'servicios',
+      'subserviciosAsociados',
+      'mediagallery'
+    ];
+
     while (hasMore) {
       const response = await fetch('https://www.wixapis.com/wix-data/v2/items/query', {
         method: 'POST',
@@ -300,7 +313,8 @@ export async function fetchWixCollection(collectionId) {
           dataCollectionId: collectionId,
           query: {
             paging: { limit, offset }
-          }
+          },
+          includeReferencedItems: referenceFieldsToInclude
         })
       });
 
