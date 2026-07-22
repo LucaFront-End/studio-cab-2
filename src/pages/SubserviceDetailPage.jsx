@@ -100,10 +100,12 @@ export default function SubserviceDetailPage() {
   let waLink = data.enlaceDeWhatsapp || '';
   if (waLink) {
     if (waLink.startsWith('https://wa.me/?text=')) {
-      waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525516406963?text=');
+      waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525516406963?text=SW-%20');
+    } else if (waLink.includes('text=') && !waLink.includes('text=SW-')) {
+      waLink = waLink.replace('text=', 'text=SW-%20');
     }
   } else {
-    const waMessage = encodeURIComponent(`Hola Studio CAB. Me interesa cotizar el subservicio de *${title}* (Categoría: ${category}).`);
+    const waMessage = encodeURIComponent(`SW- Hola Studio CAB. Me interesa cotizar el subservicio de *${title}* (Categoría: ${category}).`);
     waLink = `https://wa.me/525516406963?text=${waMessage}`;
   }
 
@@ -448,7 +450,7 @@ export default function SubserviceDetailPage() {
           <div className="pdv2-lb-whatsapp-container" onClick={(e) => e.stopPropagation()}>
             <a 
               href={`https://wa.me/525516406963?text=${encodeURIComponent(
-                `Hola Studio CAB, me interesa cotizar un diseño similar a este detalle de ${title}: ${gallery[lightbox].originalUrl || gallery[lightbox].url}`
+                `SW- Hola Studio CAB, me interesa cotizar un diseño similar a este detalle de ${title}: ${gallery[lightbox].originalUrl || gallery[lightbox].url}`
               )}`}
               target="_blank" 
               rel="noopener noreferrer" 
