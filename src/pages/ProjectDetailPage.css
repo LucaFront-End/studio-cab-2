@@ -539,3 +539,33 @@
     white-space: nowrap;
   }
 }
+
+/* Subservices & Multi-reference Tags */
+.pdv2-spec-services {
+  flex-basis: 100%;
+}
+.pdv2-spec-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.pdv2-service-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: color-mix(in srgb, var(--colors--theme-orange) 12%, transparent);
+  color: var(--colors--theme-orange);
+  border: 1px solid color-mix(in srgb, var(--colors--theme-orange) 35%, transparent);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.pdv2-service-tag.link:hover {
+  background: var(--colors--theme-orange);
+  color: var(--colors--theme-black);
+  border-color: var(--colors--theme-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--colors--theme-orange) 30%, transparent);
+}

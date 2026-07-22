@@ -42,6 +42,17 @@ export default function ProjectDetailPage() {
     if (rawProject.laSolucin) narrative.push({ num: '02', title: 'La Solución', text: rawProject.laSolucin });
     if (rawProject.elImpacto) narrative.push({ num: '03', title: 'El Impacto', text: rawProject.elImpacto });
 
+    const subservices = (Array.isArray(rawProject.subservicios) ? rawProject.subservicios : [])
+      .map(sub => {
+        if (!sub) return null;
+        return {
+          id: sub._id || sub.id,
+          title: sub.title || sub.subservicio || '',
+          slug: sub.slug || ''
+        };
+      })
+      .filter(sub => sub && sub.title !== '');
+
     project = {
       title: rawProject.title,
       location: rawProject.zonaDelProyecto,
@@ -49,14 +60,14 @@ export default function ProjectDetailPage() {
       area: rawProject.superficie,
       duration: rawProject.duracin,
       year: rawProject.ao,
-      services: [], // Or map from related if it existed
+      services: subservices,
       heroImage: resolveWixImage(rawProject.imagenPrincipal, 1400),
       fotoConRelieves: resolveWixImage(rawProject.fotoConRelieves, 1400),
       gallery: gallery,
       narrative: narrative,
-      materials: [], // Not supported in Wix schema yet
-      testimonial: null, // Not supported in Wix schema yet
-      related: [] // Not supported in Wix schema yet
+      materials: [],
+      testimonial: null,
+      related: []
     };
   }
 
@@ -196,10 +207,16 @@ export default function ProjectDetailPage() {
           ))}
           {project.services && project.services.length > 0 && (
             <div className="pdv2-spec pdv2-spec-services" style={{ transitionDelay: '0.4s' }}>
-              <span className="pdv2-spec-label">Servicios</span>
+              <span className="pdv2-spec-label">Subservicios / Especialidades</span>
               <div className="pdv2-spec-tags">
-                {project.services.map((s, i) => (
-                  <span key={i} className="pdv2-service-tag">{s}</span>
+                {project.services.map((sub, i) => (
+                  sub.slug ? (
+                    <Link key={i} to={`/subservicios/${sub.slug}`} className="pdv2-service-tag link">
+                      {sub.title}
+                    </Link>
+                  ) : (
+                    <span key={i} className="pdv2-service-tag">{sub.title || sub}</span>
+                  )
                 ))}
               </div>
             </div>
