@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from 'react';
+import { createWixCheckoutSession } from '../lib/wixCMS';
 
 const CartContext = createContext();
 
@@ -14,6 +15,7 @@ export function CartProvider({ children }) {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   useEffect(() => {
     try {
@@ -79,10 +81,17 @@ export function CartProvider({ children }) {
   
   const formattedSubtotal = `$${numericSubtotal.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-  const checkoutWithWix = () => {
-    // Redirect to Wix site cart/checkout or fallback to Wix Store page
-    const wixStoreBase = 'https://dilodigitalmx.wixsite.com/website-25';
-    window.open(`${wixStoreBase}/cart`, '_blank');
+  const checkoutWithWix = async () => {
+    setIsCheckingOut(true);
+    try {
+      const redirectUrl = await createWixCheckoutSession(cart);
+      window.location.href = redirectUrl;
+    } catch (err) {
+      console.error('Checkout redirect failed', err);
+      window.location.href = 'https://dilodigitalmx.wixsite.com/website-23/cart';
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   const checkoutWithWhatsApp = () => {
@@ -108,6 +117,7 @@ export function CartProvider({ children }) {
         clearCart,
         isCartOpen,
         setIsCartOpen,
+        isCheckingOut,
         totalCount,
         numericSubtotal,
         formattedSubtotal,

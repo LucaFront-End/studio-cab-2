@@ -8,6 +8,7 @@ export default function CartDrawer() {
     cart,
     isCartOpen,
     setIsCartOpen,
+    isCheckingOut,
     removeFromCart,
     updateQuantity,
     clearCart,
@@ -109,8 +110,12 @@ export default function CartDrawer() {
             </p>
 
             <div className="cart-checkout-actions">
-              <button className="cart-btn-wix" onClick={checkoutWithWix}>
-                Finalizar Compra en Wix Stores 💳
+              <button 
+                className="cart-btn-wix" 
+                onClick={checkoutWithWix}
+                disabled={isCheckingOut}
+              >
+                {isCheckingOut ? 'Redirigiendo a Pago Seguro Wix...' : 'Finalizar Compra en Wix Stores 💳'}
               </button>
               <button className="cart-btn-wa" onClick={checkoutWithWhatsApp}>
                 Pedir por WhatsApp 💬

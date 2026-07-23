@@ -170,6 +170,53 @@ export async function fetchWixStoreProducts() {
   }
 }
 
+export const WIX_STORE_BASE_DOMAIN = 'https://dilodigitalmx.wixsite.com/website-23';
+
+export async function createWixCheckoutSession(cartItems) {
+  if (!cartItems || cartItems.length === 0) {
+    return `${WIX_STORE_BASE_DOMAIN}/cart`;
+  }
+
+  try {
+    const token = await getWixAccessToken();
+    const lineItems = cartItems.map(item => ({
+      catalogReference: {
+        catalogItemId: item.id,
+        appId: '215238eb-22a5-4236-9d0b-0518f2156950'
+      },
+      quantity: item.quantity || 1
+    }));
+
+    const response = await fetch('https://www.wixapis.com/ecom/v1/checkouts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        channelType: 'WEB',
+        lineItems
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Checkout creation failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    const checkoutId = data.checkout?.id;
+    if (!checkoutId) {
+      throw new Error('No checkoutId returned from Wix Ecom API');
+    }
+
+    const thankYouUrl = encodeURIComponent(window.location.origin + '/tienda');
+    return `${WIX_STORE_BASE_DOMAIN}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
+  } catch (error) {
+    console.warn('[Wix Stores] Failed to create API checkout session. Falling back to direct store cart.', error);
+    return `${WIX_STORE_BASE_DOMAIN}/cart`;
+  }
+}
+
 export async function fetchWixStoreCollections() {
   try {
     const token = await getWixAccessToken();
