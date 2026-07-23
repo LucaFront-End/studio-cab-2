@@ -294,6 +294,29 @@
   flex-wrap: wrap;
   margin-top: 24px;
 }
+.prp-add-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: var(--colors--theme-orange, #e55a2b);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(229, 90, 43, 0.25);
+}
+.prp-add-cart-btn:hover {
+  background: #ff6b39;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(229, 90, 43, 0.4);
+}
 .prp-whatsapp-btn {
   display: inline-flex;
   align-items: center;

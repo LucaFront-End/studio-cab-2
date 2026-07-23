@@ -139,7 +139,46 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
+}
+
+.header-cart-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--colors--theme-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-cart-btn:hover {
+  border-color: var(--colors--theme-orange);
+  color: var(--colors--theme-orange);
+  transform: translateY(-1px);
+}
+
+.header-cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--colors--theme-orange);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 8px rgba(229, 90, 43, 0.4);
 }
 
 .header-cta-btn {

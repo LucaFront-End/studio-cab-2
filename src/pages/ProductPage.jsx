@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { useInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { useDocumentSEO } from '../hooks/useDocumentSEO';
+import { useCart } from '../context/CartContext';
 import CTAConfigurator from '../components/CTAConfigurator';
 import './ProductPage.css';
 
@@ -17,6 +18,7 @@ const careTips = [
 export default function ProductPage() {
   const { id } = useParams();
   const { productos, colecciones, loading } = useWixCMSData();
+  const { addToCart } = useCart();
   const [activeImg, setActiveImg] = useState(0);
   const [showSpecs, setShowSpecs] = useState(false);
   const [lightbox, setLightbox] = useState(null);
@@ -195,6 +197,13 @@ export default function ProductPage() {
             </div>
 
             <div className="prp-action-buttons">
+              <button 
+                className="prp-add-cart-btn"
+                onClick={() => addToCart(product)}
+              >
+                🛒 Agregar al Carrito — {product.price}
+              </button>
+
               <a 
                 href={`https://wa.me/525516406963?text=${encodeURIComponent(
                 `SW- Hola Studio CAB. Me interesa cotizar y personalizar el mueble "${product.name}" de su catálogo. ¿Me podrían dar información sobre costos y tiempos de entrega?`

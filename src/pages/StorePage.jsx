@@ -5,9 +5,11 @@ import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { submitWixLead } from '../lib/wixCMS';
 import { useDocumentSEO } from '../hooks/useDocumentSEO';
+import { useCart } from '../context/CartContext';
 import './StorePage.css';
 
 export default function StorePage() {
+  const { addToCart } = useCart();
   useDocumentSEO(
     'Tienda de Muebles sobre Diseño en CDMX | Grupo CAB Studio',
     'Compra muebles sobre diseño en CDMX fabricados por Grupo CAB Studio. Descubre mobiliario comercial, residencial y carpintería personalizada con envíos a México.'
@@ -172,17 +174,29 @@ export default function StorePage() {
         <div className="container-default">
           <div className="st-product-grid">
             {filtered.map((product, i) => (
-              <Link to={`/tienda/${product.id}`} key={product.id} ref={el => gridRefs.current[i] = el} className={`st-product-card ${gridVis[i] ? 'in-view' : ''}`}>
-                <div className="st-product-images">
-                  <img src={product.image} alt={product.name} className="st-product-img st-img-primary" />
-                  <img src={product.image2} alt={product.name} className="st-product-img st-img-secondary" />
+              <div key={product.id} ref={el => gridRefs.current[i] = el} className={`st-product-card ${gridVis[i] ? 'in-view' : ''}`}>
+                <Link to={`/tienda/${product.id}`} className="st-product-card-link">
+                  <div className="st-product-images">
+                    <img src={product.image} alt={product.name} className="st-product-img st-img-primary" />
+                    <img src={product.image2} alt={product.name} className="st-product-img st-img-secondary" />
+                  </div>
+                  <div className="st-product-info">
+                    <h3 className="st-product-name">{product.name}</h3>
+                    <span className="st-product-price">{product.price}</span>
+                  </div>
+                </Link>
+                <div className="st-card-actions">
+                  <button 
+                    className="st-card-add-btn" 
+                    onClick={() => addToCart(product)}
+                  >
+                    🛒 Agregar al Carrito
+                  </button>
+                  <Link to={`/tienda/${product.id}`} className="st-product-view">
+                    Ver Detalle →
+                  </Link>
                 </div>
-                <div className="st-product-info">
-                  <h3 className="st-product-name">{product.name}</h3>
-                  <span className="st-product-price">{product.price}</span>
-                </div>
-                <span className="st-product-view">Ver Detalle →</span>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

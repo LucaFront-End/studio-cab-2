@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import './Header.css';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { totalCount, setIsCartOpen } = useCart();
 
   // Close menu on route change
   useEffect(() => {
@@ -87,6 +89,19 @@ export default function Header() {
 
         {/* CTA & Burger Wrapper */}
         <div className="header-actions">
+          <button
+            className="header-cart-btn"
+            onClick={() => setIsCartOpen(true)}
+            aria-label="Abrir carrito de compras"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            {totalCount > 0 && <span className="header-cart-badge">{totalCount}</span>}
+          </button>
+
           <Link to="/contacto" className="header-cta-btn">
             COTIZAR PROYECTO
             <span className="cta-btn-coord">[CAB-101]</span>
