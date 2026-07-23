@@ -36,7 +36,14 @@ const servicesFAQs = [
   { q: '¿Cómo se manejan los tiempos y plazos de entrega?', a: 'Todos nuestros contratos especifican fechas exactas de entrega por etapas. Si hay demoras no justificadas por cambios de obra, asumimos penalizaciones contractuales.' }
 ];
 
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
+
 export default function ServicesPage() {
+  useDocumentSEO(
+    'Servicios de Interiorismo y Carpintería en CDMX | Grupo CAB Studio',
+    'Conoce los servicios de Grupo CAB Studio: diseño comercial, interiorismo residencial, carpintería en CDMX, tapicería y muebles sobre diseño para todo tipo de proyectos.'
+  );
+
   /* Section 1: Hero & Marquees */
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
 

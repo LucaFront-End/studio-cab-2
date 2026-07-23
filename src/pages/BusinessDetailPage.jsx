@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useInView } from '../hooks/useInView';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import './BusinessDetailPage.css';
 
 const INDUSTRIES_DATA = {
@@ -150,9 +151,38 @@ const INDUSTRIES_DATA = {
   }
 };
 
+const BUSINESS_SEO = {
+  gimnasios: {
+    title: 'Diseño de Gimnasios en CDMX | Grupo CAB Studio',
+    description: 'Diseñamos gimnasios en CDMX con mobiliario sobre diseño, carpintería, recepciones, lockers y espacios funcionales que mejoran la experiencia de los usuarios.'
+  },
+  hoteles: {
+    title: 'Diseño de Hoteles en CDMX | Grupo CAB Studio',
+    description: 'Grupo CAB Studio desarrolla proyectos de diseño para hoteles en CDMX con carpintería fina, mobiliario sobre diseño, lobby, habitaciones y áreas comunes.'
+  },
+  oficinas: {
+    title: 'Diseño de Oficinas en CDMX | Grupo CAB Studio',
+    description: 'Creamos oficinas modernas en CDMX con carpintería sobre diseño, mobiliario corporativo y espacios colaborativos que impulsan productividad e imagen empresarial.'
+  },
+  restaurantes: {
+    title: 'Diseño de Restaurantes en CDMX | Grupo CAB Studio',
+    description: 'Especialistas en diseño de restaurantes en CDMX. Integramos interiorismo, carpintería, tapicería y muebles sobre diseño para crear espacios que venden y generan experiencias.'
+  },
+  retail: {
+    title: 'Diseño de Boutiques y Retail en CDMX | Grupo CAB Studio',
+    description: 'Grupo CAB Studio diseña boutiques y espacios retail en CDMX con exhibidores, mostradores, carpintería fina y muebles sobre diseño para potenciar la experiencia de compra.'
+  }
+};
+
 export default function BusinessDetailPage() {
   const { id } = useParams();
   const industry = INDUSTRIES_DATA[id];
+
+  const seo = BUSINESS_SEO[id] || {
+    title: industry ? `${industry.title} en CDMX | Grupo CAB Studio` : 'Negocios | Grupo CAB Studio',
+    description: industry ? industry.subtitle : 'Proyectos de diseño e interiorismo para negocios por Grupo CAB Studio.'
+  };
+  useDocumentSEO(seo.title, seo.description);
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [metricsRef, metricsVis] = useInView({ threshold: 0.1 });

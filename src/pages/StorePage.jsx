@@ -4,9 +4,15 @@ import { createPortal } from 'react-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { submitWixLead } from '../lib/wixCMS';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import './StorePage.css';
 
 export default function StorePage() {
+  useDocumentSEO(
+    'Tienda de Muebles sobre Diseño en CDMX | Grupo CAB Studio',
+    'Compra muebles sobre diseño en CDMX fabricados por Grupo CAB Studio. Descubre mobiliario comercial, residencial y carpintería personalizada con envíos a México.'
+  );
+
   const { productos, colecciones, loading } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [showCustomModal, setShowCustomModal] = useState(false);

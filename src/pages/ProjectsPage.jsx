@@ -7,6 +7,8 @@ import './ProjectsPage.css';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { resolveWixImage } from '../lib/wixCMS';
 
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
+
 const filters = ['Todos', 'Comercial', 'Residencial', 'Carpintería'];
 
 const rawMapHotspots = [
@@ -21,6 +23,11 @@ const rawMapHotspots = [
 ];
 
 export default function ProjectsPage() {
+  useDocumentSEO(
+    'Proyectos de Interiorismo y Carpintería en CDMX | Grupo CAB Studio',
+    'Descubre los proyectos de Grupo CAB Studio en restaurantes, hoteles, oficinas y residencias. Especialistas en carpintería, tapicería y muebles sobre diseño en CDMX.'
+  );
+
   const { proyectos } = useWixCMSData();
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });

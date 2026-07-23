@@ -47,7 +47,14 @@ const locationLabels = {
   fuera: 'Fuera de CDMX (Interior)'
 };
 
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
+
 export default function ContactPage() {
+  useDocumentSEO(
+    'Contacto | Grupo CAB Studio | Carpintería en CDMX',
+    'Contacta a Grupo CAB Studio para cotizar carpintería en CDMX, tapicería, interiorismo y muebles sobre diseño para negocios, oficinas, hoteles y residencias.'
+  );
+
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [formRef, formVis] = useInView({ threshold: 0.1 });
   const [plannerRef, plannerVis] = useInView({ threshold: 0.15 });

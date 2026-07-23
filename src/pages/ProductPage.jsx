@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import CTAConfigurator from '../components/CTAConfigurator';
 import './ProductPage.css';
 
@@ -30,16 +31,6 @@ export default function ProductPage() {
   const [customRef, customVis] = useInView({ threshold: 0.15 });
   const [relRef, relVis] = useInView({ threshold: 0.1 });
 
-  if (loading) {
-    return (
-      <div className="store-loading page-enter">
-        <div className="spinner"></div>
-        <p>Cargando detalles del producto...</p>
-      </div>
-    );
-  }
-
-  // Map live Wix products to our structure
   const mappedProducts = (productos || []).map(p => {
     const colMap = {};
     (colecciones || []).forEach(c => {
@@ -69,10 +60,27 @@ export default function ProductPage() {
       dimensions: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('dimens'))?.description || 'Medidas sobre diseño ejecutivo',
       weight: p.weight ? `${p.weight} kg` : 'Sobre cotización',
       finish: p.additionalInfoSections?.find(s => s.title?.toLowerCase().includes('acabado'))?.description || 'Barniz o laca premium',
+      leadTime: '3 a 4 semanas de producción',
+      sku: p.sku || `CAB-PRD-${(p.id || p._id || '').slice(-4)}`,
+      isNew: false
     };
   });
 
-  const product = mappedProducts.find(p => p.id === id);
+  const product = mappedProducts.find(p => p.id === id || p.slug === id);
+
+  useDocumentSEO(
+    product ? `${product.name} | Tienda | Grupo CAB Studio` : 'Tienda de Muebles | Grupo CAB Studio',
+    product ? `Compra ${product.name} fabricado sobre diseño en CDMX por Grupo CAB Studio. Descubre mobiliario comercial, residencial y carpintería personalizada.` : 'Compra muebles sobre diseño en CDMX fabricados por Grupo CAB Studio.'
+  );
+
+  if (loading) {
+    return (
+      <div className="store-loading page-enter">
+        <div className="spinner"></div>
+        <p>Cargando detalles del producto...</p>
+      </div>
+    );
+  }
 
   if (!product) {
     return (

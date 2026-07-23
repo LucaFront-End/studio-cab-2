@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useEffect, useRef, useState } from 'react';
 import { useWixCMSData } from '../hooks/useWixCMS';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import './ServiceDetailPage.css';
 
 const allServices = {
@@ -159,10 +160,35 @@ const allServices = {
   },
 };
 
+const SERVICE_SEO = {
+  comercial: {
+    title: 'Diseño Comercial en CDMX | Grupo CAB Studio',
+    description: 'Grupo CAB Studio desarrolla proyectos de diseño comercial en CDMX para restaurantes, hoteles, oficinas, retail y franquicias con mobiliario sobre diseño y carpintería fina.'
+  },
+  residencial: {
+    title: 'Interiorismo Residencial en CDMX | Grupo CAB Studio',
+    description: 'Creamos proyectos de interiorismo residencial en CDMX con carpintería fina, tapicería y muebles sobre diseño para casas, departamentos y remodelaciones premium.'
+  },
+  carpinteria: {
+    title: 'Carpintería sobre Diseño en CDMX | Grupo CAB Studio',
+    description: 'Especialistas en carpintería sobre diseño en CDMX. Fabricamos muebles personalizados para negocios y residencias con maderas premium, acabados finos y producción propia.'
+  },
+  produccion: {
+    title: 'Producción e Instalación de Mobiliario en CDMX | Grupo CAB Studio',
+    description: 'Grupo CAB Studio fabrica e instala mobiliario sobre diseño en CDMX para proyectos comerciales y residenciales con supervisión especializada y acabados premium.'
+  }
+};
+
 export default function ServiceDetailPage() {
   const { id } = useParams();
   const service = allServices[id];
   const { subservicios } = useWixCMSData();
+
+  const seo = SERVICE_SEO[id] || {
+    title: service ? `${service.title} en CDMX | Grupo CAB Studio` : 'Servicios | Grupo CAB Studio',
+    description: service ? service.subtitle : 'Servicios de interiorismo y carpintería en CDMX por Grupo CAB Studio.'
+  };
+  useDocumentSEO(seo.title, seo.description);
   
   const currentSubservices = (subservicios || []).filter(sub => {
     if (sub.servicioMayor === id) return true;

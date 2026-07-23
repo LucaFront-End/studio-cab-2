@@ -37,7 +37,14 @@ const awardsData = [
   { logo: 'GQA', name: 'Gama Awards', quote: 'Reconocimiento especial al Taller de Carpintería Artesanal y CNC.' },
 ];
 
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
+
 export default function AboutPage() {
+  useDocumentSEO(
+    'Grupo CAB Studio | Expertos en Carpintería e Interiorismo en CDMX',
+    'En Grupo CAB Studio diseñamos, fabricamos e instalamos muebles sobre diseño en CDMX. Especialistas en carpintería fina, tapicería e interiorismo comercial y residencial.'
+  );
+
   /* ── Section 1: Hero Counters ── */
   const [heroRef, heroVisible] = useInView({ threshold: 0.2 });
   const [countRef1, count1] = useCountUp(150, { suffix: '+' });

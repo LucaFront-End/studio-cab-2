@@ -55,7 +55,7 @@ export default function SubserviceDetailPage() {
     if (subservice) {
       const data = subservice.data || subservice;
       const title = data.title || data.subservicio || '';
-      document.title = data.tituloDeSeo || `${title} | Studio CAB | Carpintería sobre Diseño`;
+      document.title = data.tituloDeSeo || `${title} en CDMX | Grupo CAB Studio`;
 
       let metaDesc = document.querySelector('meta[name="description"]');
       if (!metaDesc) {
@@ -63,7 +63,7 @@ export default function SubserviceDetailPage() {
         metaDesc.name = 'description';
         document.head.appendChild(metaDesc);
       }
-      metaDesc.content = data.metadescripcin || `${title} en CDMX. Soluciones de fabricación y carpintería premium a la medida.`;
+      metaDesc.content = data.metadescripcin || `${title} en CDMX. Especialistas en carpintería, tapicería y muebles sobre diseño por Grupo CAB Studio.`;
     }
   }, [subservice]);
 

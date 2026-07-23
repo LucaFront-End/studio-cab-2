@@ -8,6 +8,8 @@ import { useWixCMSData } from '../hooks/useWixCMS';
 import { resolveWixImage, resolveWixVideo } from '../lib/wixCMS';
 import CTAConfigurator from '../components/CTAConfigurator';
 
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
+
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const { proyectos, loading } = useWixCMSData();
@@ -70,6 +72,11 @@ export default function ProjectDetailPage() {
       related: []
     };
   }
+
+  useDocumentSEO(
+    project ? `${project.title} | Proyectos | Grupo CAB Studio` : 'Proyecto | Grupo CAB Studio',
+    project ? `Descubre el proyecto ${project.title} en ${project.location || 'CDMX'}. Especialistas en carpintería, tapicería y muebles sobre diseño por Grupo CAB Studio.` : 'Proyectos de carpintería e interiorismo por Grupo CAB Studio.'
+  );
 
   const [heroRef, heroVis] = useInView({ threshold: 0.05 });
   const [specRef, specVis] = useInView({ threshold: 0.1 });
