@@ -85,10 +85,10 @@ export function CartProvider({ children }) {
     setIsCheckingOut(true);
     try {
       const redirectUrl = await createWixCheckoutSession(cart);
-      window.open(redirectUrl, '_blank');
+      window.location.href = redirectUrl;
     } catch (err) {
       console.error('Checkout redirect failed', err);
-      window.open('https://dilodigitalmx.wixsite.com/website-23/checkout', '_blank');
+      window.location.href = 'https://dilodigitalmx.wixsite.com/website-23/checkout';
     } finally {
       setIsCheckingOut(false);
     }

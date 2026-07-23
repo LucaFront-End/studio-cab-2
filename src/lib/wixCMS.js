@@ -177,14 +177,45 @@ export async function createWixCheckoutSession(cartItems) {
     return WIX_STORE_BASE_DOMAIN;
   }
 
-  // If there's 1 item with a slug, redirect directly to its product page on Wix
-  if (cartItems.length === 1 && cartItems[0].slug) {
-    const slug = cartItems[0].slug.replace(/^\/product-page\//, '');
-    return `${WIX_STORE_BASE_DOMAIN}/product-page/${slug}`;
-  }
+  try {
+    const token = await getWixAccessToken();
+    const lineItems = cartItems.map(item => ({
+      catalogReference: {
+        catalogItemId: item.id,
+        appId: '1380b703-ce81-ff05-f115-39571d94dfcd',
+        options: { options: {} }
+      },
+      quantity: item.quantity || 1
+    }));
 
-  // Direct to main store checkout on Wix website-23
-  return `${WIX_STORE_BASE_DOMAIN}/checkout`;
+    const response = await fetch('https://www.wixapis.com/ecom/v1/checkouts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        channelType: 'WEB',
+        lineItems
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Checkout creation failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    const checkoutId = data.checkout?.id;
+    if (!checkoutId) {
+      throw new Error('No checkoutId returned from Wix Ecom API');
+    }
+
+    const thankYouUrl = encodeURIComponent(window.location.origin + '/tienda');
+    return `${WIX_STORE_BASE_DOMAIN}/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
+  } catch (error) {
+    console.warn('[Wix Stores] Failed to create API checkout session.', error);
+    return WIX_STORE_BASE_DOMAIN;
+  }
 }
 
 export async function fetchWixStoreCollections() {
