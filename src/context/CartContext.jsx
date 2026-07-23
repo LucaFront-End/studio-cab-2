@@ -86,9 +86,10 @@ export function CartProvider({ children }) {
       // Initialize Wix Client
       const { createClient, OAuthStrategy } = await import('@wix/sdk');
       const { currentCart } = await import('@wix/ecom');
+      const { redirects } = await import('@wix/redirects');
       
       const wixClient = createClient({
-        modules: { currentCart },
+        modules: { currentCart, redirects },
         auth: OAuthStrategy({ clientId: '8f4920b3-137c-4fd6-a0a5-dc4957f08701' })
       });
 
@@ -108,7 +109,7 @@ export function CartProvider({ children }) {
       // Add items to Wix currentCart
       await wixClient.currentCart.addToCurrentCart({ lineItems });
 
-      // Create checkout from currentCart (like Restomuebles Ecom)
+      // Create checkout from currentCart
       const checkout = await wixClient.currentCart.createCheckoutFromCurrentCart({
         channelType: currentCart.ChannelType.WEB
       });
@@ -116,11 +117,22 @@ export function CartProvider({ children }) {
       const checkoutId = checkout.checkoutId;
       if (!checkoutId) throw new Error('No checkoutId received');
 
-      const thankYouUrl = encodeURIComponent(window.location.origin + '/tienda');
-      window.location.href = `https://dilodigitalmx.wixsite.com/website-23/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
+      // Create Wix Session Cookie Redirect (handles cross-domain auth and preloads checkout)
+      const redirectRes = await wixClient.redirects.createRedirectSession({
+        ecomCheckout: { checkoutId },
+        callbacks: {
+          postFlowUrl: window.location.origin + '/tienda',
+          thankYouPageUrl: window.location.origin + '/tienda'
+        }
+      });
+
+      const redirectUrl = redirectRes.redirectSession?.fullUrl;
+      if (!redirectUrl) throw new Error('No redirect URL received from Wix');
+
+      window.location.href = redirectUrl;
     } catch (err) {
-      console.error('Checkout redirect failed', err);
-      window.location.href = 'https://dilodigitalmx.wixsite.com/website-23/checkout';
+      console.error('[Wix Checkout Error]', err);
+      window.location.href = 'https://dilodigitalmx.wixsite.com/website-23';
     } finally {
       setIsCheckingOut(false);
     }
