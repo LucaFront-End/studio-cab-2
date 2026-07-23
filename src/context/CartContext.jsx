@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from 'react';
-import { createWixCheckoutSession } from '../lib/wixCMS';
 
 const CartContext = createContext();
 
@@ -84,8 +83,41 @@ export function CartProvider({ children }) {
   const checkoutWithWix = async () => {
     setIsCheckingOut(true);
     try {
-      const redirectUrl = await createWixCheckoutSession(cart);
-      window.location.href = redirectUrl;
+      // Initialize Wix Client
+      const { createClient, OAuthStrategy } = await import('@wix/sdk');
+      const { currentCart } = await import('@wix/ecom');
+      
+      const wixClient = createClient({
+        modules: { currentCart },
+        auth: OAuthStrategy({ clientId: '8f4920b3-137c-4fd6-a0a5-dc4957f08701' })
+      });
+
+      // Generate anonymous visitor token
+      await wixClient.auth.generateVisitorTokens();
+
+      // Map local cart to Wix line items
+      const lineItems = cart.map(item => ({
+        catalogReference: {
+          catalogItemId: item.id,
+          appId: '1380b703-ce81-ff05-f115-39571d94dfcd',
+          options: { options: {} }
+        },
+        quantity: item.quantity || 1
+      }));
+
+      // Add items to Wix currentCart
+      await wixClient.currentCart.addToCurrentCart({ lineItems });
+
+      // Create checkout from currentCart (like Restomuebles Ecom)
+      const checkout = await wixClient.currentCart.createCheckoutFromCurrentCart({
+        channelType: currentCart.ChannelType.WEB
+      });
+
+      const checkoutId = checkout.checkoutId;
+      if (!checkoutId) throw new Error('No checkoutId received');
+
+      const thankYouUrl = encodeURIComponent(window.location.origin + '/tienda');
+      window.location.href = `https://dilodigitalmx.wixsite.com/website-23/__ecom/checkout?checkoutId=${checkoutId}&origin=${thankYouUrl}`;
     } catch (err) {
       console.error('Checkout redirect failed', err);
       window.location.href = 'https://dilodigitalmx.wixsite.com/website-23/checkout';
