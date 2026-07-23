@@ -158,6 +158,45 @@ const allServices = {
       { icon: '△', title: 'Acabados premium', text: 'Cada detalle ejecutado con estándar de alta costura.' },
     ],
   },
+  tapiceria: {
+    title: 'Tapicería de Muebles', subtitle: 'Restauración, acojinado y confección textil de alta gama.',
+    tag: 'Tapicería · Rellenos · Estructura · Costuras', heroImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1400&q=80',
+    description: 'Renovamos y transformamos mobiliario comercial y residencial con técnicas artesanales de tapicería, revisión estructural y acabados de lujo.',
+    longText: 'Servicio especializado en evaluación técnica, restauración y rediseño de piezas. Abordamos cada mueble de forma integral: desde la estructura interna de madera hasta el rediseño de costuras y acojinados de alta resistencia.',
+    gallery: [
+      { src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80', caption: 'Sillón de autor — Tapicería textil bouclé' },
+      { src: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', caption: 'Restauración de banqueta — Piel de alta densidad' },
+      { src: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80', caption: 'Booths gastronómicos — Tapicería náutica de alto tráfico' },
+      { src: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?w=800&q=80', caption: 'Silla ejecutiva — Capitoné artesanal y costuras' },
+    ],
+    materials: [
+      { name: 'Pieles & Cueros Náuticos', desc: 'Resistentes al desgaste comercial, abrasión y humedad.', src: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
+      { name: 'Espumas HR & Plumón', desc: 'Acojinados ergonómicos de alta densidad y resiliencia prolongada.', src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&q=80' },
+      { name: 'Textiles Antimanchas & Terciopelos', desc: 'Tejidos con protección contra líquidos y manchas para alto tráfico.', src: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?w=300&q=80' },
+    ],
+    process: [
+      { num: '01', title: 'Tapicería Fine & Retail', desc: 'Confección a medida, retapizado completo y selección de textiles o cueros importados.', icon: '⊙' },
+      { num: '02', title: 'Revisión de Relleno', desc: 'Diagnóstico y sustitución de espumas de alta densidad, aglomerados y mezclas de plumón.', icon: '◎' },
+      { num: '03', title: 'Resortes y Bandas', desc: 'Reparación, cambio y tensionado de bandas elásticas, resortes en zig-zag y espirales.', icon: '◈' },
+      { num: '04', title: 'Madera y Estructura', desc: 'Refuerzo de armazones, resanado de maderas macizas, ajuste de ensamble y nivelación.', icon: '◇' },
+      { num: '05', title: 'Rediseños de Costuras', desc: 'Confección de vivos, pespuntes de autor, patrones en capitoné y detalles estéticos a medida.', icon: '△' },
+    ],
+    stats: [
+      { value: '350+', label: 'Piezas restauradas' },
+      { value: '100%', label: 'Materiales probados' },
+      { value: '3', label: 'Años de garantía' },
+    ],
+    testimonial: {
+      quote: '"Restauraron nuestras banquetas y sillerías comerciales dejándolas mejores que nuevas. La atención en el armado estructural y las costuras es fantástica."',
+      author: 'Rodrigo Alarcón', role: 'Director Operativo — Grupo Gastronómico MX',
+    },
+    benefits: [
+      { icon: '◎', title: 'Tapicería a Medida', text: 'Retapizado integral para muebles residenciales y comerciales de uso rudo.' },
+      { icon: '◈', title: 'Evaluación Estructural', text: 'Refuerzo de armazón de madera, ajuste de resortes y bandas elásticas.' },
+      { icon: '◇', title: 'Rediseño de Costuras', text: 'Capitoné, vivos y pespuntes de alta precisión ajustados a tu diseño.' },
+      { icon: '△', title: 'Materiales Certificados', text: 'Telas antimanchas, pieles sintéticas náuticas y espumas ergonómicas HR.' },
+    ],
+  },
 };
 
 const SERVICE_SEO = {
@@ -176,6 +215,10 @@ const SERVICE_SEO = {
   produccion: {
     title: 'Producción e Instalación de Mobiliario en CDMX | Grupo CAB Studio',
     description: 'Grupo CAB Studio fabrica e instala mobiliario sobre diseño en CDMX para proyectos comerciales y residenciales con supervisión especializada y acabados premium.'
+  },
+  tapiceria: {
+    title: 'Tapicería de Muebles en CDMX | Grupo CAB Studio',
+    description: 'Servicio profesional de tapicería de muebles en CDMX. Revisión de relleno, resortes, bandas, madera y estructura, y rediseños de costuras.'
   }
 };
 
@@ -192,12 +235,13 @@ export default function ServiceDetailPage() {
   
   const currentSubservices = (subservicios || []).filter(sub => {
     if (sub.servicioMayor === id) return true;
-    const cat = sub.categora;
-    if (!cat) return false;
+    const cat = sub.categora || sub.categoria || '';
+    if (!cat && !sub.subservicio) return false;
     if (id === 'comercial' && cat === 'Diseño Comercial') return true;
     if (id === 'residencial' && cat === 'Interiorismo Residencial') return true;
     if (id === 'produccion' && cat === 'Producción e Instalación') return true;
     if (id === 'carpinteria' && (cat === 'Carpintería y Mobiliario sobre Diseño' || cat === 'Carpintería sobre Diseño')) return true;
+    if (id === 'tapiceria' && (cat.toLowerCase().includes('tapicer') || (sub.subservicio && sub.subservicio.toLowerCase().includes('tapicer')))) return true;
     return false;
   });
 

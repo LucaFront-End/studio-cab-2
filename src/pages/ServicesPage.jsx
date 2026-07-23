@@ -8,6 +8,7 @@ const servicesData = [
   { id: 'comercial', title: 'Diseño Comercial', subtitle: 'Espacios que venden', tag: 'Retail · Oficinas · Restaurantes', image: '/diseno_comercial.png', description: 'Transformamos locales comerciales en experiencias de marca que generan resultados medibles.' },
   { id: 'residencial', title: 'Interiorismo Residencial', subtitle: 'Tu hogar, tu identidad', tag: 'Casas · Departamentos · Penthouses', image: '/interiorismo_residencial.png', description: 'Diseñamos espacios habitacionales sofisticados con materiales nobles y acabados impecables.' },
   { id: 'carpinteria', title: 'Carpintería sobre Diseño', subtitle: 'Mobiliario hecho a medida', tag: 'Muebles · Cocinas · Closets', image: '/carpinteria_diseno.png', description: 'Fabricamos con maquinaria CNC y mano artesanal, cocinas, closets y mobiliario premium.' },
+  { id: 'tapiceria', title: 'Tapicería de Muebles', subtitle: 'Restauración y confort', tag: 'Tapicería · Rellenos · Estructura · Costuras', image: '/taller/DSC09160.jpg', description: 'Restauración y retapizado integral de muebles con revisión de relleno, resortes, refuerzo de armazón de madera y rediseño de costuras.' },
   { id: 'produccion', title: 'Producción e Instalación', subtitle: 'Del plano a la realidad', tag: 'Obra · Acabados · Supervisión', image: '/produccion_instalacion.png', description: 'Gestionamos la fabricación, montaje e instalación de cada proyecto en CDMX y área metropolitana con altos estándares de calidad y atención al detalle.' },
 ];
 
