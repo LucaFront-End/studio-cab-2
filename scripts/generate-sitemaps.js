@@ -12,6 +12,22 @@ const WIX_CLIENT_ID = '8f4920b3-137c-4fd6-a0a5-dc4957f08701';
 // Format Date YYYY-MM-DD
 const currentDate = new Date().toISOString().split('T')[0];
 
+function formatLastModDate(dateVal) {
+  if (!dateVal) return currentDate;
+  try {
+    if (typeof dateVal === 'object' && dateVal.$date) {
+      return new Date(dateVal.$date).toISOString().split('T')[0];
+    }
+    const d = new Date(dateVal);
+    if (!isNaN(d.getTime())) {
+      return d.toISOString().split('T')[0];
+    }
+  } catch {
+    // fallback
+  }
+  return currentDate;
+}
+
 function generateUrlSetXml(urls) {
   const urlNodes = urls.map(u => `  <url>
     <loc>${u.loc}</loc>
@@ -69,11 +85,31 @@ async function fetchLiveProducts(token) {
   }
 }
 
+async function fetchWixCollectionItems(token, collectionId) {
+  if (!token) return [];
+  try {
+    const res = await fetch('https://www.wixapis.com/wix-data/v2/items/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ dataCollectionId: collectionId, query: { paging: { limit: 1000 } } })
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.dataItems || [];
+  } catch {
+    return [];
+  }
+}
+
 async function main() {
   console.log('[Sitemap Generator] Starting dynamic sitemap generation...');
 
   const token = await getWixAccessToken();
   const liveProducts = await fetchLiveProducts(token);
+  const liveSubservices = await fetchWixCollectionItems(token, 'Subservicios');
+  const liveProjects = await fetchWixCollectionItems(token, 'Proyectos');
+
+  console.log(`[Sitemap Generator] Fetched ${liveProducts.length} products, ${liveSubservices.length} subservices, ${liveProjects.length} projects from Wix CMS.`);
 
   // 1. Static Sitemap
   const staticUrls = [
@@ -98,23 +134,43 @@ async function main() {
   ];
   const servicesXml = generateUrlSetXml(servicesUrls);
 
-  // 3. Subservices Sitemap (Dynamic from Wix/Definitions)
-  const subserviceSlugs = [
-    'lockers-vestidores-alto-rendimiento',
-    'barras-recepcion-escultoricas',
-    'mesas-juntas-escritorios-ejecutivos',
-    'booths-banquetas-corridas-ergonomicas',
-    'cocinas-vestidores-residenciales',
-    'lambrines-revestimientos-acusticos',
-    'ffe-cabeceros-cama-hoteles',
-    'instalacion-monumental-herreria-fina',
-    'tapiceria-muebles-fine-retail'
-  ];
-  const subservicesUrls = subserviceSlugs.map(slug => ({
-    loc: `${BASE_URL}/servicios/subservicio/${slug}`,
-    priority: '0.85',
-    changefreq: 'weekly'
-  }));
+  // 3. Subservices Sitemap (100% Dynamic from Wix CMS Subservicios collection)
+  let subservicesUrls = [];
+  if (liveSubservices.length > 0) {
+    const uniqueSlugs = new Set();
+    liveSubservices.forEach(item => {
+      const data = item.data || item;
+      const slug = data.slug || data._id;
+      if (slug && !uniqueSlugs.has(slug)) {
+        uniqueSlugs.add(slug);
+        const lastModDate = data._updatedDate || data._createdDate;
+        subservicesUrls.push({
+          loc: `${BASE_URL}/subservicios/${slug}`,
+          priority: '0.85',
+          changefreq: 'weekly',
+          lastmod: formatLastModDate(lastModDate)
+        });
+      }
+    });
+  } else {
+    // Fallback subservices list
+    const fallbackSlugs = [
+      'lockers-vestidores-alto-rendimiento',
+      'barras-recepcion-escultoricas',
+      'mesas-juntas-escritorios-ejecutivos',
+      'booths-banquetas-corridas-ergonomicas',
+      'cocinas-vestidores-residenciales',
+      'lambrines-revestimientos-acusticos',
+      'ffe-cabeceros-cama-hoteles',
+      'instalacion-monumental-herreria-fina',
+      'tapiceria-muebles-fine-retail'
+    ];
+    subservicesUrls = fallbackSlugs.map(slug => ({
+      loc: `${BASE_URL}/subservicios/${slug}`,
+      priority: '0.85',
+      changefreq: 'weekly'
+    }));
+  }
   const subservicesXml = generateUrlSetXml(subservicesUrls);
 
   // 4. Products Sitemap (100% Dynamic from Wix Stores API + Fallback)
@@ -123,7 +179,7 @@ async function main() {
         loc: `${BASE_URL}/tienda/${p.id || p._id}`,
         priority: '0.8',
         changefreq: 'weekly',
-        lastmod: p.lastUpdated ? p.lastUpdated.split('T')[0] : currentDate
+        lastmod: formatLastModDate(p.lastUpdated)
       }))
     : [
         { loc: `${BASE_URL}/tienda/ab84a5e1-1959-1c59-baa3-ecc634b7f52f`, priority: '0.8' },
@@ -133,13 +189,24 @@ async function main() {
       ];
   const productsXml = generateUrlSetXml(productUrls);
 
-  // 5. Projects Sitemap (Dynamic Portfolio)
-  const projectIds = ['basilio', 'condesa', 'polanco', 'madrigal', 'corporativo-santa-fe'];
-  const projectsUrls = projectIds.map(id => ({
-    loc: `${BASE_URL}/proyectos/${id}`,
-    priority: '0.8',
-    changefreq: 'monthly'
-  }));
+  // 5. Projects Sitemap (Dynamic Portfolio from Wix CMS Proyectos collection + Fallback)
+  const projectsUrls = liveProjects.length > 0
+    ? liveProjects.map(item => {
+        const data = item.data || item;
+        const id = data._id || data.slug || data.title?.toLowerCase().replace(/\s+/g, '-');
+        const lastModDate = data._updatedDate || data._createdDate;
+        return {
+          loc: `${BASE_URL}/proyectos/${id}`,
+          priority: '0.8',
+          changefreq: 'monthly',
+          lastmod: formatLastModDate(lastModDate)
+        };
+      })
+    : ['basilio', 'condesa', 'polanco', 'madrigal', 'corporativo-santa-fe'].map(id => ({
+        loc: `${BASE_URL}/proyectos/${id}`,
+        priority: '0.8',
+        changefreq: 'monthly'
+      }));
   const projectsXml = generateUrlSetXml(projectsUrls);
 
   // 6. Sitemap Index
