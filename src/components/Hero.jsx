@@ -120,7 +120,7 @@ const Hero = () => {
                 className="hero-banner-video"
               >
                 <source
-                  src="/grupo-cab-web.mp4"
+                  src="/hero-video.mp4"
                   type="video/mp4"
                 />
               </video>
