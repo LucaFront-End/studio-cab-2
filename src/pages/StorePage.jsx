@@ -190,7 +190,7 @@ export default function StorePage() {
                     className="st-card-add-btn" 
                     onClick={() => addToCart(product)}
                   >
-                    🛒 Agregar al Carrito
+                    <span>🛒</span> Agregar al Carrito
                   </button>
                   <Link to={`/tienda/${product.id}`} className="st-product-view">
                     Ver Detalle →
