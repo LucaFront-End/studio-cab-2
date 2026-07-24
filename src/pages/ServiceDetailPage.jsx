@@ -167,12 +167,12 @@ const allServices = {
       { src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80', caption: 'Sillón de autor — Tapicería textil bouclé' },
       { src: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', caption: 'Restauración de banqueta — Piel de alta densidad' },
       { src: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80', caption: 'Booths gastronómicos — Tapicería náutica de alto tráfico' },
-      { src: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?w=800&q=80', caption: 'Silla ejecutiva — Capitoné artesanal y costuras' },
+      { src: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80', caption: 'Silla ejecutiva — Capitoné artesanal y costuras' },
     ],
     materials: [
       { name: 'Pieles & Cueros Náuticos', desc: 'Resistentes al desgaste comercial, abrasión y humedad.', src: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80' },
       { name: 'Espumas HR & Plumón', desc: 'Acojinados ergonómicos de alta densidad y resiliencia prolongada.', src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&q=80' },
-      { name: 'Textiles Antimanchas & Terciopelos', desc: 'Tejidos con protección contra líquidos y manchas para alto tráfico.', src: 'https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?w=300&q=80' },
+      { name: 'Textiles Antimanchas & Terciopelos', desc: 'Tejidos con protección contra líquidos y manchas para alto tráfico.', src: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=300&q=80' },
     ],
     process: [
       { num: '01', title: 'Tapicería Fine & Retail', desc: 'Confección a medida, retapizado completo y selección de textiles o cueros importados.', icon: '⊙' },
@@ -280,7 +280,6 @@ export default function ServiceDetailPage() {
   const [procRefs, procVis] = useStaggerInView(4, { staggerDelay: 200 });
   const [testRef, testVis] = useInView({ threshold: 0.2 });
   const [benRefs, benVis] = useStaggerInView(4, { staggerDelay: 120 });
-  const [calcRef, calcVis] = useInView({ threshold: 0.15 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
   // Parallax on hero
@@ -301,10 +300,6 @@ export default function ServiceDetailPage() {
   // Materials active state
   const [activeMaterial, setActiveMaterial] = useState(0);
 
-  // Budget Planner State
-  const [calcArea, setCalcArea] = useState(60);
-  const [calcQuality, setCalcQuality] = useState('premium');
-
   if (!service) {
     return (
       <div className="page-enter" style={{ padding: '200px 20px', textAlign: 'center' }}>
@@ -315,41 +310,6 @@ export default function ServiceDetailPage() {
   }
 
   const otherServices = Object.entries(allServices).filter(([key]) => key !== id).slice(0, 3);
-
-  // Calculate dynamic budget range
-  const calculateBudget = () => {
-    let pricePerM2;
-    let timeLabel;
-
-    if (id === 'comercial') {
-      if (calcQuality === 'standard') { pricePerM2 = 4200; timeLabel = '3 meses'; }
-      else if (calcQuality === 'premium') { pricePerM2 = 7500; timeLabel = '5 meses'; }
-      else { pricePerM2 = 13000; timeLabel = '8 meses'; }
-    } else if (id === 'residencial') {
-      if (calcQuality === 'standard') { pricePerM2 = 5500; timeLabel = '4 meses'; }
-      else if (calcQuality === 'premium') { pricePerM2 = 9500; timeLabel = '6 meses'; }
-      else { pricePerM2 = 16000; timeLabel = '9 meses'; }
-    } else if (id === 'carpinteria') {
-      if (calcQuality === 'standard') { pricePerM2 = 8500; timeLabel = '6 semanas'; }
-      else if (calcQuality === 'premium') { pricePerM2 = 16000; timeLabel = '10 semanas'; }
-      else { pricePerM2 = 27000; timeLabel = '16 semanas'; }
-    } else { // produccion
-      if (calcQuality === 'standard') { pricePerM2 = 3200; timeLabel = '3 meses'; }
-      else if (calcQuality === 'premium') { pricePerM2 = 6000; timeLabel = '5 meses'; }
-      else { pricePerM2 = 10000; timeLabel = '7 meses'; }
-    }
-
-    const minBudget = calcArea * pricePerM2;
-    const maxBudget = Math.round(minBudget * 1.25);
-
-    return {
-      min: minBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
-      max: maxBudget.toLocaleString('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }),
-      time: timeLabel
-    };
-  };
-
-  const budgetResult = calculateBudget();
 
   return (
     <div className="service-detail page-enter">
@@ -607,79 +567,7 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 8: PLANIFICADOR DE PROYECTO (NUEVA) ═══ */}
-      <section className="sdv2-planner" ref={calcRef}>
-        <div className="container-default">
-          <div className={`sdv2-planner-inner ${calcVis ? 'in-view' : ''}`}>
-            <div className="sdv2-planner-info">
-              <span className="section-eyebrow">Presupuesto</span>
-              <h2 className="sdv2-planner-title">Planificá tu inversión.</h2>
-              <p className="sdv2-planner-text">
-                Utilizá nuestra calculadora interactiva para estimar de forma preliminar el costo y tiempo de desarrollo basado en los metros cuadrados de tu espacio.
-              </p>
-              
-              <div className="sdv2-calc-inputs">
-                <div className="sdv2-calc-range">
-                  <div className="sdv2-range-labels">
-                    <label>Superficie:</label>
-                    <span className="sdv2-range-val">{calcArea} m²</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="10"
-                    max="500"
-                    step="5"
-                    value={calcArea}
-                    onChange={(e) => setCalcArea(parseInt(e.target.value))}
-                    className="sdv2-range-slider"
-                  />
-                </div>
-
-                <div className="sdv2-calc-options">
-                  <label>Nivel de Acabados:</label>
-                  <div className="sdv2-option-pills">
-                    {[
-                      { id: 'standard', name: 'Estándar' },
-                      { id: 'premium', name: 'Premium' },
-                      { id: 'coleccion', name: 'Colección CAB' }
-                    ].map(opt => (
-                      <button
-                        key={opt.id}
-                        className={`sdv2-pill-btn ${calcQuality === opt.id ? 'active' : ''}`}
-                        onClick={() => setCalcQuality(opt.id)}
-                      >
-                        {opt.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="sdv2-planner-result">
-              <div className="sdv2-result-card">
-                <span className="sdv2-result-label">[INVERSIÓN ESTIMADA]</span>
-                <span className="sdv2-result-price">{budgetResult.min} – {budgetResult.max}</span>
-                <span className="sdv2-result-currency">Pesos Mexicanos (MXN)</span>
-                
-                <div className="sdv2-result-divider" />
-                
-                <div className="sdv2-result-time">
-                  <span className="sdv2-time-label">Plazo de entrega estimado:</span>
-                  <span className="sdv2-time-value">{budgetResult.time}</span>
-                </div>
-
-                <p className="sdv2-result-disclaimer">
-                  *Esta es una estimación conceptual sujeta a levantamiento físico y plano ejecutivo.
-                </p>
-                <Link to="/contacto" className="sdv2-result-btn">Iniciar Proyecto</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 9: CTA + OTHER SERVICES ═══ */}
+      {/* ═══ 8: CTA + OTHER SERVICES ═══ */}
       <section className="sdv2-cta" ref={ctaRef}>
         <div className={`container-default sdv2-cta-inner ${ctaVis ? 'in-view' : ''}`}>
           <div className="sdv2-cta-card">

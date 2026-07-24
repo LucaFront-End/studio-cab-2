@@ -1,3 +1,4 @@
+/* global process */
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -117,23 +118,19 @@ async function main() {
   const subservicesXml = generateUrlSetXml(subservicesUrls);
 
   // 4. Products Sitemap (100% Dynamic from Wix Stores API + Fallback)
-  let productUrls = [];
-  if (liveProducts.length > 0) {
-    productUrls = liveProducts.map(p => ({
-      loc: `${BASE_URL}/tienda/${p.id || p._id}`,
-      priority: '0.8',
-      changefreq: 'weekly',
-      lastmod: p.lastUpdated ? p.lastUpdated.split('T')[0] : currentDate
-    }));
-  } else {
-    // Fallback product list
-    productUrls = [
-      { loc: `${BASE_URL}/tienda/ab84a5e1-1959-1c59-baa3-ecc634b7f52f`, priority: '0.8' },
-      { loc: `${BASE_URL}/tienda/ee27743f-3569-8286-70e5-7266e62cf483`, priority: '0.8' },
-      { loc: `${BASE_URL}/tienda/d5e57831-3481-3adf-d857-2ba34ed1fabc`, priority: '0.8' },
-      { loc: `${BASE_URL}/tienda/9412b68c-f9a3-0f76-303c-62dc441f8ab7`, priority: '0.8' }
-    ];
-  }
+  const productUrls = liveProducts.length > 0
+    ? liveProducts.map(p => ({
+        loc: `${BASE_URL}/tienda/${p.id || p._id}`,
+        priority: '0.8',
+        changefreq: 'weekly',
+        lastmod: p.lastUpdated ? p.lastUpdated.split('T')[0] : currentDate
+      }))
+    : [
+        { loc: `${BASE_URL}/tienda/ab84a5e1-1959-1c59-baa3-ecc634b7f52f`, priority: '0.8' },
+        { loc: `${BASE_URL}/tienda/ee27743f-3569-8286-70e5-7266e62cf483`, priority: '0.8' },
+        { loc: `${BASE_URL}/tienda/d5e57831-3481-3adf-d857-2ba34ed1fabc`, priority: '0.8' },
+        { loc: `${BASE_URL}/tienda/9412b68c-f9a3-0f76-303c-62dc441f8ab7`, priority: '0.8' }
+      ];
   const productsXml = generateUrlSetXml(productUrls);
 
   // 5. Projects Sitemap (Dynamic Portfolio)

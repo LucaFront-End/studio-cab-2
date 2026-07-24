@@ -104,7 +104,7 @@ export default function ProjectsPage() {
 
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
-  const featuredProject = projectsData.find(p => p.featured);
+  const featuredProject = projectsData.find(p => p.title?.toLowerCase().includes('mazda')) || projectsData.find(p => p.featured) || projectsData[0];
 
   const getTooltipStyle = (spot) => {
     if (!spot) return {};
