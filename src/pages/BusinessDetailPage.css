@@ -97,6 +97,7 @@
   font-size: 16px;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 28px;
 }
 
 /* Technical frame crosses */
@@ -626,7 +627,7 @@
 
 @media (max-width: 768px) {
   .ind-hero-content {
-    padding: 24px;
+    padding: 24px 20px 36px 20px;
   }
 
   .ind-metrics-grid {
@@ -653,20 +654,27 @@
   }
 
   .ind-hero-content {
-    padding: 20px 16px;
+    padding: 24px 18px 36px 18px;
     border-radius: 12px;
   }
 
   .ind-hero-title {
-    font-size: 26px;
+    font-size: 24px;
     margin-bottom: 12px;
   }
 
   .ind-hero-desc {
-    font-size: 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-bottom: 24px;
   }
 
   .ind-tech-frame {
     inset: 8px;
+  }
+
+  .ind-code {
+    bottom: 12px;
+    left: 14px;
   }
 }
