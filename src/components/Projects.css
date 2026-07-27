@@ -365,19 +365,55 @@
   font-weight: 500;
 }
 
-/* Hover show trigger */
-.hotspot:hover .hotspot-tooltip {
+/* Hover show trigger & Active state for touch */
+.hotspot:hover .hotspot-tooltip,
+.hotspot.active .hotspot-tooltip {
   opacity: 1;
+  pointer-events: auto;
   transform: translateX(-50%) translateY(0);
+}
+
+/* Align tooltip left if hotspot is near right edge (>60%) */
+.hotspot.align-left .hotspot-tooltip {
+  left: auto;
+  right: -10px;
+  transform: translateY(10px);
+}
+
+.hotspot.align-left:hover .hotspot-tooltip,
+.hotspot.align-left.active .hotspot-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.hotspot.align-left .hotspot-tooltip::after {
+  left: auto;
+  right: 16px;
+  transform: none;
+}
+
+/* Align tooltip right if hotspot is near left edge (<40%) */
+.hotspot.align-right .hotspot-tooltip {
+  left: -10px;
+  right: auto;
+  transform: translateY(10px);
+}
+
+.hotspot.align-right:hover .hotspot-tooltip,
+.hotspot.align-right.active .hotspot-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.hotspot.align-right .hotspot-tooltip::after {
+  left: 16px;
+  transform: none;
 }
 
 /* ---------- Responsive Layout ---------- */
 @media (max-width: 1024px) {
-  .projects-section {
-    height: auto !important;
-    padding: 80px 0;
-  }
-
   .projects-section {
     padding: 60px 0;
     height: auto !important;
@@ -427,6 +463,7 @@
     height: auto !important;
     aspect-ratio: 16 / 10 !important;
     margin-top: 24px;
+    touch-action: pan-y; /* Allow smooth vertical scrolling while catching horizontal drags */
   }
 
   .project-slider-wrapper {
@@ -435,12 +472,18 @@
   }
 
   .layer-before {
-    width: 50% !important;
-    clip-path: none !important;
+    width: 100%;
   }
 
   .slider-divider-line {
-    left: 50% !important;
+    /* Allow inline style left percentage to dynamically drag on touch/mobile */
+  }
+
+  .hotspot-tooltip {
+    max-width: calc(100vw - 60px);
+    width: 190px;
+    font-size: 11px;
+    padding: 8px 12px;
   }
 
   .projects-cta-box {

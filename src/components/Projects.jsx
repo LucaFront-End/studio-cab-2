@@ -59,20 +59,44 @@ const Projects = () => {
   const sectionRef = useRef(null);
   const beforeRefs = useRef([]);
   const lineRefs = useRef([]);
+  const frameRefs = useRef([]);
+  const isDraggingRef = useRef(false);
 
   // States to control active project index and narrative cards
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeCard, setActiveCard] = useState(0); // 0 = none, 1 = Reto, 2 = Proceso, 3 = Resultado
   const [currentBeforeWidth, setCurrentBeforeWidth] = useState(100);
+  const [manualWidths, setManualWidths] = useState({});
+  const [activeHotspotKey, setActiveHotspotKey] = useState(null);
+
+  // Helper to update slider position via touch or mouse drag
+  const updateSliderPos = (projIdx, clientX, frameEl) => {
+    if (!frameEl) return;
+    const rect = frameEl.getBoundingClientRect();
+    const offset = clientX - rect.left;
+    const pct = Math.max(0, Math.min(100, (offset / rect.width) * 100));
+
+    const beforeEl = beforeRefs.current[projIdx];
+    const lineEl = lineRefs.current[projIdx];
+
+    if (beforeEl) {
+      beforeEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      beforeEl.style.width = '100%';
+    }
+    if (lineEl) {
+      lineEl.style.left = `${pct}%`;
+    }
+
+    setManualWidths(prev => ({ ...prev, [projIdx]: pct }));
+  };
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const handleScroll = () => {
-      // Disable scroll animation on tablet/mobile for usability
+      // Disable scroll animation on tablet/mobile for usability, but allow touch dragging
       if (window.innerWidth <= 1024) {
-        setCurrentBeforeWidth(50);
         return;
       }
 
@@ -105,20 +129,22 @@ const Projects = () => {
       setActiveIndex(currentProjIdx);
       setCurrentBeforeWidth(beforeWidth);
 
-      // DOM manipulations directly for high performance
-      projectsData.forEach((_, idx) => {
-        const beforeEl = beforeRefs.current[idx];
-        const lineEl = lineRefs.current[idx];
+      // DOM manipulations directly for high performance if not manually dragged
+      if (!isDraggingRef.current) {
+        projectsData.forEach((_, idx) => {
+          const beforeEl = beforeRefs.current[idx];
+          const lineEl = lineRefs.current[idx];
 
-        if (idx === currentProjIdx) {
-          if (beforeEl) {
-            beforeEl.style.clipPath = `inset(0 ${100 - beforeWidth}% 0 0)`;
+          if (idx === currentProjIdx) {
+            if (beforeEl) {
+              beforeEl.style.clipPath = `inset(0 ${100 - beforeWidth}% 0 0)`;
+            }
+            if (lineEl) {
+              lineEl.style.left = `${beforeWidth}%`;
+            }
           }
-          if (lineEl) {
-            lineEl.style.left = `${beforeWidth}%`;
-          }
-        }
-      });
+        });
+      }
 
       // Synchronize narrative card highlight based on local progress
       if (clampedLocalProgress >= 0.05 && clampedLocalProgress < 0.35) {
@@ -145,6 +171,10 @@ const Projects = () => {
       <div className="projects-sticky-container">
         {projectsData.map((project, projIdx) => {
           const isActive = projIdx === activeIndex;
+          const effectiveWidth = manualWidths[projIdx] !== undefined 
+            ? manualWidths[projIdx] 
+            : (window.innerWidth <= 1024 ? 50 : currentBeforeWidth);
+
           return (
             <div 
               key={project.id} 
@@ -188,7 +218,33 @@ const Projects = () => {
               </div>
 
               {/* Right Side: Visual Wipe Slider Frame */}
-              <div className="projects-slider-frame">
+              <div 
+                className="projects-slider-frame"
+                ref={(el) => (frameRefs.current[projIdx] = el)}
+                onMouseDown={(e) => {
+                  isDraggingRef.current = true;
+                  updateSliderPos(projIdx, e.clientX, frameRefs.current[projIdx]);
+                }}
+                onMouseMove={(e) => {
+                  if (isDraggingRef.current) {
+                    updateSliderPos(projIdx, e.clientX, frameRefs.current[projIdx]);
+                  }
+                }}
+                onMouseUp={() => { isDraggingRef.current = false; }}
+                onMouseLeave={() => { isDraggingRef.current = false; }}
+                onTouchStart={(e) => {
+                  if (e.touches && e.touches[0]) {
+                    isDraggingRef.current = true;
+                    updateSliderPos(projIdx, e.touches[0].clientX, frameRefs.current[projIdx]);
+                  }
+                }}
+                onTouchMove={(e) => {
+                  if (e.touches && e.touches[0]) {
+                    updateSliderPos(projIdx, e.touches[0].clientX, frameRefs.current[projIdx]);
+                  }
+                }}
+                onTouchEnd={() => { isDraggingRef.current = false; }}
+              >
                 <div className={`project-slider-wrapper active`}>
                   {/* Layer 1: AFTER (Finished Space) */}
                   <div className="project-image-layer layer-after">
@@ -201,14 +257,22 @@ const Projects = () => {
 
                     {/* Hotspots (Only rendered and active on the finished layer) */}
                     {project.hotspots.map((hotspot) => {
-                      const isRevealed = hotspot.x > currentBeforeWidth;
+                      const isRevealed = hotspot.x > effectiveWidth;
+                      const alignClass = hotspot.x > 60 ? 'align-left' : (hotspot.x < 40 ? 'align-right' : 'align-center');
+                      const spotKey = `${project.id}-${hotspot.id}`;
+                      const isHotspotActive = activeHotspotKey === spotKey;
+
                       return (
                         <div
                           key={hotspot.id}
-                          className={`hotspot ${isRevealed ? 'revealed' : ''}`}
+                          className={`hotspot ${isRevealed ? 'revealed' : ''} ${alignClass} ${isHotspotActive ? 'active' : ''}`}
                           style={{
                             left: `${hotspot.x}%`,
                             top: `${hotspot.y}%`,
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveHotspotKey(isHotspotActive ? null : spotKey);
                           }}
                         >
                           <div className="hotspot-dot"></div>
@@ -224,6 +288,7 @@ const Projects = () => {
                   <div 
                     className="project-image-layer layer-before"
                     ref={(el) => (beforeRefs.current[projIdx] = el)}
+                    style={{ clipPath: `inset(0 ${100 - effectiveWidth}% 0 0)` }}
                   >
                     <img 
                       src={project.beforeImage} 
@@ -237,6 +302,7 @@ const Projects = () => {
                   <div 
                     className="slider-divider-line" 
                     ref={(el) => (lineRefs.current[projIdx] = el)}
+                    style={{ left: `${effectiveWidth}%` }}
                   >
                     <div className="slider-handle">
                       <div className="handle-icon">
