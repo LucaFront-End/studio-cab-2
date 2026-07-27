@@ -314,8 +314,8 @@
   }
 
   .hero-top-eyebrow {
-    font-size: 11px;
-    margin-bottom: 15px;
+    font-size: 12px;
+    margin-bottom: 16px;
   }
 
   .hero-title-wrapper {
@@ -328,8 +328,8 @@
     padding-bottom: 5px;
   }
 
-  .hero-title-text {
-    font-size: clamp(30px, 9.2vw, 85px);
+  .hero-title-char-outer {
+    font-size: clamp(40px, 10vw, 85px);
   }
 
   .hero-banner-outer-block {
@@ -363,37 +363,55 @@
   }
 
   .hero-top-eyebrow {
-    font-size: 10px;
+    font-size: 13px;
+    font-weight: 800;
     letter-spacing: 0.12em;
-    margin-bottom: 10px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  .hero-top-eyebrow .eyebrow-line {
+    display: block;
+  }
+
+  .hero-top-eyebrow .eyebrow-sep {
+    display: none;
   }
 
   .hero-title-wrapper {
     margin-bottom: 30px;
   }
 
-  .hero-title-text {
-    font-size: 8svw;
+  .hero-title-char-outer {
+    font-size: clamp(48px, 13vw, 75px);
   }
 }
 
 @media screen and (max-width: 479px) {
   .home-hero-section {
-    padding-top: 100px;
+    padding-top: 96px;
+  }
+
+  .hero-top-eyebrow {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+
+  .hero-title-char-outer {
+    font-size: clamp(52px, 14vw, 80px);
   }
 
   .hero-banner-image-wrapper {
     margin-bottom: 30px;
     aspect-ratio: 4 / 3; /* Taller on mobile to display more details */
   }
-
-  .hero-title-text {
-    font-size: 7.5svw;
-  }
 }
 
 @media screen and (min-width: 1280px) {
-  .hero-title-text {
+  .hero-title-char-outer {
     font-size: clamp(80px, 9.8vw, 125px);
   }
 }
@@ -403,7 +421,7 @@
     margin-bottom: 60px;
   }
 
-  .hero-title-text {
+  .hero-title-char-outer {
     font-size: clamp(100px, 9.8vw, 145px);
   }
 

@@ -79,7 +79,9 @@ const Hero = () => {
         <div className="home-hero-wrapper">
           {/* Eyebrow Accent (Editorial details) */}
           <div className={`hero-top-eyebrow ${animateContent ? 'animate-in' : ''}`}>
-            DISEÑO DE INTERIORES & CARPINTERÍA ARQUITECTÓNICA
+            <span className="eyebrow-line">DISEÑO DE INTERIORES</span>
+            <span className="eyebrow-sep"> &amp; </span>
+            <span className="eyebrow-line">CARPINTERÍA ARQUITECTÓNICA</span>
           </div>
 
           {/* Parallax Wrapper for Title */}
