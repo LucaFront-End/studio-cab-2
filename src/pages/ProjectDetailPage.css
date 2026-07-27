@@ -20,7 +20,18 @@
 
 .pdv2-hero-location { font-size: 15px; color: rgba(255,255,255,0.5); font-weight: 500; }
 
-.pdv2-scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; animation: float 2.5s ease-in-out infinite; }
+.pdv2-scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  right: 60px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: float 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
 .pdv2-scroll-hint span { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
 .pdv2-scroll-bar { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--colors--theme-orange), transparent); }
 
@@ -433,7 +444,8 @@
 
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 991px) {
-  .pdv2-hero-content { padding: 60px 30px; }
+  .pdv2-hero-content { padding: 40px 20px 48px; }
+  .pdv2-scroll-hint { display: none; }
   .pdv2-specs-inner { flex-wrap: wrap; }
   .pdv2-spec { min-width: 50%; }
   .pdv2-gallery { padding: 80px 0; }
