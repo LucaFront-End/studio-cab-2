@@ -109,7 +109,7 @@
 
 /* ═══ 2: CONTENT GRID ═══ */
 .sub-body {
-  padding: 100px 20px;
+  padding: 60px 20px 36px;
   background: var(--colors--theme-white);
 }
 
@@ -364,7 +364,10 @@
     padding: 60px 16px;
   }
   .sub-body {
-    padding: 60px 16px;
+    padding: 36px 16px 20px;
+  }
+  .pdv2-gallery {
+    padding: 24px 0 60px !important;
   }
   .sub-info-heading {
     font-size: 26px;
@@ -375,7 +378,7 @@
 }
 
 /* ═══ CINEMATIC CAROUSEL GALLERY ═══ */
-.pdv2-gallery { padding: 100px 0; background: var(--colors--theme-white); position: relative; overflow: hidden; }
+.pdv2-gallery { padding: 40px 0 80px; background: var(--colors--theme-white); position: relative; overflow: hidden; }
 
 .pdv2-gallery-slider {
   max-width: 1200px;
