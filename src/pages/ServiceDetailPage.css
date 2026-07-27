@@ -30,7 +30,7 @@
 .sdv2-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--colors--theme-orange), transparent); }
 
 /* ═══ 2: INTRO ═══ */
-.sdv2-intro { padding: 120px 20px; background: var(--colors--theme-white); }
+.sdv2-intro { padding: 80px 20px 36px; background: var(--colors--theme-white); }
 .sdv2-intro-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start; opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
 .sdv2-intro-grid.in-view { opacity: 1; transform: translateY(0); }
 
@@ -44,7 +44,7 @@
 
 /* ═══ 2.5: SUBSERVICIOS DINÁMICOS ═══ */
 .sdv2-subservices {
-  padding: 100px 20px;
+  padding: 48px 20px 80px;
   background: color-mix(in srgb, var(--colors--theme-white) 97%, var(--colors--theme-black));
   border-top: 1px solid var(--color-border);
 }
@@ -647,8 +647,13 @@
 
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 991px) {
+  .sdv2-intro { padding: 48px 20px 24px; }
+  .sdv2-subservices { padding: 32px 20px 50px; }
+  .sdv2-materials { padding: 60px 20px; }
+  .sdv2-process { padding: 60px 20px; }
+  .sdv2-cta { padding: 60px 20px; }
   .sdv2-hero-content { padding: 0 30px; }
-  .sdv2-intro-grid { grid-template-columns: 1fr; gap: 40px; }
+  .sdv2-intro-grid { grid-template-columns: 1fr; gap: 32px; }
   .sdv2-materials-grid { grid-template-columns: 1fr; gap: 32px; }
   .sdv2-planner-inner { grid-template-columns: 1fr; gap: 40px; }
   .sdv2-process-grid { grid-template-columns: repeat(2, 1fr); }
