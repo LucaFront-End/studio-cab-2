@@ -50,23 +50,7 @@ const WhyUs = () => {
     if (!section) return;
 
     const handleScroll = () => {
-      // Disable scroll transformations on mobile/tablets for stability
-      if (window.innerWidth <= 1024) {
-        if (floorRef.current) floorRef.current.style.opacity = '1';
-        if (structureRef.current) {
-          structureRef.current.style.transform = 'none';
-          structureRef.current.style.opacity = '1';
-        }
-        if (woodRef.current) {
-          woodRef.current.style.transform = 'none';
-          woodRef.current.style.opacity = '1';
-        }
-        if (detailsRef.current) {
-          detailsRef.current.style.transform = 'none';
-          detailsRef.current.style.opacity = '1';
-        }
-        return;
-      }
+      // Enable smooth scroll animations on all screens
 
       const rect = section.getBoundingClientRect();
       const sectionTop = rect.top;
