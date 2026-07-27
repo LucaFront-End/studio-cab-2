@@ -65,17 +65,24 @@ const ProcessSplit = () => {
   const [activeStep, setActiveStep] = useState(0);
   const isScrollingRef = useRef(false);
 
+  const handleOpenShutters = () => {
+    if (sectionRef.current) {
+      const vh = window.innerHeight;
+      const targetScroll = sectionRef.current.offsetTop + vh * 0.75;
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerWidth <= 1024) return;
-
       const section = sectionRef.current;
       if (!section) return;
 
       const sectionRect = section.getBoundingClientRect();
       const vh = window.innerHeight;
+      const isMobile = window.innerWidth <= 1024;
 
-      // How far the section top has scrolled past the viewport top (0 = just arrived, 80vh = shutter fully open)
+      // How far the section top has scrolled past the viewport top
       const sectionScrolled = -sectionRect.top;
       const shutterPhase = 80 / 100; // 80vh to fully open
       const shutterProgress = Math.max(0, Math.min(1, sectionScrolled / (vh * shutterPhase)));
@@ -85,25 +92,25 @@ const ProcessSplit = () => {
 
       // Animate shutters splitting open
       if (leftShutterRef.current) {
-        leftShutterRef.current.style.transform = `translateX(${-shutterProgress * 102}%)`;
+        const transformStr = isMobile 
+          ? `translateY(${-shutterProgress * 102}%)` 
+          : `translateX(${-shutterProgress * 102}%)`;
+        leftShutterRef.current.style.transform = transformStr;
         leftShutterRef.current.style.pointerEvents = isScrolling ? 'none' : 'auto';
-        if (isScrolling) {
-          leftShutterRef.current.style.width = '50%';
-          leftShutterRef.current.style.transition = 'transform 0.1s ease-out';
-        } else {
-          leftShutterRef.current.style.width = '';
-          leftShutterRef.current.style.transition = '';
+        if (!isMobile) {
+          leftShutterRef.current.style.width = isScrolling ? '50%' : '';
+          leftShutterRef.current.style.transition = isScrolling ? 'transform 0.1s ease-out' : '';
         }
       }
       if (rightShutterRef.current) {
-        rightShutterRef.current.style.transform = `translateX(${shutterProgress * 102}%)`;
+        const transformStr = isMobile 
+          ? `translateY(${shutterProgress * 102}%)` 
+          : `translateX(${shutterProgress * 102}%)`;
+        rightShutterRef.current.style.transform = transformStr;
         rightShutterRef.current.style.pointerEvents = isScrolling ? 'none' : 'auto';
-        if (isScrolling) {
-          rightShutterRef.current.style.width = '50%';
-          rightShutterRef.current.style.transition = 'transform 0.1s ease-out';
-        } else {
-          rightShutterRef.current.style.width = '';
-          rightShutterRef.current.style.transition = '';
+        if (!isMobile) {
+          rightShutterRef.current.style.width = isScrolling ? '50%' : '';
+          rightShutterRef.current.style.transition = isScrolling ? 'transform 0.1s ease-out' : '';
         }
       }
 
@@ -119,7 +126,7 @@ const ProcessSplit = () => {
 
       // Track active timeline card based on viewport center
       const timeline = timelineRef.current;
-      if (timeline && shutterProgress > 0.5) {
+      if (timeline && shutterProgress > 0.3) {
         const cards = timeline.querySelectorAll('.process-step-card');
         const viewportCenter = vh / 2;
         let activeIdx = 0;
@@ -151,6 +158,7 @@ const ProcessSplit = () => {
         <div
           className={`process-shutter shutter-left ${hoveredSide === 'left' ? 'hover-left' : ''} ${hoveredSide === 'right' ? 'shrink' : ''}`}
           ref={leftShutterRef}
+          onClick={handleOpenShutters}
           onMouseEnter={() => { if (!isScrollingRef.current) setHoveredSide('left'); }}
           onMouseLeave={() => setHoveredSide(null)}
         >
@@ -185,6 +193,7 @@ const ProcessSplit = () => {
         <div
           className={`process-shutter shutter-right ${hoveredSide === 'right' ? 'hover-right' : ''} ${hoveredSide === 'left' ? 'shrink' : ''}`}
           ref={rightShutterRef}
+          onClick={handleOpenShutters}
           onMouseEnter={() => { if (!isScrollingRef.current) setHoveredSide('right'); }}
           onMouseLeave={() => setHoveredSide(null)}
         >

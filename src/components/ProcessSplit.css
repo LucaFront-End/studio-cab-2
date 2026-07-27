@@ -447,52 +447,100 @@
 }
 
 /* =============================================
-   Responsive — Mobile
+   Responsive — Mobile (Full 100vh Sticky Shutters + Curtain Opening)
    ============================================= */
 @media (max-width: 1024px) {
   .process-shutters-wrapper {
-    position: relative !important;
-    height: auto !important;
-    flex-direction: column !important;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
   }
 
   .process-shutter {
-    position: relative !important;
-    width: 100% !important;
-    height: 280px !important;
-    transform: none !important;
-    pointer-events: auto !important;
+    position: absolute;
+    width: 100%;
+    height: 50vh;
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #0d0f12;
+    will-change: transform;
   }
 
   .shutter-left {
+    top: 0;
+    left: 0;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .timeline-split-wrapper {
-    margin-top: 0 !important;
-    flex-direction: column-reverse !important;
-    gap: 40px !important;
-    padding: 64px 24px !important;
-    max-width: 100% !important;
+  .shutter-right {
+    top: 50vh;
+    left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .timeline-top-spacer,
+  .shutter-content {
+    width: 88%;
+    max-width: 360px;
+    padding: 0 16px;
+  }
+
+  .shutter-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .shutter-description {
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .timeline-split-wrapper {
+    margin-top: -100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 20px;
+    max-width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .timeline-top-spacer {
+    height: 105vh;
+    flex-shrink: 0;
+  }
+
   .timeline-bottom-spacer {
-    display: none !important;
+    height: 20vh;
+    flex-shrink: 0;
   }
 
   .timeline-right-col {
-    display: none !important;
+    display: none;
   }
 
-  .timeline-left-col { width: 100% !important; }
+  .timeline-left-col {
+    width: 100%;
+  }
 
   .process-step-card {
-    opacity: 1 !important;
-    transform: none !important;
-    padding: 24px 28px !important;
-    border-left: 3px solid var(--colors--theme-orange) !important;
+    opacity: 1;
+    transform: none;
+    padding: 24px 24px;
+    border-left: 3px solid var(--colors--theme-orange);
   }
 }
 
