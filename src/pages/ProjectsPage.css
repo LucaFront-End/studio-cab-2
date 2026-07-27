@@ -3,7 +3,7 @@
    ============================================ */
 
 .pp-hero {
-  padding: 160px 20px 60px;
+  padding: 105px 20px 30px;
   background: var(--colors--theme-white);
 }
 
@@ -461,6 +461,14 @@
 }
 
 @media (max-width: 767px) {
+  .pp-hero {
+    padding: 92px 20px 16px;
+  }
+
+  .pp-hero-title {
+    margin-bottom: 20px;
+  }
+
   .pp-map-tooltip {
     bottom: 16px !important;
     left: 16px !important;
