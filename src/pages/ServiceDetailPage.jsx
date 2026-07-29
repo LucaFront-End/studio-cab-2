@@ -298,9 +298,6 @@ export default function ServiceDetailPage() {
   const [heroRef, heroVis] = useInView({ threshold: 0.05 });
   const [introRef, introVis] = useInView({ threshold: 0.15 });
   const [subsRef, subsVis] = useInView({ threshold: 0.15 });
-  const [materialsRef, materialsVis] = useInView({ threshold: 0.15 });
-  const [galRef, galVis] = useInView({ threshold: 0.1 });
-  const [tapRef, tapVis] = useInView({ threshold: 0.1 });
   
   const procCount = service?.process?.length || 4;
   const [procRefs, procVis] = useStaggerInView(procCount, { staggerDelay: 200 });
@@ -320,12 +317,6 @@ export default function ServiceDetailPage() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  // Active gallery
-  const [activeGal, setActiveGal] = useState(0);
-
-  // Materials active state
-  const [activeMaterial, setActiveMaterial] = useState(0);
 
   if (!service) {
     return (
