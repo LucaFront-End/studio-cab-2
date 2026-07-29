@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useInView } from '../hooks/useInView';
 import { submitWixLead } from '../lib/wixCMS';
+import { sendFormSubmit } from '../lib/formSubmit';
 import './ContactPage.css';
 
 const faqs = [
@@ -72,6 +73,15 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      await sendFormSubmit({
+        'Nombre Completo': formData.name,
+        'Correo Electrónico': formData.email,
+        'Teléfono / WhatsApp': formData.phone,
+        'Servicio de Interés': formData.service || 'General',
+        'Mensaje / Detalles': formData.message,
+        'Origen': 'Página de Contacto Studio CAB'
+      }, `Nueva Cotización de Contacto — ${formData.name}`);
+
       await submitWixLead({
         name: formData.name,
         email: formData.email,
@@ -79,11 +89,12 @@ export default function ContactPage() {
         service: formData.service,
         message: formData.message,
         source: 'Contacto'
-      });
+      }).catch(() => {});
+
       setIsSuccess(true);
       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
     } catch (err) {
-      console.warn('Wix submit failed, showing offline success screen', err);
+      console.warn('Form submit error, showing success screen', err);
       setIsSuccess(true);
     } finally {
       setIsSubmitting(false);

@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { submitWixLead } from '../lib/wixCMS';
+import { sendFormSubmit } from '../lib/formSubmit';
 import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { useCart } from '../context/CartContext';
 import './StorePage.css';
@@ -41,6 +42,14 @@ export default function StorePage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      await sendFormSubmit({
+        'Nombre Completo': customName,
+        'Correo Electrónico': customEmail,
+        'Teléfono / WhatsApp': customPhone,
+        'Notas / Especificaciones': customNotes || 'Boceto / Foto adjunta',
+        'Origen': 'Cotización Especial de Mueble sobre Diseño (Tienda)'
+      }, `Cotización Especial de Mueble — ${customName}`);
+
       await submitWixLead({
         name: customName,
         email: customEmail,
@@ -48,10 +57,11 @@ export default function StorePage() {
         message: customNotes,
         photoUrl: photoPreview,
         source: 'Cotización Especial'
-      });
+      }).catch(() => {});
+
       setIsSuccess(true);
     } catch (err) {
-      console.warn('Wix submit failed in custom quote, using local fallback success screen', err);
+      console.warn('Submit error in custom quote, showing success screen', err);
       setIsSuccess(true);
     } finally {
       setIsSubmitting(false);

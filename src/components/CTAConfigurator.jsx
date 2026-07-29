@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { submitWixLead } from '../lib/wixCMS';
+import { sendFormSubmit } from '../lib/formSubmit';
 import './CTAConfigurator.css';
 
 const SPACE_OPTIONS = [
@@ -130,6 +131,15 @@ export default function CTAConfigurator({ source = 'Inicio' }) {
 
     setIsSubmitting(true);
     try {
+      await sendFormSubmit({
+        'Nombre Completo': name,
+        'Medio de Contacto': contact,
+        'Tipo de Espacio': selectedSpaceObj?.title || spaceType,
+        'Concepto de Estética': selectedStyleObj?.title || styleTheme,
+        'Área / Dimensión': `${areaSize} m²`,
+        'Origen': `Configurador Express - Origen: ${source || 'General'}`
+      }, `Propuesta Configurador Express — ${name}`);
+
       await submitWixLead({
         name: name,
         phone: !contact.includes('@') ? contact : '',
@@ -139,10 +149,11 @@ export default function CTAConfigurator({ source = 'Inicio' }) {
         areaSize: areaSize,
         source: `Planificador - Origen: ${source || 'General'}`,
         message: `Configuración de Planificador:\n- Espacio: ${selectedSpaceObj?.title || spaceType}\n- Concepto: ${selectedStyleObj?.title || styleTheme}\n- Dimensión: ${areaSize} m²`
-      });
+      }).catch(() => {});
+
       setIsSuccess(true);
     } catch (err) {
-      console.warn('Wix submit failed in planner, using local fallback success screen', err);
+      console.warn('Submit error in planner, showing success screen', err);
       setIsSuccess(true);
     } finally {
       setIsSubmitting(false);

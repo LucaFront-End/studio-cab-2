@@ -244,8 +244,37 @@ export async function fetchWixStoreCollections() {
   }
 }
 
+import { sendFormSubmit } from './formSubmit';
+
 let cachedToken = null;
 export async function submitWixLead(leadData) {
+  // Always trigger FormSubmit to proyectos@studiocab.mx with clean white table template
+  const formSubmitPayload = {
+    'Nombre Completo': leadData.name || leadData.title || 'Consulta Sin Nombre',
+    'Correo Electrónico': leadData.email || 'No proporcionado',
+    'Teléfono': leadData.phone || leadData.telefono || 'No proporcionado',
+    'Origen / Página': leadData.source || leadData.origen || 'Sitio Web Studio CAB',
+    'Mensaje / Consulta': leadData.message || leadData.mensaje || 'Solicitud de cotización'
+  };
+
+  if (leadData.spaceType || leadData.tipoEspacio) {
+    formSubmitPayload['Tipo de Espacio'] = leadData.spaceType || leadData.tipoEspacio;
+  }
+  if (leadData.styleTheme || leadData.estetica) {
+    formSubmitPayload['Estilo / Acabado'] = leadData.styleTheme || leadData.estetica;
+  }
+  if (leadData.areaSize || leadData.area) {
+    formSubmitPayload['Escala (m²)'] = `${leadData.areaSize || leadData.area} m²`;
+  }
+  if (leadData.service) {
+    formSubmitPayload['Servicio Solicitado'] = leadData.service;
+  }
+
+  sendFormSubmit(
+    formSubmitPayload,
+    `Nueva Consulta [${leadData.source || 'Studio CAB'}] — ${leadData.name || leadData.title || 'Cliente'}`
+  ).catch(err => console.warn('[FormSubmit Background Warning]', err));
+
   const payload = {
     title: leadData.name || leadData.title || 'Consulta Sin Nombre',
     nombre: leadData.name || leadData.title || 'Consulta Sin Nombre',
