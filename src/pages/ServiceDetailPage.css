@@ -689,7 +689,14 @@
 .sdv2-test-role { display: block; font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
 
 /* ═══ 7: BENEFITS ═══ */
-.sdv2-benefits { padding: 120px 20px; background: var(--colors--theme-white); }
+.sdv2-benefits {
+  padding: 120px 20px;
+  background-color: var(--colors--theme-white);
+  background-image: radial-gradient(color-mix(in srgb, var(--colors--theme-black) 12%, transparent) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: center;
+  position: relative;
+}
 .sdv2-benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
 
 .sdv2-benefit { display: flex; gap: 20px; padding: 36px; border: 1px solid var(--color-border); border-radius: 14px; opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }

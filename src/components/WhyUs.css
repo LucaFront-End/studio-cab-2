@@ -9,6 +9,10 @@
   background-color: var(--colors--theme-white);
   padding: 100px 0;
   border-top: 1px solid rgba(13, 15, 18, 0.08);
+  /* Velvet Dot Matrix Background Pattern */
+  background-image: radial-gradient(color-mix(in srgb, var(--colors--theme-black) 12%, transparent) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: center;
 }
 
 /* Sticky wrapper container */
@@ -36,7 +40,9 @@
 }
 
 .whyus-eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-family);
   font-size: 11px;
   font-weight: 700;
@@ -44,6 +50,16 @@
   text-transform: uppercase;
   color: var(--colors--theme-orange);
   margin-bottom: 12px;
+}
+
+.whyus-eyebrow::before,
+.whyus-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--colors--theme-orange);
+  opacity: 0.6;
 }
 
 .whyus-heading {
