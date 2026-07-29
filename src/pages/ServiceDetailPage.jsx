@@ -517,7 +517,7 @@ export default function ServiceDetailPage() {
         </section>
       )}
 
-      {/* ═══ 5: PROCESS ═══ */}
+      {/* ═══ 5: PROCESS / CAPACIDADES (LÍNEA HORIZONTAL DE PASOS) ═══ */}
       <section className="sdv2-process">
         <div className="container-default">
           <span className="section-eyebrow anim-fade-up in-view">
@@ -530,18 +530,28 @@ export default function ServiceDetailPage() {
               <>Nuestro <em>proceso</em>.</>
             )}
           </h2>
-          <div className="sdv2-process-grid" style={{ '--process-cols': service.process.length }}>
-            {service.process.map((step, i) => (
-              <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
-                <div className="sdv2-proc-header">
-                  <span className="sdv2-proc-icon">{step.icon}</span>
-                  <span className="sdv2-proc-num">{step.num}</span>
+
+          <div className="sdv2-proc-timeline-wrapper">
+            {/* Literal Horizontal Line / Axis connecting step nodes */}
+            <div className="sdv2-proc-timeline-line">
+              <div className="sdv2-proc-timeline-fill" />
+            </div>
+
+            <div className="sdv2-process-grid" style={{ '--process-cols': service.process.length }}>
+              {service.process.map((step, i) => (
+                <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
+                  {/* Step Node Circle directly on the horizontal line */}
+                  <div className="sdv2-proc-node">
+                    <span className="sdv2-proc-node-num">{step.num}</span>
+                  </div>
+
+                  <div className="sdv2-proc-card-content">
+                    <h3 className="sdv2-proc-title">{step.title}</h3>
+                    <p className="sdv2-proc-desc">{step.desc}</p>
+                  </div>
                 </div>
-                <h3 className="sdv2-proc-title">{step.title}</h3>
-                <p className="sdv2-proc-desc">{step.desc}</p>
-                {i < service.process.length - 1 && <div className="sdv2-proc-connector" />}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
