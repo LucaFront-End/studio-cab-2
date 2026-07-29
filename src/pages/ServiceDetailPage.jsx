@@ -517,7 +517,7 @@ export default function ServiceDetailPage() {
         </section>
       )}
 
-      {/* ═══ 5: PROCESS / CAPACIDADES (LÍNEA HORIZONTAL DE PASOS) ═══ */}
+      {/* ═══ 5: PROCESS / CAPACIDADES (TIMELINE ARQUITECTÓNICO HORIZONTAL) ═══ */}
       <section className="sdv2-process">
         <div className="container-default">
           <span className="section-eyebrow anim-fade-up in-view">
@@ -532,25 +532,27 @@ export default function ServiceDetailPage() {
           </h2>
 
           <div className="sdv2-proc-timeline-wrapper">
-            {/* Literal Horizontal Line / Axis connecting step nodes */}
-            <div className="sdv2-proc-timeline-line">
-              <div className="sdv2-proc-timeline-fill" />
-            </div>
+            <div className="sdv2-process-container">
+              {/* Eje/Línea horizontal continua que atraviesa exactamente los 5 nodos */}
+              <div className="sdv2-proc-line-track">
+                <div className="sdv2-proc-line-progress" />
+              </div>
 
-            <div className="sdv2-process-grid" style={{ '--process-cols': service.process.length }}>
-              {service.process.map((step, i) => (
-                <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
-                  {/* Step Node Circle directly on the horizontal line */}
-                  <div className="sdv2-proc-node">
-                    <span className="sdv2-proc-node-num">{step.num}</span>
-                  </div>
+              <div className="sdv2-process-grid" style={{ '--process-cols': service.process.length }}>
+                {service.process.map((step, i) => (
+                  <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
+                    {/* Nodo circular alineado sobre la línea horizontal */}
+                    <div className="sdv2-proc-node">
+                      <span className="sdv2-proc-node-num">{step.num}</span>
+                    </div>
 
-                  <div className="sdv2-proc-card-content">
-                    <h3 className="sdv2-proc-title">{step.title}</h3>
-                    <p className="sdv2-proc-desc">{step.desc}</p>
+                    <div className="sdv2-proc-card-content">
+                      <h3 className="sdv2-proc-title">{step.title}</h3>
+                      <p className="sdv2-proc-desc">{step.desc}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
