@@ -353,9 +353,14 @@
 
 .sdv2-tap-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
   margin-top: 48px;
+  background: var(--colors--theme-white);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(13, 15, 18, 0.02);
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -368,94 +373,108 @@
 
 .sdv2-tap-card {
   position: relative;
-  min-height: 380px;
-  height: auto;
-  border-radius: 16px;
-  overflow: hidden;
+  padding: 40px 28px;
+  border-right: 1px solid var(--color-border);
+  background: var(--colors--theme-white);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 36px 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--color-border);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: default;
+  justify-content: space-between;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 320px;
 }
 
-.sdv2-tap-card-img-wrapper {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
+.sdv2-tap-card:last-child {
+  border-right: none;
 }
 
-.sdv2-tap-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sdv2-tap-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(11, 12, 14, 0.95) 15%, rgba(11, 12, 14, 0.6) 50%, rgba(11, 12, 14, 0.25) 100%);
+.sdv2-tap-card:hover {
+  background: var(--colors--theme-black);
   z-index: 2;
-  transition: background 0.5s ease;
 }
 
-.sdv2-tap-card-content {
-  position: relative;
-  z-index: 3;
-  color: var(--colors--theme-white);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+.sdv2-tap-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sdv2-tap-card-icon {
+  font-size: 24px;
+  color: var(--colors--theme-orange);
+  transition: transform 0.4s ease;
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-icon {
+  transform: scale(1.2);
 }
 
 .sdv2-tap-card-code {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.15em;
-  color: var(--colors--theme-orange);
+  color: color-mix(in srgb, var(--colors--theme-black) 35%, transparent);
   font-family: monospace;
-  margin-bottom: 8px;
-  display: block;
+  transition: color 0.3s ease;
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-code {
+  color: var(--colors--theme-orange);
 }
 
 .sdv2-tap-card-title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
   margin-bottom: 12px;
-  color: var(--colors--theme-white);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: var(--colors--theme-black);
   line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-title {
+  color: var(--colors--theme-white);
 }
 
 .sdv2-tap-card-desc {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.85);
-  opacity: 0.95;
+  color: var(--colors--theme-gray);
+  flex-grow: 1;
+  transition: color 0.3s ease;
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-desc {
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .sdv2-tap-card-actions {
-  margin-top: 20px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  transition: border-color 0.3s ease;
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-actions {
+  border-top-color: rgba(255, 255, 255, 0.15);
 }
 
 .sdv2-tap-wa-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 22px;
+  padding: 10px 16px;
   border-radius: 8px;
   background: #25d366;
   color: #ffffff;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   text-decoration: none;
   transition: all 0.3s ease;
-  line-height: 1.3;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sdv2-tap-wa-btn:hover {
@@ -464,25 +483,15 @@
   box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
 }
 
-/* Hover effects */
-.sdv2-tap-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--colors--theme-orange);
-}
-
-.sdv2-tap-card:hover .sdv2-tap-card-img {
-  transform: scale(1.08);
-}
-
-.sdv2-tap-card:hover .sdv2-tap-card-overlay {
-  background: linear-gradient(to top, rgba(11, 12, 14, 0.98) 25%, rgba(11, 12, 14, 0.75) 60%, rgba(11, 12, 14, 0.4) 100%);
-}
-
 @media (max-width: 991px) {
   .sdv2-tap-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sdv2-tap-card {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .sdv2-tap-card:nth-child(2n) {
+    border-right: none;
   }
 }
 
@@ -492,11 +501,14 @@
   }
   .sdv2-tap-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
   }
   .sdv2-tap-card {
-    min-height: 340px;
-    padding: 24px 20px;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 32px 20px;
+  }
+  .sdv2-tap-card:last-child {
+    border-bottom: none;
   }
 }
 
