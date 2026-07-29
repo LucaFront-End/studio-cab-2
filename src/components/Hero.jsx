@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './Hero.css';
 
-const Hero = () => {
+const Hero = ({ topEyebrow, fraseCorta, excerptPgina }) => {
   const [loaded, setLoaded] = useState(false);
   const [animateContent, setAnimateContent] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
@@ -79,9 +79,15 @@ const Hero = () => {
         <div className="home-hero-wrapper">
           {/* Eyebrow Accent (Editorial details) */}
           <div className={`hero-top-eyebrow ${animateContent ? 'animate-in' : ''}`}>
-            <span className="eyebrow-line">DISEÑO DE INTERIORES</span>
-            <span className="eyebrow-sep"> &amp; </span>
-            <span className="eyebrow-line">CARPINTERÍA ARQUITECTÓNICA</span>
+            {topEyebrow ? (
+              <span className="eyebrow-line">{topEyebrow.toUpperCase()}</span>
+            ) : (
+              <>
+                <span className="eyebrow-line">DISEÑO DE INTERIORES</span>
+                <span className="eyebrow-sep"> &amp; </span>
+                <span className="eyebrow-line">CARPINTERÍA ARQUITECTÓNICA</span>
+              </>
+            )}
           </div>
 
           {/* Parallax Wrapper for Title */}
@@ -132,11 +138,11 @@ const Hero = () => {
           {/* Hero details text and CTA button */}
           <div className={`hero-content-block ${animateContent ? 'animate-in' : ''}`}>
             <div className="hero-content-left-block">
-              <h2>Diseñamos espacios que venden, conectan y generan experiencia.</h2>
+              <h2>{fraseCorta || "Diseñamos espacios que venden, conectan y generan experiencia."}</h2>
             </div>
             <div className="hero-content-right-block">
               <p className="button-top-text">
-                Arquitectura interior y carpintería a la medida en CDMX. Materializamos espacios comerciales premium con precisión milimétrica.
+                {excerptPgina || "Arquitectura interior y carpintería a la medida en CDMX. Materializamos espacios comerciales premium con precisión milimétrica."}
               </p>
               <a href="#cta-configurator" className="hero-cta-btn">
                 {/* corner crosshair decorations */}

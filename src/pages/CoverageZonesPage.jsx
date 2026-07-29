@@ -12,34 +12,57 @@ export default function CoverageZonesPage() {
     'Hub dinámico de zonas de cobertura, proyectos y landings de interiorismo, carpintería sobre diseño y tapicería en CDMX y Área Metropolitana.'
   );
 
-  const { subservicios, loading } = useWixCMSData();
+  const { subservicios, landingsDeCiudad, loading } = useWixCMSData();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todas');
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [gridRef, gridVis] = useInView({ threshold: 0.05 });
 
-  // 1. Filtrar los subservicios/landings activos (donde aparecenEnCategora === "Sí" o por defecto)
+  // 1. Combinar Subservicios activos y LandingsdeCiudad en una sola lista unificada
   const activeLandings = useMemo(() => {
-    if (!subservicios) return [];
-    return subservicios.filter(item => {
-      const data = item.data || item;
-      const aparecen = data.aparecenEnCategora || data.aparecenEnCategoria;
-      if (aparecen !== undefined && aparecen !== null) {
-        const valStr = String(aparecen).trim().toLowerCase();
-        return valStr === 'sí' || valStr === 'si' || valStr === 'true';
-      }
-      return true;
-    });
-  }, [subservicios]);
+    const list = [];
+
+    // Subservicios (pre-filtrados por aparecenEnCategora en la API)
+    if (subservicios) {
+      subservicios.forEach(item => {
+        const data = item.data || item;
+        list.push({
+          id: item._id,
+          title: data.title || data.subservicio || '',
+          category: data.categoria || data.categora || data.category || 'Especializado',
+          description: data.excerpt || data.descripcin || data.description || '',
+          slug: data.slug || item._id,
+          type: 'subservicio',
+          targetUrl: `/subservicios/${data.slug || item._id}`
+        });
+      });
+    }
+
+    // Landings de Ciudad (LandingsdeCiudad collection)
+    if (landingsDeCiudad) {
+      landingsDeCiudad.forEach(item => {
+        const data = item.data || item;
+        list.push({
+          id: item._id,
+          title: data.tituloPgina || data.title || '',
+          category: data.ciudadOEstado ? `Zona: ${data.ciudadOEstado.split('(')[0].trim()}` : 'Cobertura Nacional',
+          description: data.excerptPgina || data.fraseCorta || '',
+          slug: data.slug || item._id,
+          type: 'ciudad',
+          targetUrl: `/ciudad/${data.slug || item._id}`
+        });
+      });
+    }
+
+    return list;
+  }, [subservicios, landingsDeCiudad]);
 
   // 2. Extraer categorías únicas para las pestañas del repetidor
   const categories = useMemo(() => {
     const set = new Set();
     activeLandings.forEach(item => {
-      const data = item.data || item;
-      const cat = data.categoria || data.categora || data.category || 'General';
-      if (cat) set.add(cat);
+      if (item.category) set.add(item.category);
     });
     return ['Todas', ...Array.from(set).sort()];
   }, [activeLandings]);
@@ -47,20 +70,17 @@ export default function CoverageZonesPage() {
   // 3. Filtrar dinámicamente por término de búsqueda y categoría
   const filteredLandings = useMemo(() => {
     return activeLandings.filter(item => {
-      const data = item.data || item;
-      const title = (data.title || data.subservicio || '').toLowerCase();
-      const desc = (data.descripcion || data.descripcin || data.excerpt || '').toLowerCase();
-      const cat = (data.categoria || data.categora || data.category || '').toLowerCase();
-      const subcat = (data.subcategoria || data.subcategora || '').toLowerCase();
+      const title = (item.title || '').toLowerCase();
+      const desc = (item.description || '').toLowerCase();
+      const cat = (item.category || '').toLowerCase();
 
       const search = searchTerm.toLowerCase().trim();
       const matchesSearch = !search || 
         title.includes(search) || 
         desc.includes(search) || 
-        cat.includes(search) || 
-        subcat.includes(search);
+        cat.includes(search);
 
-      const matchesCat = activeCategory === 'Todas' || (data.categoria || data.categora || data.category || '') === activeCategory;
+      const matchesCat = activeCategory === 'Todas' || item.category === activeCategory;
 
       return matchesSearch && matchesCat;
     });
@@ -122,7 +142,7 @@ export default function CoverageZonesPage() {
             {categories.map((cat, idx) => {
               const count = cat === 'Todas' 
                 ? activeLandings.length 
-                : activeLandings.filter(i => ((i.data || i).categoria || (i.data || i).categora || (i.data || i).category) === cat).length;
+                : activeLandings.filter(i => i.category === cat).length;
               return (
                 <button
                   key={idx}
@@ -152,27 +172,21 @@ export default function CoverageZonesPage() {
         ) : (
           <div className={`cz-repeater-grid ${gridVis ? 'in-view' : ''}`}>
             {filteredLandings.map((item, idx) => {
-              const data = item.data || item;
-              const title = data.title || data.subservicio || '';
-              const category = data.categoria || data.categora || data.category || 'Especializado';
-              const description = data.excerpt || data.descripcin || data.description || `Servicio especializado de ${title} en CDMX y zona metropolitana.`;
-              const slug = data.slug || item._id;
-
-              const waMessage = encodeURIComponent(`SW- Hola Studio CAB. Me interesa información sobre *${title}* en mi zona.`);
+              const waMessage = encodeURIComponent(`SW- Hola Studio CAB. Me interesa información sobre *${item.title}* en mi zona.`);
               const waLink = `https://wa.me/525516406963?text=${waMessage}`;
 
               return (
-                <article key={item._id || idx} className="cz-card">
+                <article key={item.id || idx} className="cz-card">
                   <div className="cz-card-header">
-                    <span className="cz-card-tag">{category}</span>
+                    <span className="cz-card-tag">{item.category}</span>
                     <span className="cz-card-code">HUB // {String(idx + 1).padStart(3, '0')}</span>
                   </div>
 
-                  <h3 className="cz-card-title">{title}</h3>
-                  <p className="cz-card-desc">{description}</p>
+                  <h3 className="cz-card-title">{item.title}</h3>
+                  <p className="cz-card-desc">{item.description}</p>
 
                   <div className="cz-card-footer">
-                    <Link to={`/subservicios/${slug}`} className="cz-card-link">
+                    <Link to={item.targetUrl} className="cz-card-link">
                       Ver Landing ↗
                     </Link>
 

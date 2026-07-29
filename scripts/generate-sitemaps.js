@@ -108,8 +108,9 @@ async function main() {
   const liveProducts = await fetchLiveProducts(token);
   const liveSubservices = await fetchWixCollectionItems(token, 'Subservicios');
   const liveProjects = await fetchWixCollectionItems(token, 'Proyectos');
+  const liveCityLandings = await fetchWixCollectionItems(token, 'LandingsdeCiudad');
 
-  console.log(`[Sitemap Generator] Fetched ${liveProducts.length} products, ${liveSubservices.length} subservices, ${liveProjects.length} projects from Wix CMS.`);
+  console.log(`[Sitemap Generator] Fetched ${liveProducts.length} products, ${liveSubservices.length} subservices, ${liveProjects.length} projects, ${liveCityLandings.length} city landings from Wix CMS.`);
 
   // 1. Static Sitemap
   const staticUrls = [
@@ -119,7 +120,7 @@ async function main() {
     { loc: `${BASE_URL}/tienda`, priority: '0.9', changefreq: 'daily' },
     { loc: `${BASE_URL}/proyectos`, priority: '0.8', changefreq: 'weekly' },
     { loc: `${BASE_URL}/contacto`, priority: '0.8', changefreq: 'monthly' },
-    { loc: `${BASE_URL}/zonas-de-cobertura`, priority: '0.7', changefreq: 'monthly' },
+    { loc: `${BASE_URL}/zonas-de-cobertura`, priority: '0.8', changefreq: 'weekly' },
     { loc: `${BASE_URL}/politica-de-privacidad`, priority: '0.3', changefreq: 'yearly' },
     { loc: `${BASE_URL}/terminos-y-condiciones`, priority: '0.3', changefreq: 'yearly' },
   ];
@@ -182,7 +183,28 @@ async function main() {
   }
   const subservicesXml = generateUrlSetXml(subservicesUrls);
 
-  // 4. Products Sitemap (100% Dynamic from Wix Stores API + Fallback)
+  // 4. City Landings Sitemap (100% Dynamic from Wix CMS LandingsdeCiudad collection)
+  let cityLandingsUrls = [];
+  if (liveCityLandings.length > 0) {
+    const uniqueSlugs = new Set();
+    liveCityLandings.forEach(item => {
+      const data = item.data || item;
+      const slug = data.slug || item._id;
+      if (slug && !uniqueSlugs.has(slug)) {
+        uniqueSlugs.add(slug);
+        const lastModDate = data._updatedDate || data._createdDate;
+        cityLandingsUrls.push({
+          loc: `${BASE_URL}/ciudad/${slug}`,
+          priority: '0.8',
+          changefreq: 'weekly',
+          lastmod: formatLastModDate(lastModDate)
+        });
+      }
+    });
+  }
+  const cityLandingsXml = generateUrlSetXml(cityLandingsUrls);
+
+  // 5. Products Sitemap (100% Dynamic from Wix Stores API + Fallback)
   const productUrls = liveProducts.length > 0
     ? liveProducts.map(p => ({
         loc: `${BASE_URL}/tienda/${p.id || p._id}`,
@@ -198,7 +220,7 @@ async function main() {
       ];
   const productsXml = generateUrlSetXml(productUrls);
 
-  // 5. Projects Sitemap (Dynamic Portfolio from Wix CMS Proyectos collection + Fallback)
+  // 6. Projects Sitemap (Dynamic Portfolio from Wix CMS Proyectos collection + Fallback)
   const projectsUrls = liveProjects.length > 0
     ? liveProjects.map(item => {
         const data = item.data || item;
@@ -218,17 +240,18 @@ async function main() {
       }));
   const projectsXml = generateUrlSetXml(projectsUrls);
 
-  // 6. Sitemap Index
+  // 7. Sitemap Index
   const sitemapIndex = [
     { loc: `${BASE_URL}/sitemap-estatico.xml` },
     { loc: `${BASE_URL}/sitemap-servicios.xml` },
     { loc: `${BASE_URL}/sitemap-subservicios.xml` },
+    { loc: `${BASE_URL}/sitemap-landings.xml` },
     { loc: `${BASE_URL}/sitemap-productos.xml` },
     { loc: `${BASE_URL}/sitemap-proyectos.xml` },
   ];
   const sitemapIndexXml = generateSitemapIndexXml(sitemapIndex);
 
-  // 7. Robots.txt
+  // 8. Robots.txt
   const robotsTxt = `User-agent: *
 Allow: /
 
@@ -245,11 +268,12 @@ Sitemap: ${BASE_URL}/sitemap.xml
   fs.writeFileSync(path.join(publicDir, 'sitemap-estatico.xml'), staticXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-servicios.xml'), servicesXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-subservicios.xml'), subservicesXml);
+  fs.writeFileSync(path.join(publicDir, 'sitemap-landings.xml'), cityLandingsXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-productos.xml'), productsXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-proyectos.xml'), projectsXml);
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);
 
-  console.log('[Sitemap Generator] ✅ Successfully generated all 6 sitemap XML files and robots.txt!');
+  console.log('[Sitemap Generator] ✅ Successfully generated all 7 sitemap XML files and robots.txt!');
 }
 
 main().catch(err => {

@@ -19,6 +19,7 @@ import ProductPage from './pages/ProductPage';
 import BusinessDetailPage from './pages/BusinessDetailPage';
 import SubserviceDetailPage from './pages/SubserviceDetailPage';
 import CoverageZonesPage from './pages/CoverageZonesPage';
+import CityLandingPage from './pages/CityLandingPage';
 
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="/negocios/:id" element={<BusinessDetailPage />} />
             <Route path="/subservicios/:slug" element={<SubserviceDetailPage />} />
             <Route path="/zonas-de-cobertura" element={<CoverageZonesPage />} />
+            <Route path="/ciudad/:slug" element={<CityLandingPage />} />
           </Routes>
         </PageTransition>
         <Footer />
