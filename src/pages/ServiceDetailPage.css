@@ -560,7 +560,7 @@
   transform: translateY(0);
 }
 
-/* Timeline Step Header with Phase Pill and Connecting Arrow */
+/* Timeline Step Header with Velvet Tapicería Dot and Connecting Line */
 .sdv2-timeline-step-header {
   display: flex;
   align-items: center;
@@ -569,17 +569,46 @@
   position: relative;
 }
 
-.sdv2-timeline-step-pill {
-  font-size: 11px;
+.sdv2-velvet-dot {
+  position: relative;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--colors--theme-orange);
+  background: var(--colors--theme-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--colors--theme-orange) 30%, transparent);
+  flex-shrink: 0;
+}
+
+.sdv2-velvet-dot-inner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--colors--theme-orange);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sdv2-timeline-step:hover .sdv2-velvet-dot {
+  transform: scale(1.35);
+  background: var(--colors--theme-orange);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--colors--theme-orange) 60%, transparent);
+}
+
+.sdv2-timeline-step:hover .sdv2-velvet-dot-inner {
+  background: var(--colors--theme-white);
+}
+
+.sdv2-timeline-step-num {
+  font-size: 13px;
   font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--colors--theme-orange);
-  background: color-mix(in srgb, var(--colors--theme-orange) 10%, transparent);
-  padding: 6px 14px;
-  border-radius: 100px;
-  border: 1px solid color-mix(in srgb, var(--colors--theme-orange) 35%, transparent);
   font-family: monospace;
-  white-space: nowrap;
 }
 
 .sdv2-timeline-step-arrow {
