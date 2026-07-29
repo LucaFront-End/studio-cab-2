@@ -823,11 +823,6 @@
   .sdv2-intro-grid { grid-template-columns: 1fr; gap: 32px; }
   .sdv2-materials-grid { grid-template-columns: 1fr; gap: 32px; }
   .sdv2-planner-inner { grid-template-columns: 1fr; gap: 40px; }
-  .sdv2-process-grid { grid-template-columns: repeat(2, 1fr); }
-  .sdv2-process-card:first-child { border-radius: 14px 0 0 0; }
-  .sdv2-process-card:nth-child(2) { border-radius: 0 14px 0 0; }
-  .sdv2-process-card:nth-child(3) { border-radius: 0 0 0 14px; }
-  .sdv2-process-card:last-child { border-radius: 0 0 14px 0; }
   .sdv2-benefits-grid { grid-template-columns: 1fr; }
   .sdv2-cta-inner { grid-template-columns: 1fr; }
   .sdv2-showcase-main { height: 380px; }
