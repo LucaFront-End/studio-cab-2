@@ -517,43 +517,54 @@ export default function ServiceDetailPage() {
         </section>
       )}
 
-      {/* ═══ 5: PROCESS / CAPACIDADES (TIMELINE ARQUITECTÓNICO HORIZONTAL) ═══ */}
+      {/* ═══ 5: PROCESS / CAPACIDADES (FORMATO TIMELINE DE PASOS) ═══ */}
       <section className="sdv2-process">
         <div className="container-default">
-          <span className="section-eyebrow anim-fade-up in-view">
-            {id === 'tapiceria' ? 'Capacidades' : 'Metodología'}
-          </span>
-          <h2 className="section-heading anim-fade-up in-view">
-            {id === 'tapiceria' ? (
-              <>Lo que podemos <em>hacer</em>.</>
-            ) : (
-              <>Nuestro <em>proceso</em>.</>
-            )}
-          </h2>
-
-          <div className="sdv2-proc-timeline-wrapper">
-            <div className="sdv2-process-container">
-              {/* Eje/Línea horizontal continua que atraviesa exactamente los 5 nodos */}
-              <div className="sdv2-proc-line-track">
-                <div className="sdv2-proc-line-progress" />
-              </div>
-
-              <div className="sdv2-process-grid" style={{ '--process-cols': service.process.length }}>
-                {service.process.map((step, i) => (
-                  <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
-                    {/* Nodo circular alineado sobre la línea horizontal */}
-                    <div className="sdv2-proc-node">
-                      <span className="sdv2-proc-node-num">{step.num}</span>
-                    </div>
-
-                    <div className="sdv2-proc-card-content">
-                      <h3 className="sdv2-proc-title">{step.title}</h3>
-                      <p className="sdv2-proc-desc">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className="sdv2-process-header-wrap">
+            <div>
+              <span className="section-eyebrow anim-fade-up in-view">
+                {id === 'tapiceria' ? 'Capacidades' : 'Metodología'}
+              </span>
+              <h2 className="section-heading anim-fade-up in-view">
+                {id === 'tapiceria' ? (
+                  <>Lo que podemos <em>hacer</em>.</>
+                ) : (
+                  <>Nuestro <em>proceso</em>.</>
+                )}
+              </h2>
             </div>
+            <div className="sdv2-timeline-badge">
+              <span>{service.process.length} FASES DE EJECUCIÓN</span>
+            </div>
+          </div>
+
+          {/* Timeline Horizontal Track */}
+          <div className="sdv2-timeline-track" style={{ '--process-cols': service.process.length }}>
+            {service.process.map((step, i) => (
+              <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-timeline-step ${procVis[i] ? 'in-view' : ''}`}>
+                
+                {/* Timeline Header with Phase Pill and Connecting Arrow */}
+                <div className="sdv2-timeline-step-header">
+                  <span className="sdv2-timeline-step-pill">FASE {step.num}</span>
+                  {i < service.process.length - 1 && (
+                    <div className="sdv2-timeline-step-arrow">
+                      <span className="sdv2-arrow-line" />
+                      <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+                        <path d="M1.5 1L6.5 6L1.5 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+
+                {/* Timeline Card */}
+                <div className="sdv2-timeline-card">
+                  <div className="sdv2-timeline-icon">{step.icon || '⦿'}</div>
+                  <h3 className="sdv2-timeline-title">{step.title}</h3>
+                  <p className="sdv2-timeline-desc">{step.desc}</p>
+                </div>
+
+              </div>
+            ))}
           </div>
         </div>
       </section>
