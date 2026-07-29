@@ -35,6 +35,7 @@ export default function Footer() {
               <li><Link to="/nosotros" className="footer-link"><span className="link-num">04 //</span> Nosotros</Link></li>
               <li><Link to="/tienda" className="footer-link"><span className="link-num">05 //</span> Tienda</Link></li>
               <li><Link to="/contacto" className="footer-link"><span className="link-num">06 //</span> Contacto</Link></li>
+              <li><Link to="/zonas-de-cobertura" className="footer-link"><span className="link-num">07 //</span> Zonas de Cobertura</Link></li>
             </ul>
           </div>
 
