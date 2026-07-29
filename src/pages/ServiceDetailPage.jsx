@@ -222,6 +222,29 @@ const SERVICE_SEO = {
   }
 };
 
+const tapTypes = [
+  {
+    title: 'Tapicería de Salas',
+    desc: 'Sofás, love seats y sillones residenciales con espumas de alta densidad y textiles antimanchas de última tecnología.',
+    img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80'
+  },
+  {
+    title: 'Tapicería de Muebles para Restaurantes',
+    desc: 'Booths a medida, banquetas corridas y sillería gastronómica reforzada con vinilos o cueros náuticos retardantes al fuego.',
+    img: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600&q=80'
+  },
+  {
+    title: 'Tapicería de Sillones para Cafetería',
+    desc: 'Butacas compactas, sillones lounge y bancos tapizados que optimizan la rotación y brindan máximo confort.',
+    img: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80'
+  },
+  {
+    title: 'Tapicería de Cabeceras para Hoteles',
+    desc: 'Cabeceros monumentales capitoné o lisos con anclaje a muro, telas ignífugas y espuma acústica integrada.',
+    img: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80'
+  }
+];
+
 export default function ServiceDetailPage() {
   const { id } = useParams();
   const service = allServices[id];
@@ -277,9 +300,13 @@ export default function ServiceDetailPage() {
   const [subsRef, subsVis] = useInView({ threshold: 0.15 });
   const [materialsRef, materialsVis] = useInView({ threshold: 0.15 });
   const [galRef, galVis] = useInView({ threshold: 0.1 });
-  const [procRefs, procVis] = useStaggerInView(4, { staggerDelay: 200 });
+  const [tapRef, tapVis] = useInView({ threshold: 0.1 });
+  
+  const procCount = service?.process?.length || 4;
+  const [procRefs, procVis] = useStaggerInView(procCount, { staggerDelay: 200 });
   const [testRef, testVis] = useInView({ threshold: 0.2 });
-  const [benRefs, benVis] = useStaggerInView(4, { staggerDelay: 120 });
+  const benCount = service?.benefits?.length || 4;
+  const [benRefs, benVis] = useStaggerInView(benCount, { staggerDelay: 120 });
   const [ctaRef, ctaVis] = useInView({ threshold: 0.2 });
 
   // Parallax on hero
@@ -514,12 +541,46 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
+      {/* ═══ NUEVO: TIPOS DE TAPICERÍA ═══ */}
+      {id === 'tapiceria' && (
+        <section className="sdv2-tapiceria-types" ref={tapRef}>
+          <div className="container-default">
+            <span className={`section-eyebrow ${tapVis ? 'in-view' : ''}`}>Especialidades</span>
+            <h2 className={`section-heading ${tapVis ? 'in-view' : ''}`}>
+              Tipos de <em>Tapicería</em>.
+            </h2>
+            <div className={`sdv2-tap-grid ${tapVis ? 'in-view' : ''}`}>
+              {tapTypes.map((type, i) => (
+                <div key={i} className="sdv2-tap-card" style={{ transitionDelay: `${i * 0.1}s` }}>
+                  <div className="sdv2-tap-card-img-wrapper">
+                    <img src={type.img} alt={type.title} className="sdv2-tap-card-img" />
+                    <div className="sdv2-tap-card-overlay" />
+                  </div>
+                  <div className="sdv2-tap-card-content">
+                    <h3 className="sdv2-tap-card-title">{type.title}</h3>
+                    <p className="sdv2-tap-card-desc">{type.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ═══ 5: PROCESS ═══ */}
       <section className="sdv2-process">
         <div className="container-default">
-          <span className="section-eyebrow anim-fade-up in-view">Metodología</span>
-          <h2 className="section-heading anim-fade-up in-view">Nuestro <em>proceso</em>.</h2>
-          <div className="sdv2-process-grid">
+          <span className="section-eyebrow anim-fade-up in-view">
+            {id === 'tapiceria' ? 'Capacidades' : 'Metodología'}
+          </span>
+          <h2 className="section-heading anim-fade-up in-view">
+            {id === 'tapiceria' ? (
+              <>Lo que podemos <em>hacer</em>.</>
+            ) : (
+              <>Nuestro <em>proceso</em>.</>
+            )}
+          </h2>
+          <div className="sdv2-process-grid" style={{ '--process-cols': service.process.length }}>
             {service.process.map((step, i) => (
               <div key={i} ref={el => procRefs.current[i] = el} className={`sdv2-process-card ${procVis[i] ? 'in-view' : ''}`}>
                 <div className="sdv2-proc-header">
@@ -528,7 +589,7 @@ export default function ServiceDetailPage() {
                 </div>
                 <h3 className="sdv2-proc-title">{step.title}</h3>
                 <p className="sdv2-proc-desc">{step.desc}</p>
-                {i < 3 && <div className="sdv2-proc-connector" />}
+                {i < service.process.length - 1 && <div className="sdv2-proc-connector" />}
               </div>
             ))}
           </div>

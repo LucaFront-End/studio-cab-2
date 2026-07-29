@@ -340,7 +340,127 @@
 
 /* ═══ 5: PROCESS ═══ */
 .sdv2-process { padding: 120px 20px; background: color-mix(in srgb, var(--colors--theme-white) 95%, var(--colors--theme-black)); }
-.sdv2-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+.sdv2-process-grid { display: grid; grid-template-columns: repeat(var(--process-cols, 4), 1fr); gap: 0; position: relative; }
+
+/* ═══ NEW: TAPICERÍA TYPES BANNERS ═══ */
+.sdv2-tapiceria-types {
+  padding: 100px 20px;
+  background: var(--colors--theme-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.sdv2-tap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sdv2-tap-grid.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sdv2-tap-card {
+  position: relative;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-border);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.sdv2-tap-card-img-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.sdv2-tap-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sdv2-tap-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11, 12, 14, 0.95) 15%, rgba(11, 12, 14, 0.6) 50%, rgba(11, 12, 14, 0.25) 100%);
+  z-index: 2;
+  transition: background 0.5s ease;
+}
+
+.sdv2-tap-card-content {
+  position: relative;
+  z-index: 3;
+  color: var(--colors--theme-white);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sdv2-tap-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--colors--theme-white);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sdv2-tap-card-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.9;
+}
+
+/* Hover effects */
+.sdv2-tap-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: var(--colors--theme-orange);
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-img {
+  transform: scale(1.08);
+}
+
+.sdv2-tap-card:hover .sdv2-tap-card-overlay {
+  background: linear-gradient(to top, rgba(11, 12, 14, 0.98) 25%, rgba(11, 12, 14, 0.75) 60%, rgba(11, 12, 14, 0.4) 100%);
+}
+
+@media (max-width: 1024px) {
+  .sdv2-tap-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sdv2-tapiceria-types {
+    padding: 60px 20px;
+  }
+  .sdv2-tap-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .sdv2-tap-card {
+    height: 340px;
+    padding: 24px 20px;
+  }
+}
+
 
 .sdv2-process-card { padding: 40px 32px; border: 1px solid var(--color-border); border-radius: 0; background: var(--colors--theme-white); opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); position: relative; }
 .sdv2-process-card:first-child { border-radius: 14px 0 0 14px; }
