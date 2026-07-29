@@ -191,10 +191,10 @@ const allServices = {
       author: 'Rodrigo Alarcón', role: 'Director Operativo — Grupo Gastronómico MX',
     },
     benefits: [
-      { icon: '◎', title: 'Tapicería a Medida', text: 'Retapizado integral para muebles residenciales y comerciales de uso rudo.' },
-      { icon: '◈', title: 'Evaluación Estructural', text: 'Refuerzo de armazón de madera, ajuste de resortes y bandas elásticas.' },
-      { icon: '◇', title: 'Rediseño de Costuras', text: 'Capitoné, vivos y pespuntes de alta precisión ajustados a tu diseño.' },
-      { icon: '△', title: 'Materiales Certificados', text: 'Telas antimanchas, pieles sintéticas náuticas y espumas ergonómicas HR.' },
+      { icon: '🛡️', title: 'Garantía Total', text: 'Respaldamos cada proyecto con garantía de satisfacción. Si algo no queda perfecto, lo corregimos sin costo.' },
+      { icon: '🧵', title: 'Telas & Materiales Premium', text: 'Trabajamos con lino, terciopelo, piel sintética náutica y más de 200 opciones importadas para cada estilo.' },
+      { icon: '🚚', title: 'Asesoría a Domicilio', text: 'Llevamos muestrarios físicos a tu espacio u oficina para seleccionar materiales y diagnosticar en sitio.' },
+      { icon: '⚙️', title: 'Taller Propio Sin Intermediarios', text: 'Fabricación y retapizado en taller especializado en CDMX con recolección y entrega sin costo.' },
     ],
   },
 };

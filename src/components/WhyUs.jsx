@@ -5,34 +5,34 @@ const differentiators = [
   {
     id: 1,
     num: '01',
-    title: 'Diseño Estratégico',
-    subtitle: 'Ergonomía, flujo y comportamiento de compra.',
+    title: 'Garantía Total de Satisfacción',
+    subtitle: 'Respaldamos cada proyecto sin letras chiquitas.',
     description:
-      'Cada barra, mostrador y pasillo se planifica con planos de flujo precisos. Optimizamos los recorridos del cliente y la comodidad operativa del personal, transformando el diseño en una herramienta que reduce tiempos de espera y eleva el ticket promedio.'
+      'Respaldamos cada trabajo con garantía total de satisfacción. Si algún acabado, ensamble o mecanismo no queda 100% perfecto, nuestro equipo lo corrige de inmediato sin ningún costo adicional para ti.'
   },
   {
     id: 2,
     num: '02',
-    title: 'Fabricación Propia',
-    subtitle: 'Taller de carpintería y herrería de alta costura.',
+    title: 'Materiales & Telas Premium',
+    subtitle: 'Maderas nobles, cueros náuticos y textiles importados.',
     description:
-      'Contamos con taller especializado en CDMX. Cortamos, ensamblamos y detallamos cada mueble con maquinaria CNC y mano de obra artesanal. Al no subcontratar, garantizamos un control absoluto sobre la veta de la madera, las uniones y los plazos de entrega.'
+      'Trabajamos con lino, terciopelos antimanchas, pieles sintéticas náuticas de alto tráfico, nogal, encino y herrajes europeos de alta precisión. Contamos con un catálogo de más de 200 opciones para cada estilo.'
   },
   {
     id: 3,
     num: '03',
-    title: 'Soluciones Integrales',
-    subtitle: 'Coordinación sin fisuras del plano a la llave en mano.',
+    title: 'Fabricación Propia Sin Intermediarios',
+    subtitle: 'Taller especializado en CDMX con tecnología CNC y acabado artesanal.',
     description:
-      'Asumimos la responsabilidad total: diseño técnico, fabricación de mobiliario, obra civil e instalación en sitio. Evitamos las fricciones clásicas donde el diseñador culpa al constructor. Con nosotros, un solo equipo responde por todo el proyecto.'
+      'Contamos con taller propio en CDMX. Cortamos, ensamblamos y detallamos cada mueble sin subcontratar. Esto nos permite garantizar un control absoluto de calidad, costos justos y entregas puntuales.'
   },
   {
     id: 4,
     num: '04',
-    title: 'Optimización de Espacios',
-    subtitle: 'Máxima funcionalidad en locales comerciales compactos.',
+    title: 'Atención a Domicilio y Llave en Mano',
+    subtitle: 'Llevamos muestras a tu espacio y nos encargamos de todo.',
     description:
-      'Somos expertos en hacer que locales pequeños operen con la capacidad y presencia de una gran marca. Creamos mobiliario multifuncional empotrado y sistemas de almacenamiento ocultos que aprovechan hasta el último centímetro cuadrado disponible.'
+      'Visitamos tu hogar u oficina con muestrarios físicos de materiales, levantamiento técnico con herramientas de precisión y propuesta formal. Nos encargamos del diseño, fabricación, transportación e instalación final.'
   }
 ];
 
