@@ -610,19 +610,28 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 7: BENEFITS / POR QUÉ ELEGIRNOS ═══ */}
+      {/* ═══ 7: BENEFITS / POR QUÉ ELEGIRNOS (STUDIO CAB STYLE) ═══ */}
       <section className="sdv2-benefits">
         <div className="container-default">
           <div className="sdv2-benefits-header">
-            <span className="sdv2-benefits-eyebrow">POR QUÉ ELEGIRNOS</span>
+            <span className="sdv2-benefits-eyebrow">DIFERENCIALES // STUDIO CAB</span>
             <h2 className="sdv2-benefits-heading">Compromiso con la <em>excelencia</em>.</h2>
+            <p className="sdv2-benefits-subheading">
+              Garantizamos precisión técnica, materiales certificados y atención directa sin intermediarios.
+            </p>
           </div>
           <div className="sdv2-benefits-grid">
             {service.benefits.map((b, i) => (
               <div key={i} ref={el => benRefs.current[i] = el} className={`sdv2-benefit ${benVis[i] ? 'in-view' : ''}`}>
+                {/* Corner AutoCAD Ticks */}
+                <div className="sdv2-ben-corner top-left">+</div>
+                <div className="sdv2-ben-corner top-right">+</div>
+                <div className="sdv2-ben-corner bottom-left">+</div>
+                <div className="sdv2-ben-corner bottom-right">+</div>
+
                 <div className="sdv2-ben-header">
                   <div className="sdv2-ben-icon-box">{b.icon}</div>
-                  <span className="sdv2-ben-num">0{i + 1}</span>
+                  <span className="sdv2-ben-badge">[CAB-VAL // 0{i + 1}]</span>
                 </div>
                 <h3 className="sdv2-ben-title">{b.title}</h3>
                 <p className="sdv2-ben-text">{b.text}</p>
