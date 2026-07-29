@@ -191,10 +191,36 @@ const allServices = {
       author: 'Rodrigo Alarcón', role: 'Director Operativo — Grupo Gastronómico MX',
     },
     benefits: [
-      { icon: '🛡️', title: 'Garantía Total', text: 'Respaldamos cada proyecto con garantía de satisfacción. Si algo no queda perfecto, lo corregimos sin costo.' },
-      { icon: '🧵', title: 'Telas & Materiales Premium', text: 'Trabajamos con lino, terciopelo, piel sintética náutica y más de 200 opciones importadas para cada estilo.' },
-      { icon: '🚚', title: 'Asesoría a Domicilio', text: 'Llevamos muestrarios físicos a tu espacio u oficina para seleccionar materiales y diagnosticar en sitio.' },
-      { icon: '⚙️', title: 'Taller Propio Sin Intermediarios', text: 'Fabricación y retapizado en taller especializado en CDMX con recolección y entrega sin costo.' },
+      { 
+        icon: '🛡️', 
+        title: 'Garantía total', 
+        text: 'Respaldamos cada proyecto con garantía de satisfacción total. Si algo no queda impecable, lo corregimos de inmediato sin costo adicional.' 
+      },
+      { 
+        icon: '🧵', 
+        title: 'Telas premium', 
+        text: 'Trabajamos con lino, terciopelo antimanchas, piel sintética náutica y más de 200 opciones de telas importadas para cada estilo.' 
+      },
+      { 
+        icon: '📐', 
+        title: 'Tapiceros expertos', 
+        text: 'Más de 15 años de maestría artesanal. Nuestros expertos dominan técnicas de capitoné tradicionales y acabados modernos de precisión.' 
+      },
+      { 
+        icon: '🚚', 
+        title: 'Recolección gratis', 
+        text: 'Pasamos a recoger y entregar tu mueble sin costo adicional en toda la CDMX y zona metropolitana.' 
+      },
+      { 
+        icon: '⚡', 
+        title: 'Cotización express', 
+        text: 'Envía fotos por WhatsApp y recibe un presupuesto detallado en menos de 5 minutos, sin compromiso.' 
+      },
+      { 
+        icon: '✨', 
+        title: 'Antes y después', 
+        text: 'Te mostramos resultados reales de nuestras transformaciones para que compruebes el acabado antes de decidir.' 
+      },
     ],
   },
 };
@@ -584,15 +610,20 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 7: BENEFITS ═══ */}
+      {/* ═══ 7: BENEFITS / POR QUÉ ELEGIRNOS ═══ */}
       <section className="sdv2-benefits">
         <div className="container-default">
-          <span className="section-eyebrow anim-fade-up in-view">Ventajas</span>
-          <h2 className="section-heading anim-fade-up in-view">¿Por qué <em>Studio CAB</em>?</h2>
+          <div className="sdv2-benefits-header">
+            <span className="sdv2-benefits-eyebrow">POR QUÉ ELEGIRNOS</span>
+            <h2 className="sdv2-benefits-heading">Compromiso con la <em>excelencia</em>.</h2>
+          </div>
           <div className="sdv2-benefits-grid">
             {service.benefits.map((b, i) => (
               <div key={i} ref={el => benRefs.current[i] = el} className={`sdv2-benefit ${benVis[i] ? 'in-view' : ''}`}>
-                <span className="sdv2-ben-num">0{i + 1}</span>
+                <div className="sdv2-ben-header">
+                  <div className="sdv2-ben-icon-box">{b.icon}</div>
+                  <span className="sdv2-ben-num">0{i + 1}</span>
+                </div>
                 <h3 className="sdv2-ben-title">{b.title}</h3>
                 <p className="sdv2-ben-text">{b.text}</p>
               </div>
