@@ -400,169 +400,124 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ═══ 2.5: SUBSERVICIOS DINÁMICOS (WIX CMS) ═══ */}
-      {currentSubservices.length > 0 && (
+      {/* ═══ 2.5: SUBSERVICIOS DINÁMICOS O ESPECIALIDADES DE TAPICERÍA ═══ */}
+      {(currentSubservices.length > 0 || id === 'tapiceria') && (
         <section className="sdv2-subservices" ref={subsRef}>
           <div className="container-default">
             <span className={`section-eyebrow ${subsVis ? 'in-view' : ''}`}>[02.1 // ESPECIALIZACIONES]</span>
-            <h2 className={`section-heading ${subsVis ? 'in-view' : ''}`}>Subservicios de <em>{service.title}</em>.</h2>
+            <h2 className={`section-heading ${subsVis ? 'in-view' : ''}`}>
+              {id === 'tapiceria' ? (
+                <>Especialidades de <em>Tapicería</em>.</>
+              ) : (
+                <>Subservicios de <em>{service.title}</em>.</>
+              )}
+            </h2>
             
-            {/* Pestañas de Subcategorías */}
-            {uniqueSubcategories.length > 0 && (
-              <div className="sdv2-subcat-tabs">
-                <button 
-                  className={`sdv2-subcat-tab-btn ${activeSubcat === 'Todos' ? 'active' : ''}`}
-                  onClick={() => setActiveSubcat('Todos')}
-                >
-                  Todos <span className="tab-count">({currentSubservices.length})</span>
-                </button>
-                {uniqueSubcategories.map((subcat, idx) => {
-                  const count = currentSubservices.filter(sub => {
-                    const data = sub.data || sub;
-                    const cat = data.subcategoria || data.subcategora || data.subcategory || 'General';
-                    return cat === subcat;
-                  }).length;
+            {/* Si es Tapicería (sin subservicios en Wix), mostramos la franja visual de especialidades */}
+            {id === 'tapiceria' ? (
+              <div className={`sdv2-tap-grid ${subsVis ? 'in-view' : ''}`}>
+                {tapTypes.map((type, i) => {
+                  const waMessage = encodeURIComponent(`SW- Hola Studio CAB, me interesa cotizar el servicio de *${type.title}*.`);
+                  const waLink = `https://wa.me/525516406963?text=${waMessage}`;
                   return (
-                    <button
-                      key={idx}
-                      className={`sdv2-subcat-tab-btn ${activeSubcat === subcat ? 'active' : ''}`}
-                      onClick={() => setActiveSubcat(subcat)}
-                    >
-                      {subcat} <span className="tab-count">({count})</span>
-                    </button>
+                    <div key={i} className="sdv2-tap-card" style={{ transitionDelay: `${i * 0.1}s` }}>
+                      <div className="sdv2-tap-card-img-wrapper">
+                        <img src={type.img} alt={type.title} className="sdv2-tap-card-img" />
+                        <div className="sdv2-tap-card-overlay" />
+                      </div>
+                      <div className="sdv2-tap-card-content">
+                        <span className="sdv2-tap-card-code">[ESP // 0{i + 1}]</span>
+                        <h3 className="sdv2-tap-card-title">{type.title}</h3>
+                        <p className="sdv2-tap-card-desc">{type.desc}</p>
+                        <div className="sdv2-tap-card-actions">
+                          <a href={waLink} target="_blank" rel="noopener noreferrer" className="sdv2-tap-wa-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style={{ marginRight: '6px' }}>
+                              <path d="M12.012 2C6.48 2 2 6.48 2 12.012c0 1.812.48 3.564 1.392 5.124L2 22l5.004-1.308c1.512.828 3.204 1.272 4.992 1.272C17.52 22 22 17.52 22 12.012c0-2.676-1.044-5.184-2.928-7.08C17.184 3.036 14.688 2 12.012 2zm5.724 14.124c-.252.708-1.464 1.296-2.004 1.344-.492.048-.972.24-3.156-.624-2.772-1.104-4.524-3.924-4.656-4.104-.132-.18-1.092-1.452-1.092-2.772 0-1.32.684-1.968.936-2.232.252-.264.672-.384 1.08-.384.144 0 .276.012.396.012.348.012.516.036.744.576.228.552.792 1.932.864 2.076.072.144.12.312.024.504-.096.192-.144.312-.288.48-.144.168-.312.384-.444.516-.144.144-.3.3-.132.588.168.288.756 1.248 1.62 2.016.924.816 1.704 1.068 1.944 1.188.24.12.384.108.528-.06.144-.168.624-.72.792-.96.168-.24.336-.204.564-.12.228.084 1.452.684 1.704.816.252.132.42.192.48.3.06.108.06.624-.192 1.332z" />
+                            </svg>
+                            Cotizar {type.title.replace('Tapicería de ', '')}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
-            )}
+            ) : (
+              <>
+                {/* Pestañas de Subcategorías */}
+                {uniqueSubcategories.length > 0 && (
+                  <div className="sdv2-subcat-tabs">
+                    <button 
+                      className={`sdv2-subcat-tab-btn ${activeSubcat === 'Todos' ? 'active' : ''}`}
+                      onClick={() => setActiveSubcat('Todos')}
+                    >
+                      Todos <span className="tab-count">({currentSubservices.length})</span>
+                    </button>
+                    {uniqueSubcategories.map((subcat, idx) => {
+                      const count = currentSubservices.filter(sub => {
+                        const data = sub.data || sub;
+                        const cat = data.subcategoria || data.subcategora || data.subcategory || 'General';
+                        return cat === subcat;
+                      }).length;
+                      return (
+                        <button
+                          key={idx}
+                          className={`sdv2-subcat-tab-btn ${activeSubcat === subcat ? 'active' : ''}`}
+                          onClick={() => setActiveSubcat(subcat)}
+                        >
+                          {subcat} <span className="tab-count">({count})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
-            <div className="sdv2-subs-grid">
-              {filteredSubservices.map((sub, idx) => {
-                const data = sub.data || sub;
-                const title = data.title || data.subservicio || '';
-                const description = data.descripcin || data.description || `Especialidad en ${title} con materiales premium y acabados de lujo.`;
-                let waLink = data.enlaceDeWhatsapp || '';
-                if (waLink) {
-                  if (waLink.startsWith('https://wa.me/?text=')) {
-                    waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525516406963?text=SW-%20');
-                  } else if (waLink.includes('text=') && !waLink.includes('text=SW-')) {
-                    waLink = waLink.replace('text=', 'text=SW-%20');
-                  }
-                } else {
-                  const waMessage = encodeURIComponent(`SW- ${data.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${title}*.`}`);
-                  waLink = `https://wa.me/525516406963?text=${waMessage}`;
-                }
-                
-                return (
-                  <div key={data._id || idx} className="sdv2-sub-card">
-                    <span className="sdv2-sub-code">[SUB // 0{idx + 1}]</span>
-                    <h3 className="sdv2-sub-title">{title}</h3>
-                    <p className="sdv2-sub-desc">{description}</p>
+                <div className="sdv2-subs-grid">
+                  {filteredSubservices.map((sub, idx) => {
+                    const data = sub.data || sub;
+                    const title = data.title || data.subservicio || '';
+                    const description = data.descripcin || data.description || `Especialidad en ${title} con materiales premium y acabados de lujo.`;
+                    let waLink = data.enlaceDeWhatsapp || '';
+                    if (waLink) {
+                      if (waLink.startsWith('https://wa.me/?text=')) {
+                        waLink = waLink.replace('https://wa.me/?text=', 'https://wa.me/525516406963?text=SW-%20');
+                      } else if (waLink.includes('text=') && !waLink.includes('text=SW-')) {
+                        waLink = waLink.replace('text=', 'text=SW-%20');
+                      }
+                    } else {
+                      const waMessage = encodeURIComponent(`SW- ${data.whatsappText || `Hola Studio CAB. Me interesa el subservicio de *${title}*.`}`);
+                      waLink = `https://wa.me/525516406963?text=${waMessage}`;
+                    }
                     
-                    <div className="sdv2-sub-actions">
-                      <Link to={`/subservicios/${data.slug || ''}`} className="sdv2-sub-link">
-                        Saber Más ↗
-                      </Link>
-                      
-                      <a 
-                        href={waLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="sdv2-sub-wa-btn"
-                      >
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style={{ marginRight: '6px', verticalAlign: 'middle' }}>
-                          <path d="M12.012 2C6.48 2 2 6.48 2 12.012c0 1.812.48 3.564 1.392 5.124L2 22l5.004-1.308c1.512.828 3.204 1.272 4.992 1.272C17.52 22 22 17.52 22 12.012c0-2.676-1.044-5.184-2.928-7.08C17.184 3.036 14.688 2 12.012 2zm5.724 14.124c-.252.708-1.464 1.296-2.004 1.344-.492.048-.972.24-3.156-.624-2.772-1.104-4.524-3.924-4.656-4.104-.132-.18-1.092-1.452-1.092-2.772 0-1.32.684-1.968.936-2.232.252-.264.672-.384 1.08-.384.144 0 .276.012.396.012.348.012.516.036.744.576.228.552.792 1.932.864 2.076.072.144.12.312.024.504-.096.192-.144.312-.288.48-.144.168-.312.384-.444.516-.144.144-.3.3-.132.588.168.288.756 1.248 1.62 2.016.924.816 1.704 1.068 1.944 1.188.24.12.384.108.528-.06.144-.168.624-.72.792-.96.168-.24.336-.204.564-.12.228.084 1.452.684 1.704.816.252.132.42.192.48.3.06.108.06.624-.192 1.332z" />
-                        </svg>
-                        WhatsApp
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ═══ 3: MUESTRARIO DE MATERIALES (NUEVA) ═══ */}
-      <section className="sdv2-materials" ref={materialsRef}>
-        <div className="container-default">
-          <span className={`section-eyebrow ${materialsVis ? 'in-view' : ''}`}>Materiales del Estudio</span>
-          <h2 className={`section-heading ${materialsVis ? 'in-view' : ''}`}>Muestrario de <em>texturas sugeridas</em>.</h2>
-          
-          <div className={`sdv2-materials-grid ${materialsVis ? 'in-view' : ''}`}>
-            <div className="sdv2-materials-list">
-              {service.materials.map((mat, i) => (
-                <button
-                  key={i}
-                  className={`sdv2-material-item ${activeMaterial === i ? 'active' : ''}`}
-                  onClick={() => setActiveMaterial(i)}
-                >
-                  <span className="sdv2-mat-num">0{i + 1}</span>
-                  <span className="sdv2-mat-name">{mat.name}</span>
-                </button>
-              ))}
-            </div>
-
-            <div className="sdv2-materials-preview">
-              <div className="sdv2-mat-preview-card">
-                <div className="sdv2-mat-image-wrapper">
-                  <img src={service.materials[activeMaterial].src} alt={service.materials[activeMaterial].name} />
+                    return (
+                      <div key={data._id || idx} className="sdv2-sub-card">
+                        <span className="sdv2-sub-code">[SUB // 0{idx + 1}]</span>
+                        <h3 className="sdv2-sub-title">{title}</h3>
+                        <p className="sdv2-sub-desc">{description}</p>
+                        
+                        <div className="sdv2-sub-actions">
+                          <Link to={`/subservicios/${data.slug || ''}`} className="sdv2-sub-link">
+                            Saber Más ↗
+                          </Link>
+                          
+                          <a 
+                            href={waLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="sdv2-sub-wa-btn"
+                          >
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style={{ marginRight: '6px', verticalAlign: 'middle' }}>
+                              <path d="M12.012 2C6.48 2 2 6.48 2 12.012c0 1.812.48 3.564 1.392 5.124L2 22l5.004-1.308c1.512.828 3.204 1.272 4.992 1.272C17.52 22 22 17.52 22 12.012c0-2.676-1.044-5.184-2.928-7.08C17.184 3.036 14.688 2 12.012 2zm5.724 14.124c-.252.708-1.464 1.296-2.004 1.344-.492.048-.972.24-3.156-.624-2.772-1.104-4.524-3.924-4.656-4.104-.132-.18-1.092-1.452-1.092-2.772 0-1.32.684-1.968.936-2.232.252-.264.672-.384 1.08-.384.144 0 .276.012.396.012.348.012.516.036.744.576.228.552.792 1.932.864 2.076.072.144.12.312.024.504-.096.192-.144.312-.288.48-.144.168-.312.384-.444.516-.144.144-.3.3-.132.588.168.288.756 1.248 1.62 2.016.924.816 1.704 1.068 1.944 1.188.24.12.384.108.528-.06.144-.168.624-.72.792-.96.168-.24.336-.204.564-.12.228.084 1.452.684 1.704.816.252.132.42.192.48.3.06.108.06.624-.192 1.332z" />
+                            </svg>
+                            WhatsApp
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="sdv2-mat-content">
-                  <h3 className="sdv2-mat-title">{service.materials[activeMaterial].name}</h3>
-                  <p className="sdv2-mat-desc">{service.materials[activeMaterial].desc}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 4: SHOWCASE GALLERY ═══ */}
-      <section className="sdv2-showcase" ref={galRef}>
-        <div className={`sdv2-showcase-inner ${galVis ? 'in-view' : ''}`}>
-          <div className="sdv2-showcase-main">
-            <img src={service.gallery[activeGal].src} alt={service.gallery[activeGal].caption} />
-            <div className="sdv2-showcase-caption">
-              <span className="sdv2-cap-num">0{activeGal + 1} / 0{service.gallery.length}</span>
-              <span className="sdv2-cap-text">{service.gallery[activeGal].caption}</span>
-            </div>
-          </div>
-          <div className="sdv2-showcase-thumbs">
-            {service.gallery.map((g, i) => (
-              <button key={i} className={`sdv2-thumb ${activeGal === i ? 'active' : ''}`} onClick={() => setActiveGal(i)}>
-                <img src={g.src.replace('w=800', 'w=300')} alt={g.caption} />
-                <div className="sdv2-thumb-overlay">
-                  <span>0{i + 1}</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ NUEVO: TIPOS DE TAPICERÍA ═══ */}
-      {id === 'tapiceria' && (
-        <section className="sdv2-tapiceria-types" ref={tapRef}>
-          <div className="container-default">
-            <span className={`section-eyebrow ${tapVis ? 'in-view' : ''}`}>Especialidades</span>
-            <h2 className={`section-heading ${tapVis ? 'in-view' : ''}`}>
-              Tipos de <em>Tapicería</em>.
-            </h2>
-            <div className={`sdv2-tap-grid ${tapVis ? 'in-view' : ''}`}>
-              {tapTypes.map((type, i) => (
-                <div key={i} className="sdv2-tap-card" style={{ transitionDelay: `${i * 0.1}s` }}>
-                  <div className="sdv2-tap-card-img-wrapper">
-                    <img src={type.img} alt={type.title} className="sdv2-tap-card-img" />
-                    <div className="sdv2-tap-card-overlay" />
-                  </div>
-                  <div className="sdv2-tap-card-content">
-                    <h3 className="sdv2-tap-card-title">{type.title}</h3>
-                    <p className="sdv2-tap-card-desc">{type.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+              </>
+            )}
           </div>
         </section>
       )}
