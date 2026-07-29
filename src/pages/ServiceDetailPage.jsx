@@ -193,33 +193,33 @@ const allServices = {
     benefits: [
       { 
         icon: '🛡️', 
-        title: 'Garantía total', 
-        text: 'Respaldamos cada proyecto con garantía de satisfacción total. Si algo no queda impecable, lo corregimos de inmediato sin costo adicional.' 
+        title: 'Garantía Total de Satisfacción', 
+        text: 'Garantizamos cada pieza con respaldo absoluto. Si algún ensamble, acabado o textura no supera tus expectativas, lo ajustamos de inmediato sin costo.' 
       },
       { 
         icon: '🧵', 
-        title: 'Telas premium', 
-        text: 'Trabajamos con lino, terciopelo antimanchas, piel sintética náutica y más de 200 opciones de telas importadas para cada estilo.' 
+        title: 'Textiles & Pieles Selección', 
+        text: 'Catálogo exclusivo con más de 200 opciones importadas: lino natural, terciopelo antimanchas, piel náutica y tejidos de autor para cada espacio.' 
       },
       { 
         icon: '📐', 
-        title: 'Tapiceros expertos', 
-        text: 'Más de 15 años de maestría artesanal. Nuestros expertos dominan técnicas de capitoné tradicionales y acabados modernos de precisión.' 
+        title: 'Maestría Artesanal & Precisión', 
+        text: 'Más de 15 años de trayectoria. Nuestros maestros unifican técnicas tradicionales de capitoné y costuras de alta costura con precisión digital.' 
       },
       { 
         icon: '🚚', 
-        title: 'Recolección gratis', 
-        text: 'Pasamos a recoger y entregar tu mueble sin costo adicional en toda la CDMX y zona metropolitana.' 
+        title: 'Logística Integral Gratuita', 
+        text: 'Nos encargamos del retiro, embalaje especializado y entrega final de tus piezas sin cargo adicional en toda la CDMX y área metropolitana.' 
       },
       { 
         icon: '⚡', 
-        title: 'Cotización express', 
-        text: 'Envía fotos por WhatsApp y recibe un presupuesto detallado en menos de 5 minutos, sin compromiso.' 
+        title: 'Valoración Express WhatsApp', 
+        text: 'Envía imágenes o medidas por WhatsApp y nuestro departamento técnico te enviará un presupuesto detallado en cuestión de minutos.' 
       },
       { 
         icon: '✨', 
-        title: 'Antes y después', 
-        text: 'Te mostramos resultados reales de nuestras transformaciones para que compruebes el acabado antes de decidir.' 
+        title: 'Transformaciones Reales', 
+        text: 'Explora nuestros proyectos concluidos y comprueba la exactitud de acabados, volumen y firmeza antes de iniciar tu propuesta.' 
       },
     ],
   },
