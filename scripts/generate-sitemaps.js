@@ -141,7 +141,16 @@ async function main() {
     liveSubservices.forEach(item => {
       const data = item.data || item;
       const slug = data.slug || data._id;
-      if (slug && !uniqueSlugs.has(slug)) {
+      const val = data.aparecenEnCategora || data.aparecenEnCategoria;
+      let isPublished = false;
+      if (val) {
+        const str = String(val).trim().toLowerCase();
+        if (str === 'sí' || str === 'si' || str === 'true') {
+          isPublished = true;
+        }
+      }
+
+      if (isPublished && slug && !uniqueSlugs.has(slug)) {
         uniqueSlugs.add(slug);
         const lastModDate = data._updatedDate || data._createdDate;
         subservicesUrls.push({

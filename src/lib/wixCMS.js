@@ -386,6 +386,16 @@ export async function fetchWixCollection(collectionId) {
       }
     }
 
+    if (collectionId === 'Subservicios') {
+      return allItems.filter(item => {
+        const data = item.data || item;
+        const val = data.aparecenEnCategora || data.aparecenEnCategoria;
+        if (!val) return false;
+        const str = String(val).trim().toLowerCase();
+        return str === 'sí' || str === 'si' || str === 'true';
+      });
+    }
+
     return allItems;
   } catch (error) {
     console.warn(`[Wix CMS] Failed to query ${collectionId}. Falling back to local database.`, error);
