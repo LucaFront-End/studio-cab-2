@@ -7,7 +7,8 @@
   position: relative;
   background-color: var(--colors--theme-white);
   color: var(--colors--theme-black);
-  padding: 60px 20px 100px;
+  padding: 110px 20px 100px;
+  scroll-margin-top: 100px;
   overflow: hidden;
   box-sizing: border-box;
 }
