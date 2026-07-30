@@ -271,7 +271,7 @@ const tapTypes = [
     icon: '◇',
     title: 'Tapicería de Cabeceras para Hoteles',
     desc: 'Cabeceros monumentales capitoné o lisos con anclaje a muro, telas ignífugas y espuma acústica integrada.',
-    img: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80'
+    img: '/cabeceras_hoteles.webp'
   }
 ];
 
