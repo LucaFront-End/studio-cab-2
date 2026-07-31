@@ -647,10 +647,15 @@ export default function ServiceDetailPage() {
           <div className="sdv2-cta-card">
             <h2 className="sdv2-cta-title">¿Listo para transformar tu espacio?</h2>
             <p className="sdv2-cta-text">Agendá una consulta gratuita y recibí tu propuesta en menos de 7 días.</p>
-            <Link to="/contacto" className="sdv2-cta-btn">
-              Agendar Consulta
+            <a
+              href={`https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola Studio CAB. Me interesa agendar una consulta para *${service.title}*.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sdv2-cta-btn"
+            >
+              AGENDAR CONSULTA
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 5H12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-            </Link>
+            </a>
           </div>
           <div className="sdv2-other">
             <h3 className="sdv2-other-title">También ofrecemos</h3>
