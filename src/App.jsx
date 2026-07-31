@@ -20,7 +20,6 @@ import BusinessDetailPage from './pages/BusinessDetailPage';
 import SubserviceDetailPage from './pages/SubserviceDetailPage';
 import CoverageZonesPage from './pages/CoverageZonesPage';
 import CityLandingPage from './pages/CityLandingPage';
-import TapiceriaLandingPage from './pages/TapiceriaLandingPage';
 
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -58,8 +57,8 @@ function App() {
             <Route path="/subservicios/:slug" element={<SubserviceDetailPage />} />
             <Route path="/zonas-de-cobertura" element={<CoverageZonesPage />} />
             <Route path="/ciudad/:slug" element={<CityLandingPage />} />
-            <Route path="/tapiceria/:slug" element={<TapiceriaLandingPage />} />
-            <Route path="/servicios/tapiceria/:slug" element={<TapiceriaLandingPage />} />
+            <Route path="/tapiceria/:slug" element={<ServiceDetailPage />} />
+            <Route path="/servicios/tapiceria/:slug" element={<ServiceDetailPage />} />
           </Routes>
         </PageTransition>
         <Footer />

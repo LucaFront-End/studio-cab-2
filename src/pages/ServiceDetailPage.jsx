@@ -276,25 +276,54 @@ const tapTypes = [
 ];
 
 export default function ServiceDetailPage() {
-  const { id } = useParams();
-  const service = allServices[id];
-  const { subservicios } = useWixCMSData();
+  const { id, slug } = useParams();
+  const { subservicios, landingTapicerias } = useWixCMSData();
 
-  const seo = SERVICE_SEO[id] || {
-    title: service ? `${service.title} en CDMX | Grupo CAB Studio` : 'Servicios | Grupo CAB Studio',
-    description: service ? service.subtitle : 'Servicios de interiorismo y carpintería en CDMX por Grupo CAB Studio.'
+  // Buscar landing de tapicería si hay slug o id de landing
+  const targetSlug = slug || (id !== 'tapiceria' && id !== 'carpinteria' && id !== 'comercial' && id !== 'residencial' && id !== 'produccion' ? id : null);
+
+  const tapiceriaLandingItem = targetSlug 
+    ? (landingTapicerias || []).find(l => {
+        const d = l.data || l;
+        return d.slug === targetSlug || l._id === targetSlug;
+      })
+    : null;
+
+  const landingData = tapiceriaLandingItem ? (tapiceriaLandingItem.data || tapiceriaLandingItem) : null;
+
+  // Determinar la clave de servicio base (si es una landing de tapicería, usamos 'tapiceria')
+  const baseKey = (landingData || targetSlug) ? 'tapiceria' : (id || 'tapiceria');
+  const baseService = allServices[baseKey] || allServices['tapiceria'];
+
+  // Crear valores dinámicos si proviene de LandingTapicerias
+  const displayTitle = landingData?.title || landingData?.tituloPgina || baseService.title;
+  const displaySubtitle = landingData?.excerptPgina || baseService.subtitle;
+  const displaySeoTitle = landingData?.tituloSeo || (landingData?.title ? `${landingData.title} | Studio CAB` : null);
+  const displaySeoDesc = landingData?.metadescripcinSeo || landingData?.excerptPgina || null;
+  const displayWhatsapp = landingData?.whatsapp || `https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola Studio CAB. Me interesa agendar una consulta para *${displayTitle}*.`)}`;
+
+  const service = {
+    ...baseService,
+    title: displayTitle,
+    subtitle: displaySubtitle
   };
+
+  const seo = {
+    title: displaySeoTitle || SERVICE_SEO[baseKey]?.title || `${displayTitle} en CDMX | Grupo CAB Studio`,
+    description: displaySeoDesc || SERVICE_SEO[baseKey]?.description || displaySubtitle
+  };
+
   useDocumentSEO(seo.title, seo.description);
   
   const currentSubservices = (subservicios || []).filter(sub => {
-    if (sub.servicioMayor === id) return true;
+    if (sub.servicioMayor === baseKey) return true;
     const cat = sub.categora || sub.categoria || '';
     if (!cat && !sub.subservicio) return false;
-    if (id === 'comercial' && cat === 'Diseño Comercial') return true;
-    if (id === 'residencial' && cat === 'Interiorismo Residencial') return true;
-    if (id === 'produccion' && cat === 'Producción e Instalación') return true;
-    if (id === 'carpinteria' && (cat === 'Carpintería y Mobiliario sobre Diseño' || cat === 'Carpintería sobre Diseño')) return true;
-    if (id === 'tapiceria' && (cat.toLowerCase().includes('tapicer') || (sub.subservicio && sub.subservicio.toLowerCase().includes('tapicer')))) return true;
+    if (baseKey === 'comercial' && cat === 'Diseño Comercial') return true;
+    if (baseKey === 'residencial' && cat === 'Interiorismo Residencial') return true;
+    if (baseKey === 'produccion' && cat === 'Producción e Instalación') return true;
+    if (baseKey === 'carpinteria' && (cat === 'Carpintería y Mobiliario sobre Diseño' || cat === 'Carpintería sobre Diseño')) return true;
+    if (baseKey === 'tapiceria' && (cat.toLowerCase().includes('tapicer') || (sub.subservicio && sub.subservicio.toLowerCase().includes('tapicer')))) return true;
     return false;
   });
 
@@ -648,7 +677,7 @@ export default function ServiceDetailPage() {
             <h2 className="sdv2-cta-title">¿Listo para transformar tu espacio?</h2>
             <p className="sdv2-cta-text">Agendá una consulta gratuita y recibí tu propuesta en menos de 7 días.</p>
             <a
-              href={`https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola Studio CAB. Me interesa agendar una consulta para *${service.title}*.`)}`}
+              href={displayWhatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="sdv2-cta-btn"
