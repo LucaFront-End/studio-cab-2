@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './Hero.css';
 
-const Hero = ({ topEyebrow, fraseCorta, excerptPgina }) => {
+const Hero = ({ topEyebrow, fraseCorta, excerptPgina, seoTitle }) => {
   const [loaded, setLoaded] = useState(false);
   const [animateContent, setAnimateContent] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
@@ -119,6 +119,12 @@ const Hero = ({ topEyebrow, fraseCorta, excerptPgina }) => {
               <div className="hero-video-label top-left">[REC // PERSPECTIVE-01]</div>
               <div className="hero-video-label bottom-right">[SCALE 21:9 // CDMX 2026]</div>
 
+              <img 
+                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80"
+                alt={seoTitle || topEyebrow || "Carpintería y Muebles sobre Diseño en CDMX | Studio CAB"}
+                title={seoTitle || topEyebrow || "Carpintería y Muebles sobre Diseño en CDMX | Studio CAB"}
+                style={{ position: 'absolute', opacity: 0, width: '1px', height: '1px', pointerEvents: 'none' }}
+              />
               <video
                 ref={imageRef}
                 autoPlay
@@ -126,6 +132,7 @@ const Hero = ({ topEyebrow, fraseCorta, excerptPgina }) => {
                 muted
                 playsInline
                 className="hero-banner-video"
+                title={seoTitle || topEyebrow || "Studio CAB - Carpintería y Muebles sobre Diseño en CDMX"}
               >
                 <source
                   src="/hero-video.mp4"

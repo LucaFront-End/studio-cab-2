@@ -45,6 +45,7 @@ export default function CityLandingPage() {
         topEyebrow={title}
         fraseCorta={data?.fraseCorta}
         excerptPgina={excerpt}
+        seoTitle={seoTitle}
       />
       <Services />
       <Projects />

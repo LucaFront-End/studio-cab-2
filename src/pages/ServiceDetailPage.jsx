@@ -407,7 +407,13 @@ export default function ServiceDetailPage() {
       {/* ═══ 1: IMMERSIVE HERO ═══ */}
       <section className="sdv2-hero" ref={heroRef}>
         <div className="sdv2-hero-media">
-          <img ref={heroImgRef} src={service.heroImage} alt={service.title} className="sdv2-hero-img" />
+          <img 
+            ref={heroImgRef} 
+            src={service.heroImage} 
+            alt={seo.title || service.title} 
+            title={seo.title || service.title} 
+            className="sdv2-hero-img" 
+          />
           <div className="sdv2-hero-overlay" />
           <div className="sdv2-hero-grain" />
         </div>
@@ -485,7 +491,12 @@ export default function ServiceDetailPage() {
                   return (
                     <div key={i} className="sdv2-tap-card" style={{ transitionDelay: `${i * 0.08}s` }}>
                       <div className="sdv2-tap-card-img-wrapper">
-                        <img src={type.img} alt={type.title} className="sdv2-tap-card-img" />
+                        <img 
+                          src={type.img} 
+                          alt={`${type.title} — ${seo.title || service.title}`} 
+                          title={`${type.title} — ${seo.title || service.title}`} 
+                          className="sdv2-tap-card-img" 
+                        />
                         <div className="sdv2-tap-card-overlay" />
                       </div>
                       <div className="sdv2-tap-card-content">
