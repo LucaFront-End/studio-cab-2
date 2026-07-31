@@ -309,8 +309,8 @@ export default function ServiceDetailPage() {
   const baseService = allServices[baseKey] || allServices['tapiceria'];
 
   // Crear valores dinámicos si proviene de LandingTapicerias o del slug
-  const displayTitle = landingData?.title || landingData?.tituloPgina || (targetSlug ? formatSlugToTitle(targetSlug) : baseService.title);
-  const displaySubtitle = landingData?.excerptPgina || baseService.subtitle;
+  const displayTitle = landingData?.tituloPgina || landingData?.title || (targetSlug ? formatSlugToTitle(targetSlug) : baseService.title);
+  const displaySubtitle = landingData?.excerptPgina || landingData?.fraseCorta || baseService.subtitle;
   const displaySeoTitle = landingData?.tituloSeo || (landingData?.title ? `${landingData.title} | Studio CAB` : null);
   const displaySeoDesc = landingData?.metadescripcinSeo || landingData?.excerptPgina || null;
   const displayWhatsapp = landingData?.whatsapp || `https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola Studio CAB. Me interesa agendar una consulta para *${displayTitle}*.`)}`;
