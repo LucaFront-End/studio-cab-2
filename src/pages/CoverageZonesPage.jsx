@@ -12,14 +12,14 @@ export default function CoverageZonesPage() {
     'Hub dinámico de zonas de cobertura, proyectos y landings de interiorismo, carpintería sobre diseño y tapicería en CDMX y Área Metropolitana.'
   );
 
-  const { subservicios, landingsDeCiudad, loading } = useWixCMSData();
+  const { subservicios, landingsDeCiudad, landingTapicerias, loading } = useWixCMSData();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todas');
 
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
   const [gridRef, gridVis] = useInView({ threshold: 0.05 });
 
-  // 1. Combinar Subservicios activos y LandingsdeCiudad en una sola lista unificada
+  // 1. Combinar Subservicios activos, LandingsdeCiudad y LandingTapicerias
   const activeLandings = useMemo(() => {
     const list = [];
 
@@ -55,8 +55,24 @@ export default function CoverageZonesPage() {
       });
     }
 
+    // Landings de Tapicería (LandingTapicerias collection)
+    if (landingTapicerias) {
+      landingTapicerias.forEach(item => {
+        const data = item.data || item;
+        list.push({
+          id: item._id,
+          title: data.title || data.tituloPgina || '',
+          category: 'Tapicería SEO',
+          description: data.excerptPgina || data.metadescripcinSeo || '',
+          slug: data.slug || item._id,
+          type: 'tapiceria',
+          targetUrl: `/tapiceria/${data.slug || item._id}`
+        });
+      });
+    }
+
     return list;
-  }, [subservicios, landingsDeCiudad]);
+  }, [subservicios, landingsDeCiudad, landingTapicerias]);
 
   // 2. Extraer categorías únicas para las pestañas del repetidor
   const categories = useMemo(() => {

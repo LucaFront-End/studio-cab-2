@@ -109,8 +109,9 @@ async function main() {
   const liveSubservices = await fetchWixCollectionItems(token, 'Subservicios');
   const liveProjects = await fetchWixCollectionItems(token, 'Proyectos');
   const liveCityLandings = await fetchWixCollectionItems(token, 'LandingsdeCiudad');
+  const liveTapiceriaLandings = await fetchWixCollectionItems(token, 'LandingTapicerias');
 
-  console.log(`[Sitemap Generator] Fetched ${liveProducts.length} products, ${liveSubservices.length} subservices, ${liveProjects.length} projects, ${liveCityLandings.length} city landings from Wix CMS.`);
+  console.log(`[Sitemap Generator] Fetched ${liveProducts.length} products, ${liveSubservices.length} subservices, ${liveProjects.length} projects, ${liveCityLandings.length} city landings, ${liveTapiceriaLandings.length} tapiceria landings from Wix CMS.`);
 
   // 1. Static Sitemap
   const staticUrls = [
@@ -204,6 +205,27 @@ async function main() {
   }
   const cityLandingsXml = generateUrlSetXml(cityLandingsUrls);
 
+  // 4.5. Tapiceria SEO Landings Sitemap (100% Dynamic from Wix CMS LandingTapicerias collection)
+  let tapiceriaLandingsUrls = [];
+  if (liveTapiceriaLandings.length > 0) {
+    const uniqueSlugs = new Set();
+    liveTapiceriaLandings.forEach(item => {
+      const data = item.data || item;
+      const slug = data.slug || item._id;
+      if (slug && !uniqueSlugs.has(slug)) {
+        uniqueSlugs.add(slug);
+        const lastModDate = data._updatedDate || data._createdDate;
+        tapiceriaLandingsUrls.push({
+          loc: `${BASE_URL}/tapiceria/${slug}`,
+          priority: '0.8',
+          changefreq: 'weekly',
+          lastmod: formatLastModDate(lastModDate)
+        });
+      }
+    });
+  }
+  const tapiceriaLandingsXml = generateUrlSetXml(tapiceriaLandingsUrls);
+
   // 5. Products Sitemap (100% Dynamic from Wix Stores API + Fallback)
   const productUrls = liveProducts.length > 0
     ? liveProducts.map(p => ({
@@ -246,6 +268,7 @@ async function main() {
     { loc: `${BASE_URL}/sitemap-servicios.xml` },
     { loc: `${BASE_URL}/sitemap-subservicios.xml` },
     { loc: `${BASE_URL}/sitemap-landings.xml` },
+    { loc: `${BASE_URL}/sitemap-landings-tapiceria.xml` },
     { loc: `${BASE_URL}/sitemap-productos.xml` },
     { loc: `${BASE_URL}/sitemap-proyectos.xml` },
   ];
@@ -269,6 +292,7 @@ Sitemap: ${BASE_URL}/sitemap.xml
   fs.writeFileSync(path.join(publicDir, 'sitemap-servicios.xml'), servicesXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-subservicios.xml'), subservicesXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-landings.xml'), cityLandingsXml);
+  fs.writeFileSync(path.join(publicDir, 'sitemap-landings-tapiceria.xml'), tapiceriaLandingsXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-productos.xml'), productsXml);
   fs.writeFileSync(path.join(publicDir, 'sitemap-proyectos.xml'), projectsXml);
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);

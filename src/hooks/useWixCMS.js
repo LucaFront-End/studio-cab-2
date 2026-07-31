@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react';
 import { fetchWixCollection, fetchWixStoreProducts, fetchWixStoreCollections } from '../lib/wixCMS';
 
 export function useWixCMSData() {
-  const [data, setData] = useState({ servicios: [], subservicios: [], proyectos: [], productos: [], colecciones: [], landingsDeCiudad: [] });
+  const [data, setData] = useState({ 
+    servicios: [], 
+    subservicios: [], 
+    proyectos: [], 
+    productos: [], 
+    colecciones: [], 
+    landingsDeCiudad: [],
+    landingTapicerias: []
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,13 +19,14 @@ export function useWixCMSData() {
 
     async function load() {
       try {
-        const [servs, subServs, proys, prods, cols, landings] = await Promise.all([
+        const [servs, subServs, proys, prods, cols, landings, tapiceriaLandings] = await Promise.all([
           fetchWixCollection('Servicios'),
           fetchWixCollection('Subservicios'),
           fetchWixCollection('Proyectos'),
           fetchWixStoreProducts(),
           fetchWixStoreCollections(),
-          fetchWixCollection('LandingsdeCiudad')
+          fetchWixCollection('LandingsdeCiudad'),
+          fetchWixCollection('LandingTapicerias')
         ]);
         if (!cancelled) {
           setData({ 
@@ -26,7 +35,8 @@ export function useWixCMSData() {
             proyectos: proys, 
             productos: prods, 
             colecciones: cols,
-            landingsDeCiudad: landings || []
+            landingsDeCiudad: landings || [],
+            landingTapicerias: tapiceriaLandings || []
           });
         }
       } catch (err) {
