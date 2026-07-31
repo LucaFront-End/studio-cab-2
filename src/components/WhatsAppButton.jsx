@@ -1,9 +1,53 @@
+import { useLocation } from 'react-router-dom';
+import { useWixCMSData } from '../hooks/useWixCMS';
 import './WhatsAppButton.css';
 
 export default function WhatsAppButton() {
+  const location = useLocation();
+  const { landingsDeCiudad, landingTapicerias } = useWixCMSData();
+
+  const pathname = location.pathname;
+  let customWaUrl = '';
+
+  // 1. Landings de Ciudad (/ciudad/:slug)
+  if (pathname.startsWith('/ciudad/')) {
+    const slug = decodeURIComponent(pathname.replace('/ciudad/', '').split('/')[0]);
+    const matchedCity = (landingsDeCiudad || []).find(item => {
+      const d = item.data || item;
+      return d.slug === slug || item._id === slug;
+    });
+    if (matchedCity) {
+      const d = matchedCity.data || matchedCity;
+      customWaUrl = d.whatsapp || '';
+      if (!customWaUrl && (d.title || d.tituloPgina)) {
+        const title = d.title || d.tituloPgina;
+        customWaUrl = `https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola, quisiera más información sobre ${title}`)}`;
+      }
+    }
+  }
+
+  // 2. Landings de Tapicería (/tapiceria/:slug o /servicios/tapiceria/:slug)
+  else if (pathname.startsWith('/tapiceria/') || pathname.startsWith('/servicios/tapiceria/')) {
+    const slug = decodeURIComponent(pathname.replace(/\/servicios\/tapiceria\/|\/tapiceria\//, '').split('/')[0]);
+    const matchedTap = (landingTapicerias || []).find(item => {
+      const d = item.data || item;
+      return d.slug === slug || item._id === slug;
+    });
+    if (matchedTap) {
+      const d = matchedTap.data || matchedTap;
+      customWaUrl = d.whatsapp || '';
+      if (!customWaUrl && (d.title || d.tituloPgina)) {
+        const title = d.title || d.tituloPgina;
+        customWaUrl = `https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola, quisiera más información sobre ${title}`)}`;
+      }
+    }
+  }
+
+  const finalHref = customWaUrl || "https://wa.me/525516406963?text=SW-%20Hola%20Studio%20CAB.%20Me%20gustar%C3%ADa%20cotizar%20un%20proyecto.";
+
   return (
     <a
-      href="https://wa.me/525516406963?text=SW-%20Hola%20Studio%20CAB.%20Me%20gustar%C3%ADa%20cotizar%20un%20proyecto."
+      href={finalHref}
       className="whatsapp-float-btn"
       target="_blank"
       rel="noopener noreferrer"
