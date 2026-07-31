@@ -275,6 +275,19 @@ const tapTypes = [
   }
 ];
 
+function formatSlugToTitle(slug) {
+  if (!slug) return 'Tapicería de Muebles';
+  const words = slug.split('-');
+  const capitalized = words.map((w, i) => {
+    const lower = w.toLowerCase();
+    if (i > 0 && ['de', 'en', 'la', 'del', 'los', 'las', 'y', 'a', 'para', 'el'].includes(lower)) {
+      return lower;
+    }
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  });
+  return capitalized.join(' ');
+}
+
 export default function ServiceDetailPage() {
   const { id, slug } = useParams();
   const { subservicios, landingTapicerias } = useWixCMSData();
@@ -295,8 +308,8 @@ export default function ServiceDetailPage() {
   const baseKey = (landingData || targetSlug) ? 'tapiceria' : (id || 'tapiceria');
   const baseService = allServices[baseKey] || allServices['tapiceria'];
 
-  // Crear valores dinámicos si proviene de LandingTapicerias
-  const displayTitle = landingData?.title || landingData?.tituloPgina || baseService.title;
+  // Crear valores dinámicos si proviene de LandingTapicerias o del slug
+  const displayTitle = landingData?.title || landingData?.tituloPgina || (targetSlug ? formatSlugToTitle(targetSlug) : baseService.title);
   const displaySubtitle = landingData?.excerptPgina || baseService.subtitle;
   const displaySeoTitle = landingData?.tituloSeo || (landingData?.title ? `${landingData.title} | Studio CAB` : null);
   const displaySeoDesc = landingData?.metadescripcinSeo || landingData?.excerptPgina || null;

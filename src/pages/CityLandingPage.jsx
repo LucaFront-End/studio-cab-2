@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import Hero from '../components/Hero';
@@ -8,9 +8,22 @@ import WhyUs from '../components/WhyUs';
 import ProcessSplit from '../components/ProcessSplit';
 import CTAConfigurator from '../components/CTAConfigurator';
 
+function formatSlugToTitle(slug) {
+  if (!slug) return 'Muebles sobre Diseño en CDMX';
+  const words = slug.split('-');
+  const capitalized = words.map((w, i) => {
+    const lower = w.toLowerCase();
+    if (i > 0 && ['de', 'en', 'la', 'del', 'los', 'las', 'y', 'a', 'para', 'el'].includes(lower)) {
+      return lower;
+    }
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  });
+  return capitalized.join(' ');
+}
+
 export default function CityLandingPage() {
   const { slug } = useParams();
-  const { landingsDeCiudad, loading } = useWixCMSData();
+  const { landingsDeCiudad } = useWixCMSData();
 
   const landing = (landingsDeCiudad || []).find(l => {
     const data = l.data || l;
@@ -19,44 +32,25 @@ export default function CityLandingPage() {
 
   const data = landing ? (landing.data || landing) : null;
 
-  useDocumentSEO(
-    data?.tituloSeo || (data?.tituloPgina ? `${data.tituloPgina} | Grupo CAB Studio` : 'Carpintería y Muebles sobre Diseño en CDMX | Grupo CAB Studio'),
-    data?.metadescripcinSeo || data?.excerptPgina || 'Grupo CAB Studio ofrece carpintería fina, interiorismo y muebles sobre diseño para espacios comerciales y residenciales.'
-  );
+  const title = data?.tituloPgina || data?.title || formatSlugToTitle(slug);
+  const excerpt = data?.excerptPgina || data?.fraseCorta || 'Carpintería fina, interiorismo y muebles sobre diseño para espacios comerciales y residenciales.';
+  const seoTitle = data?.tituloSeo || `${title} | Grupo CAB Studio`;
+  const seoDesc = data?.metadescripcinSeo || excerpt;
 
-  if (loading) {
-    return (
-      <div style={{ padding: '200px 20px', textAlign: 'center', minHeight: '60vh' }}>
-        <div style={{ width: 40, height: 40, border: '3px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--colors--theme-orange)', borderRadius: '50%', animation: 'cz-spin 1s linear infinite', margin: '0 auto 20px' }}></div>
-        <p style={{ fontWeight: 600, color: 'var(--colors--theme-black)' }}>Cargando landing de la ciudad desde Wix CMS...</p>
-      </div>
-    );
-  }
-
-  if (!landing) {
-    return (
-      <div className="page-enter" style={{ padding: '200px 20px', textAlign: 'center', minHeight: '60vh' }}>
-        <h1 style={{ fontSize: 40, fontWeight: 900, color: 'var(--colors--theme-black)' }}>Landing de Ciudad no encontrada</h1>
-        <p style={{ marginTop: 12, color: 'var(--colors--theme-gray)' }}>No se localizó la landing especificada en el CMS de LandingsdeCiudad.</p>
-        <Link to="/zonas-de-cobertura" style={{ color: 'var(--colors--theme-orange)', fontWeight: 700, marginTop: 24, display: 'inline-block' }}>
-          ← Volver a Hub de Zonas de Cobertura
-        </Link>
-      </div>
-    );
-  }
+  useDocumentSEO(seoTitle, seoDesc);
 
   return (
     <div className="page-enter">
       <Hero 
-        topEyebrow={data.tituloPgina || data.title}
-        fraseCorta={data.fraseCorta}
-        excerptPgina={data.excerptPgina}
+        topEyebrow={title}
+        fraseCorta={data?.fraseCorta}
+        excerptPgina={excerpt}
       />
       <Services />
       <Projects />
       <WhyUs />
       <ProcessSplit />
-      <CTAConfigurator source={`Landing Ciudad: ${data.tituloPgina || data.title}`} />
+      <CTAConfigurator source={`Landing Ciudad: ${title}`} />
     </div>
   );
 }
