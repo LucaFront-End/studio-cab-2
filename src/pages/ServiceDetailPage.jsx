@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { useInView, useStaggerInView } from '../hooks/useInView';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useWixCMSData } from '../hooks/useWixCMS';
 import { useDocumentSEO } from '../hooks/useDocumentSEO';
+import { resolveWixImage } from '../lib/wixCMS';
 import './ServiceDetailPage.css';
 
 const allServices = {
@@ -290,7 +291,9 @@ function formatSlugToTitle(slug) {
 
 export default function ServiceDetailPage() {
   const { id, slug } = useParams();
-  const { subservicios, landingTapicerias } = useWixCMSData();
+  const { subservicios, proyectos, landingTapicerias } = useWixCMSData();
+
+  const [activeShowcase, setActiveShowcase] = useState(0);
 
   // Buscar landing de tapicería si hay slug o id de landing
   const targetSlug = slug || (id !== 'tapiceria' && id !== 'carpinteria' && id !== 'comercial' && id !== 'residencial' && id !== 'produccion' ? id : null);
@@ -307,6 +310,58 @@ export default function ServiceDetailPage() {
   // Determinar la clave de servicio base (si es una landing de tapicería, usamos 'tapiceria')
   const baseKey = (landingData || targetSlug) ? 'tapiceria' : (id || 'tapiceria');
   const baseService = allServices[baseKey] || allServices['tapiceria'];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setActiveShowcase(0);
+    }, 0);
+  }, [baseKey, targetSlug]);
+
+  // Construir la Galería de Proyectos de forma 100% dinámica desde los Proyectos del CMS de Wix
+  const cmsGallery = useMemo(() => {
+    const list = [];
+    if (proyectos && proyectos.length > 0) {
+      proyectos.forEach(proj => {
+        const pData = proj.data || proj;
+        const pTitle = pData.title || pData.nombre || 'Proyecto Studio CAB';
+        
+        // Imagen principal
+        if (pData.imagenPrincipal || pData.fotoConRelieves) {
+          const imgUrl = resolveWixImage(pData.imagenPrincipal || pData.fotoConRelieves, 1200);
+          if (imgUrl && !list.some(item => item.src === imgUrl)) {
+            list.push({ src: imgUrl, caption: `${pTitle} — Proyecto Real Studio CAB` });
+          }
+        }
+        
+        // Mediagallery del proyecto
+        if (Array.isArray(pData.mediagallery)) {
+          pData.mediagallery.forEach(item => {
+            if (item.type !== 'video' && (item.src || item.slug)) {
+              const imgUrl = resolveWixImage(item.src || item.slug, 1200);
+              if (imgUrl && !list.some(elem => elem.src === imgUrl)) {
+                list.push({
+                  src: imgUrl,
+                  caption: `${pTitle} — ${item.title || item.fileName || 'Detalle de Ejecución'}`
+                });
+              }
+            }
+          });
+        }
+      });
+    }
+
+    if (list.length > 0) {
+      return list;
+    }
+
+    // Fallback con fotografías reales del Taller Studio CAB
+    return [
+      { src: '/taller/DSC09051.jpg', caption: 'Taller Studio CAB — Maquinado y Precisión CNC' },
+      { src: '/taller/DSC09054.jpg', caption: 'Taller Studio CAB — Ensamble de Estructuras y Maderas' },
+      { src: '/taller/DSC09056.jpg', caption: 'Taller Studio CAB — Calibración Digital' },
+      { src: '/taller/DSC09288.jpg', caption: 'Taller Studio CAB — Mobiliario Terminado y Control de Calidad' },
+    ];
+  }, [proyectos]);
 
   // Crear valores dinámicos si proviene de LandingTapicerias o del slug
   const displayTitle = landingData?.tituloPgina || landingData?.title || (targetSlug ? formatSlugToTitle(targetSlug) : baseService.title);
@@ -592,6 +647,55 @@ export default function ServiceDetailPage() {
                 </div>
               </>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* ═══ 4: SHOWCASE GALLERY (PROYECTOS Y FOTOS REALES DEL CMS WIX) ═══ */}
+      {cmsGallery.length > 0 && (
+        <section className="sdv2-showcase">
+          <div className="container-default">
+            <div style={{ marginBottom: '32px' }}>
+              <span className="section-eyebrow">[03.0 // GALERÍA DE PROYECTOS]</span>
+              <h2 className="section-heading">
+                Galería de <em>Resultados & Detalle</em>.
+              </h2>
+            </div>
+            
+            <div className={`sdv2-showcase-inner ${introVis ? 'in-view' : ''}`}>
+              <div className="sdv2-showcase-main">
+                <img 
+                  src={cmsGallery[activeShowcase % cmsGallery.length]?.src} 
+                  alt={`${cmsGallery[activeShowcase % cmsGallery.length]?.caption || service.title} — ${seo.title}`} 
+                  title={`${cmsGallery[activeShowcase % cmsGallery.length]?.caption || service.title} — ${seo.title}`} 
+                />
+                <div className="sdv2-showcase-caption">
+                  <span className="sdv2-cap-num">
+                    {String((activeShowcase % cmsGallery.length) + 1).padStart(2, '0')} / {String(Math.min(cmsGallery.length, 8)).padStart(2, '0')}
+                  </span>
+                  <span className="sdv2-cap-text">
+                    {cmsGallery[activeShowcase % cmsGallery.length]?.caption}
+                  </span>
+                </div>
+              </div>
+
+              {cmsGallery.length > 1 && (
+                <div className="sdv2-showcase-thumbs">
+                  {cmsGallery.slice(0, 8).map((img, idx) => (
+                    <button
+                      key={idx}
+                      className={`sdv2-thumb ${idx === (activeShowcase % cmsGallery.length) ? 'active' : ''}`}
+                      onClick={() => setActiveShowcase(idx)}
+                    >
+                      <img src={img.src} alt={img.caption} title={img.caption} />
+                      <div className="sdv2-thumb-overlay">
+                        <span>0{idx + 1}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </section>
       )}

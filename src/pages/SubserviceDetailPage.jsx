@@ -230,6 +230,25 @@ export default function SubserviceDetailPage() {
     });
   }
 
+  // 4. Si aún no hay imágenes cargadas, alimentamos con fotografías reales del taller Studio CAB
+  if (gallery.length === 0) {
+    const workshopFallback = [
+      { src: '/taller/DSC09051.jpg', title: 'Maquinado y Precisión CNC' },
+      { src: '/taller/DSC09054.jpg', title: 'Ensamble de Maderas Macizas' },
+      { src: '/taller/DSC09056.jpg', title: 'Calibración Digital de Herramientas' },
+      { src: '/taller/DSC09288.jpg', title: 'Mobiliario Terminado y Control de Calidad' },
+    ];
+    workshopFallback.forEach(item => {
+      gallery.push({
+        type: 'image',
+        url: item.src,
+        originalUrl: item.src,
+        projectName: item.title,
+        isGeneral: true
+      });
+    });
+  }
+
   const handleThumbClick = (i) => {
     setActiveSlide(i);
     if (thumbRefs.current[i]) {
