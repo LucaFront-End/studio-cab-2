@@ -198,13 +198,49 @@ export default function SubserviceDetailPage() {
   });
 
   // 3. Si no hay proyectos multireferenciados específicos para este subservicio,
-  // alimentamos la galería con una selección representativa de TODOS los proyectos reales del CMS de Studio CAB
+  // alimentamos la galería con la "Galería General" oficial del CMS de Wix (item 'Galería General' en Proyectos)
+  if (gallery.length === 0 && proyectos && proyectos.length > 0) {
+    const galeriaGeneralItem = proyectos.find(p => {
+      const d = p.data || p;
+      const t = (d.title || d.nombre || '').toLowerCase().trim();
+      return t.includes('galería general') || t.includes('galeria general');
+    });
+
+    if (galeriaGeneralItem) {
+      const gData = galeriaGeneralItem.data || galeriaGeneralItem;
+      const rawGallery = gData.mediagallery || [];
+      rawGallery.forEach(item => {
+        if (item.type === 'video') {
+          const posterUrl = item.settings?.posters?.[0]?.url 
+            ? `https://static.wixstatic.com/media/${item.settings.posters[0].url}` 
+            : '';
+          gallery.push({
+            type: 'video',
+            url: resolveWixVideo(item.slug || item.src),
+            poster: posterUrl,
+            projectName: 'Galería General',
+            isGeneral: true
+          });
+        } else {
+          gallery.push({
+            type: 'image',
+            url: resolveWixImage(item.src, 1200),
+            originalUrl: resolveWixImage(item.src, 'original'),
+            projectName: 'Galería General',
+            isGeneral: true
+          });
+        }
+      });
+    }
+  }
+
+  // 3.5. Si aún no hay imágenes, recopilamos de todos los proyectos del CMS
   if (gallery.length === 0 && proyectos && proyectos.length > 0) {
     proyectos.forEach(proj => {
       const projData = proj.data || proj;
       const projTitle = projData.title || projData.nombre || '';
+      if (projTitle.toLowerCase().includes('galería general') || projTitle.toLowerCase().includes('galeria general')) return;
       const rawGallery = projData.mediagallery || [];
-      // Tomamos ítems reales del CMS para la Galería General
       rawGallery.forEach(item => {
         if (item.type === 'video') {
           const posterUrl = item.settings?.posters?.[0]?.url 

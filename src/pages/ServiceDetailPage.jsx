@@ -311,20 +311,53 @@ export default function ServiceDetailPage() {
   const baseKey = (landingData || targetSlug) ? 'tapiceria' : (id || 'tapiceria');
   const baseService = allServices[baseKey] || allServices['tapiceria'];
 
+  // Crear valores dinámicos si proviene de LandingTapicerias o del slug
+  const displayTitle = landingData?.tituloPgina || landingData?.title || (targetSlug ? formatSlugToTitle(targetSlug) : baseService.title);
+  const displaySubtitle = landingData?.excerptPgina || landingData?.fraseCorta || baseService.subtitle;
+  const displaySeoTitle = landingData?.tituloSeo || (landingData?.title ? `${landingData.title} | Studio CAB` : null);
+  const displaySeoDesc = landingData?.metadescripcinSeo || landingData?.excerptPgina || null;
+  const displayWhatsapp = landingData?.whatsapp || `https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola Studio CAB. Me interesa agendar una consulta para *${displayTitle}*.`)}`;
+
   useEffect(() => {
     setTimeout(() => {
       setActiveShowcase(0);
     }, 0);
   }, [baseKey, targetSlug]);
 
-  // Construir la Galería de Proyectos de forma 100% dinámica desde los Proyectos del CMS de Wix
+  // Construir la Galería de Proyectos usando prioritariamente el ítem "Galería General" del CMS de Wix
   const cmsGallery = useMemo(() => {
     const list = [];
-    if (proyectos && proyectos.length > 0) {
+
+    // 1. Buscar prioritariamente el ítem "Galería General" en la colección de Proyectos de Wix CMS
+    const galeriaGeneralItem = (proyectos || []).find(p => {
+      const d = p.data || p;
+      const t = (d.title || d.nombre || '').toLowerCase().trim();
+      return t.includes('galería general') || t.includes('galeria general');
+    });
+
+    if (galeriaGeneralItem) {
+      const gData = galeriaGeneralItem.data || galeriaGeneralItem;
+      const rawGallery = gData.mediagallery || [];
+      rawGallery.forEach(item => {
+        if (item.type !== 'video' && (item.src || item.slug)) {
+          const imgUrl = resolveWixImage(item.src || item.slug, 1200);
+          if (imgUrl && !list.some(x => x.src === imgUrl)) {
+            list.push({
+              src: imgUrl,
+              caption: 'Galería General Studio CAB — Proyecto Real'
+            });
+          }
+        }
+      });
+    }
+
+    // 2. Si no se han cargado imágenes de Galería General, recopilar las de todos los proyectos de Wix CMS
+    if (list.length === 0 && proyectos && proyectos.length > 0) {
       proyectos.forEach(proj => {
         const pData = proj.data || proj;
         const pTitle = pData.title || pData.nombre || 'Proyecto Studio CAB';
-        
+        if (pTitle.toLowerCase().includes('galería general') || pTitle.toLowerCase().includes('galeria general')) return;
+
         // Imagen principal
         if (pData.imagenPrincipal || pData.fotoConRelieves) {
           const imgUrl = resolveWixImage(pData.imagenPrincipal || pData.fotoConRelieves, 1200);
@@ -341,7 +374,7 @@ export default function ServiceDetailPage() {
               if (imgUrl && !list.some(elem => elem.src === imgUrl)) {
                 list.push({
                   src: imgUrl,
-                  caption: `${pTitle} — ${item.title || item.fileName || 'Detalle de Ejecución'}`
+                  caption: `${pTitle} — Detalle de Ejecución`
                 });
               }
             }
@@ -362,13 +395,6 @@ export default function ServiceDetailPage() {
       { src: '/taller/DSC09288.jpg', caption: 'Taller Studio CAB — Mobiliario Terminado y Control de Calidad' },
     ];
   }, [proyectos]);
-
-  // Crear valores dinámicos si proviene de LandingTapicerias o del slug
-  const displayTitle = landingData?.tituloPgina || landingData?.title || (targetSlug ? formatSlugToTitle(targetSlug) : baseService.title);
-  const displaySubtitle = landingData?.excerptPgina || landingData?.fraseCorta || baseService.subtitle;
-  const displaySeoTitle = landingData?.tituloSeo || (landingData?.title ? `${landingData.title} | Studio CAB` : null);
-  const displaySeoDesc = landingData?.metadescripcinSeo || landingData?.excerptPgina || null;
-  const displayWhatsapp = landingData?.whatsapp || `https://wa.me/525516406963?text=${encodeURIComponent(`SW- Hola Studio CAB. Me interesa agendar una consulta para *${displayTitle}*.`)}`;
 
   const service = {
     ...baseService,
