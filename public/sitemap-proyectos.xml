@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://studiocab.mx/proyectos/dfb3a9d6-b6ca-4ade-bc56-29cf9a137a69</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://studiocab.mx/proyectos/01241da7-e875-4155-b9aa-39c691e15668</loc>
     <lastmod>2026-07-14</lastmod>
     <changefreq>monthly</changefreq>
@@ -26,7 +32,7 @@
   </url>
   <url>
     <loc>https://studiocab.mx/proyectos/f98c68e1-3189-4dda-9e59-2fc945ea1bf0</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

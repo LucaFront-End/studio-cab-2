@@ -55,19 +55,20 @@
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  height: 120px;
+  height: 90px;
   width: auto;
   display: block;
-  mix-blend-mode: multiply;
-  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  filter: none;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, filter 0.3s ease;
 }
 
 .header-logo-image:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .header-scrolled .header-logo-image {
-  height: 85px;
+  height: 65px;
+  filter: invert(1);
 }
 
 /* Desktop Nav links */
