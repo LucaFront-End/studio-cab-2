@@ -32,7 +32,13 @@ export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState('Todos');
   const [heroRef, heroVis] = useInView({ threshold: 0.1 });
 
-  const projectsData = (proyectos || []).map(p => {
+  // Filtrar fuera el registro 'Galería General' (ya que solo sirve como repositorio de fotos generales, no como proyecto individual)
+  const realProyectos = (proyectos || []).filter(p => {
+    const title = (p.title || p.nombre || p.data?.title || '').toLowerCase().trim();
+    return !title.includes('galería general') && !title.includes('galeria general');
+  });
+
+  const projectsData = realProyectos.map(p => {
     let cat = 'comercial';
     let tag = 'Proyecto Comercial';
 
