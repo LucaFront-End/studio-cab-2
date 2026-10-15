@@ -1,33 +1,28 @@
 /* ============================================
-   STICKY SCROLL HERO SECTION
+   SINGLE SCREEN HERO SECTION (COMPACT & TRIMMED)
    ============================================ */
-.home-hero-sticky-track {
+.home-hero-section {
   position: relative;
-  height: 280vh; /* Smooth, comfortable scroll travel to assemble the 4 pieces */
-  background-color: var(--colors--theme-white);
-}
-
-.home-hero-sticky-viewport {
-  position: sticky;
-  top: 0;
-  height: 100vh;
   width: 100%;
+  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow: visible;
-  padding-top: 90px;
-  padding-bottom: 22px;
-  /* Warm architectural studio gradient: subtly deeper warm greige behind 3D furniture for white sofa contrast, seamlessly fading to #F7F2E2 at bottom */
+  overflow: hidden;
+  padding-top: clamp(58px, 7.2vh, 72px);
+  padding-bottom: clamp(10px, 1.6vh, 18px);
+  /* Warm architectural studio gradient: seamlessly blending from #F7F2E2 through #E8E0CD to #F7F2E2 */
   background: 
     radial-gradient(ellipse 85% 60% at 50% 46%, #E8E0CD 0%, #EFE8DA 48%, transparent 84%),
     linear-gradient(180deg, var(--colors--theme-white) 0%, #EFE8DA 20%, #ECE4D1 45%, #EFE8DA 70%, var(--colors--theme-white) 92%, var(--colors--theme-white) 100%);
 }
 
 .hero-sticky-container {
-  max-width: 1100px;
+  max-width: 1140px;
   width: 100%;
   height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -94,11 +89,11 @@
   letter-spacing: 0.16em;
   color: var(--colors--theme-orange);
   text-align: center;
-  margin-bottom: clamp(4px, 1vh, 10px);
+  margin-bottom: clamp(2px, 0.5vh, 5px);
   text-transform: uppercase;
   opacity: 0;
-  transform: translate3d(0, -10px, 0);
-  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
+  transform: translate3d(0, -8px, 0);
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1) 0.15s, transform 1s cubic-bezier(0.25, 1, 0.5, 1) 0.15s;
   will-change: opacity, transform;
 }
 
@@ -111,7 +106,7 @@
    HERO TITLE
    ============================================ */
 .hero-title-wrapper {
-  margin-bottom: clamp(4px, 1vh, 12px);
+  margin-bottom: clamp(2px, 0.7vh, 6px);
   position: relative;
   overflow: visible;
   z-index: 4;
@@ -121,17 +116,17 @@
 .home-hero-title-block {
   background-color: transparent;
   color: var(--colors--theme-black);
-  mix-blend-mode: normal; /* Solid clean text on background */
+  mix-blend-mode: normal;
   justify-content: center;
   align-items: flex-end;
   display: flex;
   position: relative;
   z-index: 2;
-  padding-bottom: 10px;
+  padding-bottom: 2px;
 }
 
 .hero-title-char-outer {
-  font-size: clamp(40px, 5.5vw, 76px);
+  font-size: clamp(32px, 4.2vw, 56px);
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.015em;
@@ -161,7 +156,7 @@
 
 /* Floating interactive hover state */
 .hero-title-char-outer:hover .hero-title-char-inner {
-  transform: translateY(-12px) scale(1.05) rotate(2deg);
+  transform: translateY(-8px) scale(1.04) rotate(2deg);
   color: var(--colors--theme-orange);
   -webkit-text-stroke-color: var(--colors--theme-orange);
   text-shadow: 0 10px 25px rgba(255, 135, 25, 0.2);
@@ -178,28 +173,30 @@
 }
 
 /* ============================================
-   HERO 3D LIVING ROOM STAGE
+   HERO 3D LIVING ROOM STAGE (RECORTADO / TRIMMED)
    ============================================ */
 .hero-banner-outer-block {
   overflow: visible;
   width: 100%;
-  margin-bottom: clamp(18px, 2.8vh, 32px);
+  margin-top: 0;
+  margin-bottom: clamp(4px, 1vh, 10px);
   position: relative;
   z-index: 2;
   opacity: 0;
-  transform: skewY(5deg);
-  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s, transform 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+  transform: translateY(12px);
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
 }
 
 .hero-banner-outer-block.animate-in {
   opacity: 1;
-  transform: skewY(0deg);
+  transform: translateY(0);
 }
 
 .hero-3d-living-room-stage {
   position: relative;
   width: 100%;
-  height: clamp(380px, 52vh, 560px);
+  /* Recortado / Trimmed so it fits cleanly on standard laptop screens without pushing CTA below */
+  height: clamp(210px, 30vh, 285px);
   border: none;
   background: transparent;
   overflow: visible;
@@ -211,19 +208,19 @@
 /* Subtle, Luxury Living Room Assembly HUD */
 .hero-living-room-hud {
   position: absolute;
-  bottom: 8px;
+  bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: rgba(255, 255, 255, 0.92);
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.90);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 6px 16px;
+  padding: 4px 14px;
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   pointer-events: none;
   z-index: 10;
   transition: all 0.3s ease;
@@ -234,9 +231,9 @@
   align-items: center;
   gap: 8px;
   font-family: monospace;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.10em;
   color: var(--colors--theme-black);
   text-transform: uppercase;
   white-space: nowrap;
@@ -262,8 +259,8 @@
 }
 
 .hero-dot-indicator {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
@@ -271,7 +268,7 @@
 
 .hero-dot-indicator.active {
   background: var(--colors--theme-orange);
-  transform: scale(1.25);
+  transform: scale(1.2);
 }
 
 /* ============================================
@@ -279,21 +276,21 @@
    ============================================ */
 .hero-content-block {
   display: grid;
-  grid-template-columns: 1.22fr 1fr;
-  grid-column-gap: clamp(24px, 4vw, 56px);
-  grid-row-gap: 16px;
-  align-items: start;
+  grid-template-columns: 1.15fr 1fr;
+  grid-column-gap: clamp(20px, 3.5vw, 44px);
+  grid-row-gap: 8px;
+  align-items: center;
   width: 100%;
-  margin-top: clamp(8px, 1.6vh, 20px);
-  margin-bottom: clamp(6px, 1.2vh, 16px);
+  margin-top: 0;
+  margin-bottom: 0;
   opacity: 0;
-  transform: skewY(5deg);
-  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s, transform 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
+  transform: translateY(12px);
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.35s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.35s;
 }
 
 .hero-content-block.animate-in {
   opacity: 1;
-  transform: skewY(0deg);
+  transform: translateY(0);
 }
 
 .hero-content-left-block {
@@ -302,9 +299,9 @@
 }
 
 .hero-content-left-block h2 {
-  font-size: clamp(20px, 2.1vw, 30px);
+  font-size: clamp(17px, 1.6vw, 23px);
   font-weight: 500;
-  line-height: 1.26;
+  line-height: 1.24;
   letter-spacing: -0.015em;
   color: var(--colors--theme-black);
   margin: 0;
@@ -318,11 +315,11 @@
 }
 
 .button-top-text {
-  font-size: clamp(13px, 1.05vw, 15px);
-  line-height: 1.5;
+  font-size: clamp(12px, 0.92vw, 13.5px);
+  line-height: 1.42;
   color: var(--colors--theme-gray);
   margin-top: 0;
-  margin-bottom: clamp(10px, 1.4vh, 16px);
+  margin-bottom: clamp(6px, 0.9vh, 9px);
 }
 
 /* Technical rectangular CTA button styling for the Hero */
@@ -334,7 +331,7 @@
   color: var(--colors--theme-black);
   background: transparent;
   border: 1px solid var(--color-border);
-  padding: 14px 24px;
+  padding: 9px 20px;
   border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
@@ -403,105 +400,101 @@
 }
 
 /* ============================================
-   RESPONSIVE MEDIA QUERIES
+   RESPONSIVE MEDIA QUERIES (COMPACT FRAMING)
    ============================================ */
 @media screen and (max-width: 991px) {
   .home-hero-section {
-    padding-top: 100px;
-    padding-bottom: 80px;
+    padding-top: clamp(64px, 7.5vh, 76px);
+    padding-bottom: 20px;
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
   }
 
   .hero-top-eyebrow {
-    font-size: 12px;
-    margin-bottom: 16px;
+    font-size: 11px;
+    margin-bottom: 6px;
   }
 
   .hero-title-wrapper {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
   }
 
   .home-hero-title-block {
     justify-content: center;
     align-items: flex-end;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(40px, 10vw, 85px);
+    font-size: clamp(32px, 5.5vw, 52px);
   }
 
   .hero-banner-outer-block {
-    margin-bottom: 40px;
+    margin-bottom: 12px;
   }
 
-  .hero-banner-image-wrapper {
-    aspect-ratio: 16 / 9; /* Wider for tablets */
+  .hero-3d-living-room-stage {
+    height: clamp(210px, 32vh, 280px);
   }
 
   .hero-content-block {
     grid-column-gap: 20px;
-    grid-row-gap: 20px;
+    grid-row-gap: 12px;
     grid-template-columns: 1fr;
   }
 
   .hero-content-left-block h2 {
-    font-size: 32px;
+    font-size: 22px;
   }
 
   .button-top-text {
-    margin-bottom: 30px;
-    font-size: 16px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
   }
 }
 
 @media screen and (max-width: 767px) {
   .home-hero-section {
-    padding-top: 100px;
-    padding-bottom: 40px;
-  }
-
-  .home-hero-sticky-track {
-    height: 250vh;
-  }
-
-  .home-hero-sticky-viewport {
-    padding-top: 75px;
-    padding-bottom: 20px;
-    height: 100vh;
+    padding-top: 68px;
+    padding-bottom: 28px;
+    min-height: auto;
+    max-height: none;
+    height: auto;
   }
 
   .hero-banner-outer-block {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 
   .hero-3d-living-room-stage {
-    height: clamp(280px, 42vh, 400px);
+    height: clamp(200px, 30vh, 250px);
     width: 100%;
   }
 
   .hero-living-room-hud {
-    padding: 4px 12px;
-    gap: 8px;
-    bottom: 6px;
+    padding: 3px 10px;
+    gap: 6px;
+    bottom: 4px;
     max-width: 96%;
   }
 
   .hero-content-block {
     grid-template-columns: 1fr;
-    grid-row-gap: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    grid-row-gap: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
 
   .hero-content-left-block h2 {
-    font-size: clamp(18px, 5vw, 24px);
-    line-height: 1.3;
+    font-size: clamp(17px, 4.8vw, 22px);
+    line-height: 1.28;
   }
 
   .button-top-text {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .hero-hud-step-badge {
@@ -514,16 +507,13 @@
   }
 
   .hero-dot-indicator {
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
   }
 
   .hero-top-eyebrow {
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    line-height: 1.5;
-    margin-bottom: 18px;
+    font-size: 10px;
+    margin-bottom: 6px;
   }
 
   .hero-top-eyebrow .eyebrow-line {
@@ -535,50 +525,45 @@
   }
 
   .hero-title-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: 6px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(44px, 12vw, 70px);
+    font-size: clamp(32px, 8.5vw, 46px);
   }
 }
 
 @media screen and (max-width: 479px) {
   .home-hero-section {
-    padding-top: 96px;
+    padding-top: 64px;
+    padding-bottom: 24px;
   }
 
   .hero-top-eyebrow {
-    font-size: 13px;
-    font-weight: 800;
+    font-size: 10px;
     letter-spacing: 0.10em;
-    line-height: 1.55;
-    margin-bottom: 18px;
+    line-height: 1.4;
+    margin-bottom: 6px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(52px, 14vw, 80px);
-  }
-
-  .hero-banner-image-wrapper {
-    margin-bottom: 30px;
-    aspect-ratio: 4 / 3; /* Taller on mobile to display more details */
+    font-size: clamp(30px, 9vw, 42px);
   }
 }
 
 @media screen and (min-width: 1280px) {
   .hero-title-char-outer {
-    font-size: clamp(52px, 5.8vw, 84px);
+    font-size: clamp(36px, 4.2vw, 58px);
   }
 }
 
 @media screen and (min-width: 1440px) {
   .hero-title-wrapper {
-    margin-bottom: clamp(6px, 1.2vh, 16px);
+    margin-bottom: clamp(2px, 0.8vh, 8px);
   }
 
   .hero-title-char-outer {
-    font-size: clamp(58px, 6.2vw, 92px);
+    font-size: clamp(38px, 4.4vw, 62px);
   }
 
   .hero-content-block {
@@ -586,16 +571,12 @@
   }
 
   .button-top-text {
-    margin-bottom: clamp(12px, 1.8vh, 22px);
+    margin-bottom: clamp(6px, 1vh, 10px);
   }
 }
 
 @media screen and (min-width: 1920px) {
   .home-hero-section {
-    padding-top: 154px;
-  }
-
-  .hero-banner-image-wrapper {
-    flex: none;
+    padding-top: clamp(68px, 8vh, 84px);
   }
 }
