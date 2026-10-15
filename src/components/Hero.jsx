@@ -55,19 +55,19 @@ const Hero = ({ topEyebrow, fraseCorta, excerptPgina, seoTitle }) => {
   }, []);
 
   // Step name indicator based on scroll progress
-  let stepName = '01 / 04 // SOFÁ VELVET PRINCIPAL — HAZ SCROLL ↓';
+  let stepName = '01 / 04 // SOFÁ LOUNGE DE RECEPCIÓN — HAZ SCROLL ↓';
   let stepNum = 1;
   if (scrollProgress >= 0.92) {
-    stepName = 'SALA DE ESTAR COMPLETA // CONTINÚA EL SCROLL ↓';
+    stepName = 'ESPACIO COMERCIAL COMPLETO // CONTINÚA EL SCROLL ↓';
     stepNum = 4;
   } else if (scrollProgress >= 0.68) {
     stepName = '04 / 04 // MESA DE CENTRO EN NOGAL Y LATÓN';
     stepNum = 4;
   } else if (scrollProgress >= 0.38) {
-    stepName = '03 / 04 // SILLÓN CAPITONÉ EN DAMASCO';
+    stepName = '03 / 04 // CLOSET ARQUITECTÓNICO SOBRE DISEÑO';
     stepNum = 3;
   } else if (scrollProgress >= 0.08) {
-    stepName = '02 / 04 // SILLÓN NÓRDICO MANGO VELVET';
+    stepName = '02 / 04 // ESTANTE EXHIBIDOR RETAIL COMERCIAL';
     stepNum = 2;
   }
 

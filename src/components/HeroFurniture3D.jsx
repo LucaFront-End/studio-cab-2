@@ -15,18 +15,18 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     camera: null,
     renderer: null,
     animId: null,
-    groundY: -0.32,
-    // 4 Pieces of the Living Room ("Sala de estar")
-    // Separated generously to prevent collisions, scaled larger for prominent screen presence:
-    // 0: Curved velvet sofa (Center Back)
-    // 1: Sheen Nordic chair (Right, angled towards center table)
-    // 2: Damask capitoné armchair (Left, angled towards center table)
-    // 3: Fluted American walnut & brass coffee table (Center Middle)
+    groundY: -0.38,
+    // 4 Pieces of the Commercial Showroom ("Espacio Comercial")
+    // Sized and positioned with ample vertical headroom so nothing ever clips at top:
+    // 0: Curved velvet reception sofa (Center Back)
+    // 1: Commercial retail shelving unit (Right, angled towards center)
+    // 2: Architectural custom closet with fluted lambrín (Left, angled towards center)
+    // 3: Fluted American walnut & brass coffee table (Center Front)
     pieces: [
-      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.32, -1.35), startPos: new THREE.Vector3(0, -0.32, -0.15), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.48 },
-      { name: 'chairSheen', group: null, shadow: null, targetPos: new THREE.Vector3(1.95, -0.32, 0.05), targetRot: new THREE.Euler(0.04, -0.68, 0.02), scale: 1.32 },
-      { name: 'chairOval', group: null, shadow: null, targetPos: new THREE.Vector3(-1.95, -0.32, 0.05), targetRot: new THREE.Euler(0.04, 0.68, -0.02), scale: 1.32 },
-      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.32, 0.32), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.25 }
+      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.38, -1.45), startPos: new THREE.Vector3(0, -0.38, -0.15), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.38 },
+      { name: 'shelf', group: null, shadow: null, targetPos: new THREE.Vector3(2.05, -0.38, -0.12), targetRot: new THREE.Euler(0.04, -0.42, 0), scale: 1.02 },
+      { name: 'closet', group: null, shadow: null, targetPos: new THREE.Vector3(-2.05, -0.38, -0.12), targetRot: new THREE.Euler(0.04, 0.42, 0), scale: 1.02 },
+      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.38, 0.42), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.18 }
     ],
     scrollProgress: 0,
     currentProgress: 0,
@@ -58,28 +58,28 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
 
     // Mobile adjustments: separated non-colliding layout tailored for portrait viewports
     if (isMobile) {
-      engine.pieces[0].targetPos.set(0, -0.28, -1.30);
-      engine.pieces[0].startPos.set(0, -0.28, -0.20);
-      engine.pieces[0].scale = 1.05;
+      engine.pieces[0].targetPos.set(0, -0.34, -1.40);
+      engine.pieces[0].startPos.set(0, -0.34, -0.20);
+      engine.pieces[0].scale = 0.96;
 
-      engine.pieces[1].targetPos.set(1.02, -0.28, -0.05);
-      engine.pieces[1].targetRot.set(0.04, -0.65, 0);
-      engine.pieces[1].scale = 0.88;
+      engine.pieces[1].targetPos.set(1.10, -0.34, -0.12);
+      engine.pieces[1].targetRot.set(0.04, -0.38, 0);
+      engine.pieces[1].scale = 0.72;
 
-      engine.pieces[2].targetPos.set(-1.02, -0.28, -0.05);
-      engine.pieces[2].targetRot.set(0.04, 0.65, 0);
-      engine.pieces[2].scale = 0.88;
+      engine.pieces[2].targetPos.set(-1.10, -0.34, -0.12);
+      engine.pieces[2].targetRot.set(0.04, 0.38, 0);
+      engine.pieces[2].scale = 0.72;
 
-      engine.pieces[3].targetPos.set(0, -0.28, 0.38);
+      engine.pieces[3].targetPos.set(0, -0.34, 0.44);
       engine.pieces[3].targetRot.set(0.02, 0.45, 0);
-      engine.pieces[3].scale = 0.86;
-      engine.groundY = -0.28;
+      engine.pieces[3].scale = 0.80;
+      engine.groundY = -0.34;
     }
 
-    // 1. Scene & Perspective Camera
+    // 1. Scene & Perspective Camera with generous top clearance
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 40);
-    camera.position.set(0, isMobile ? 0.65 : 0.54, isMobile ? 5.8 : 4.35);
+    camera.position.set(0, isMobile ? 0.58 : 0.44, isMobile ? 6.2 : 4.90);
 
     // 2. Renderer with 100% Transparent Background & PBR Studio Settings
     const renderer = new THREE.WebGLRenderer({
@@ -148,15 +148,365 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     };
 
     engine.pieces[0].shadow = createShadowMesh(isMobile ? 2.8 : 3.6);
-    engine.pieces[1].shadow = createShadowMesh(isMobile ? 1.35 : 1.65);
-    engine.pieces[2].shadow = createShadowMesh(isMobile ? 1.35 : 1.65);
+    engine.pieces[1].shadow = createShadowMesh(isMobile ? 1.4 : 1.7);
+    engine.pieces[2].shadow = createShadowMesh(isMobile ? 1.6 : 1.9);
     engine.pieces[3].shadow = createShadowMesh(isMobile ? 1.25 : 1.55);
 
     engine.scene = scene;
     engine.camera = camera;
     engine.renderer = renderer;
 
-    // 5. Build Architectural Coffee Table with Lambrín Wood Fluting (Piece 3)
+    // 5a. Build Commercial Retail Shelving Unit / Estante Exhibidor (Piece 1)
+    const buildCommercialShelf = () => {
+      const group = new THREE.Group();
+
+      const steelMat = new THREE.MeshStandardMaterial({
+        color: 0x181818,
+        roughness: 0.35,
+        metalness: 0.85
+      });
+
+      const walnutMat = new THREE.MeshStandardMaterial({
+        color: 0x422616,
+        roughness: 0.32,
+        metalness: 0.04
+      });
+
+      const brassMat = new THREE.MeshStandardMaterial({
+        color: 0xd4af37,
+        roughness: 0.2,
+        metalness: 0.95
+      });
+
+      const ceramicMat = new THREE.MeshStandardMaterial({
+        color: 0xded8cf,
+        roughness: 0.75,
+        metalness: 0.0
+      });
+
+      const terracottaMat = new THREE.MeshStandardMaterial({
+        color: 0xa8533b,
+        roughness: 0.7,
+        metalness: 0.0
+      });
+
+      const charcoalMat = new THREE.MeshStandardMaterial({
+        color: 0x2b2b2b,
+        roughness: 0.6,
+        metalness: 0.1
+      });
+
+      const totalH = 1.38;
+      const shelfW = 0.86;
+      const shelfD = 0.34;
+      const legX = 0.43;
+      const legZ = 0.17;
+
+      // 4 Matte Black Square Steel Uprights
+      const legGeo = new THREE.BoxGeometry(0.022, totalH, 0.022);
+      const footGeo = new THREE.CylinderGeometry(0.016, 0.018, 0.03, 16);
+
+      [-legX, legX].forEach((x) => {
+        [-legZ, legZ].forEach((z) => {
+          const leg = new THREE.Mesh(legGeo, steelMat);
+          leg.position.set(x, totalH / 2, z);
+          group.add(leg);
+
+          const foot = new THREE.Mesh(footGeo, brassMat);
+          foot.position.set(x, 0.015, z);
+          group.add(foot);
+        });
+      });
+
+      // Top steel perimeter framing
+      const topRailWGeo = new THREE.BoxGeometry(shelfW, 0.022, 0.022);
+      [-legZ, legZ].forEach((z) => {
+        const rail = new THREE.Mesh(topRailWGeo, steelMat);
+        rail.position.set(0, totalH - 0.011, z);
+        group.add(rail);
+      });
+
+      const topRailDGeo = new THREE.BoxGeometry(0.022, 0.022, legZ * 2);
+      [-legX, legX].forEach((x) => {
+        const rail = new THREE.Mesh(topRailDGeo, steelMat);
+        rail.position.set(x, totalH - 0.011, 0);
+        group.add(rail);
+      });
+
+      // Structural X-Brace on Back Frame (Architectural Steel Rods)
+      const xLength = Math.hypot(legX * 2, totalH * 0.65);
+      const rodGeo = new THREE.CylinderGeometry(0.005, 0.005, xLength, 12);
+      const angle = Math.atan2(totalH * 0.65, legX * 2);
+
+      const rod1 = new THREE.Mesh(rodGeo, steelMat);
+      rod1.position.set(0, 0.80, -legZ);
+      rod1.rotation.z = Math.PI / 2 - angle;
+      group.add(rod1);
+
+      const rod2 = new THREE.Mesh(rodGeo, steelMat);
+      rod2.position.set(0, 0.80, -legZ);
+      rod2.rotation.z = -(Math.PI / 2 - angle);
+      group.add(rod2);
+
+      const centerRing = new THREE.Mesh(new THREE.TorusGeometry(0.035, 0.008, 12, 24), brassMat);
+      centerRing.position.set(0, 0.80, -legZ + 0.005);
+      group.add(centerRing);
+
+      // Base Retail Cabinet (Enclosed Lower Storage Box)
+      const cabinetH = 0.32;
+      const cabY = 0.06 + cabinetH / 2;
+      const cabCarcass = new THREE.Mesh(new THREE.BoxGeometry(shelfW - 0.04, cabinetH, shelfD - 0.04), walnutMat);
+      cabCarcass.position.set(0, cabY, 0);
+      group.add(cabCarcass);
+
+      // Cabinet Door Panels with fine shadow reveal
+      const doorW = (shelfW - 0.05) / 2;
+      const doorGeo = new THREE.BoxGeometry(doorW - 0.006, cabinetH - 0.02, 0.015);
+      const leftDoor = new THREE.Mesh(doorGeo, walnutMat);
+      leftDoor.position.set(-doorW / 2 - 0.003, cabY, (shelfD - 0.04) / 2 + 0.008);
+      group.add(leftDoor);
+
+      const rightDoor = new THREE.Mesh(doorGeo, walnutMat);
+      rightDoor.position.set(doorW / 2 + 0.003, cabY, (shelfD - 0.04) / 2 + 0.008);
+      group.add(rightDoor);
+
+      // Brass Minimalist Pulls for Cabinet
+      const cabPullGeo = new THREE.BoxGeometry(0.008, 0.07, 0.012);
+      const leftPull = new THREE.Mesh(cabPullGeo, brassMat);
+      leftPull.position.set(-0.025, cabY, (shelfD - 0.04) / 2 + 0.02);
+      group.add(leftPull);
+
+      const rightPull = new THREE.Mesh(cabPullGeo, brassMat);
+      rightPull.position.set(0.025, cabY, (shelfD - 0.04) / 2 + 0.02);
+      group.add(rightPull);
+
+      // 3 Floating Walnut Shelves Above Base
+      const shelfYPositions = [0.64, 0.96, 1.26];
+      const shelfSlabGeo = new THREE.BoxGeometry(shelfW - 0.02, 0.024, shelfD - 0.02);
+      const bracketGeo = new THREE.BoxGeometry(0.024, 0.015, 0.024);
+
+      shelfYPositions.forEach((y) => {
+        const shelf = new THREE.Mesh(shelfSlabGeo, walnutMat);
+        shelf.position.set(0, y, 0);
+        group.add(shelf);
+
+        // Brass corner support brackets
+        [-legX + 0.011, legX - 0.011].forEach((bx) => {
+          [-legZ + 0.011, legZ - 0.011].forEach((bz) => {
+            const brk = new THREE.Mesh(bracketGeo, brassMat);
+            brk.position.set(bx, y - 0.018, bz);
+            group.add(brk);
+          });
+        });
+      });
+
+      // Curated Commercial Retail Display Accents:
+      // Shelf 1 (Y = 0.64): Matte Ceramic Minimalist Vase + Swatch Catalogues
+      const vaseGeo = new THREE.CylinderGeometry(0.045, 0.058, 0.18, 24);
+      const vase = new THREE.Mesh(vaseGeo, ceramicMat);
+      vase.position.set(-0.24, 0.64 + 0.012 + 0.09, 0);
+      group.add(vase);
+
+      const book1 = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.025, 0.15), charcoalMat);
+      book1.position.set(0.18, 0.64 + 0.012 + 0.0125, 0);
+      book1.rotation.y = 0.08;
+      group.add(book1);
+
+      const book2 = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.022, 0.14), terracottaMat);
+      book2.position.set(0.18, 0.64 + 0.012 + 0.036, 0);
+      book2.rotation.y = -0.05;
+      group.add(book2);
+
+      const book3 = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.018, 0.13), walnutMat);
+      book3.position.set(0.18, 0.64 + 0.012 + 0.056, 0);
+      book3.rotation.y = 0.12;
+      group.add(book3);
+
+      // Shelf 2 (Y = 0.96): Geometric Sculpture + Luxury Display Pedestal
+      const torusGeo = new THREE.TorusGeometry(0.055, 0.013, 16, 32);
+      const sculpt = new THREE.Mesh(torusGeo, terracottaMat);
+      sculpt.position.set(-0.20, 0.96 + 0.012 + 0.065, 0);
+      sculpt.rotation.y = 0.35;
+      group.add(sculpt);
+
+      const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.06, 0.03, 24), brassMat);
+      pedestal.position.set(0.18, 0.96 + 0.012 + 0.015, 0);
+      group.add(pedestal);
+
+      const flacon = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.08, 20), ceramicMat);
+      flacon.position.set(0.18, 0.96 + 0.012 + 0.03 + 0.04, 0);
+      group.add(flacon);
+
+      // Shelf 3 (Y = 1.26): Brass Bookend & Architectural Binders + Minimalist Bowl
+      const bookend = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.12, 0.10), brassMat);
+      bookend.position.set(-0.16, 1.26 + 0.012 + 0.06, 0);
+      group.add(bookend);
+
+      const binder1 = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.14, 0.14), charcoalMat);
+      binder1.position.set(-0.12, 1.26 + 0.012 + 0.07, 0);
+      group.add(binder1);
+
+      const binder2 = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.13, 0.13), walnutMat);
+      binder2.position.set(-0.09, 1.26 + 0.012 + 0.065, 0);
+      group.add(binder2);
+
+      const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.045, 0.035, 24), charcoalMat);
+      bowl.position.set(0.20, 1.26 + 0.012 + 0.0175, 0);
+      group.add(bowl);
+
+      return group;
+    };
+
+    const shelfGroup = buildCommercialShelf();
+    shelfGroup.position.set(0, -3.8, 0);
+    shelfGroup.scale.setScalar(0.001);
+    scene.add(shelfGroup);
+    engine.pieces[1].group = shelfGroup;
+
+    // 5b. Build Architectural Custom Closet / Armario sobre Diseño (Piece 2)
+    const buildArchitecturalCloset = () => {
+      const group = new THREE.Group();
+
+      const walnutMat = new THREE.MeshStandardMaterial({
+        color: 0x3d2214,
+        roughness: 0.34,
+        metalness: 0.04
+      });
+
+      const slatMat = new THREE.MeshStandardMaterial({
+        color: 0x482918,
+        roughness: 0.38,
+        metalness: 0.03
+      });
+
+      const darkMat = new THREE.MeshStandardMaterial({
+        color: 0x19110d,
+        roughness: 0.5,
+        metalness: 0.0
+      });
+
+      const brassMat = new THREE.MeshStandardMaterial({
+        color: 0xd4af37,
+        roughness: 0.2,
+        metalness: 0.95
+      });
+
+      const closetW = 1.02;
+      const closetH = 1.42;
+      const closetD = 0.46;
+      const plinthH = 0.06;
+      const bodyH = closetH - plinthH;
+
+      // 1. Recessed Shadow Plinth Base (Zócalo Remetido)
+      const plinthW = closetW - 0.06;
+      const plinthD = closetD - 0.05;
+      const plinth = new THREE.Mesh(new THREE.BoxGeometry(plinthW, plinthH, plinthD), darkMat);
+      plinth.position.set(0, plinthH / 2, 0);
+      group.add(plinth);
+
+      // Brass Corner Glides / Leveling Pads
+      const padGeo = new THREE.BoxGeometry(0.04, 0.01, 0.04);
+      [-plinthW / 2 + 0.03, plinthW / 2 - 0.03].forEach((px) => {
+        [-plinthD / 2 + 0.03, plinthD / 2 - 0.03].forEach((pz) => {
+          const pad = new THREE.Mesh(padGeo, brassMat);
+          pad.position.set(px, 0.005, pz);
+          group.add(pad);
+        });
+      });
+
+      // 2. Main Cabinet Carcass
+      const carcassY = plinthH + bodyH / 2;
+      const carcass = new THREE.Mesh(new THREE.BoxGeometry(closetW, bodyH, closetD), walnutMat);
+      carcass.position.set(0, carcassY, 0);
+      group.add(carcass);
+
+      // Top Crown Cap with Micro Shadow Reveal
+      const topCap = new THREE.Mesh(new THREE.BoxGeometry(closetW + 0.015, 0.024, closetD + 0.015), walnutMat);
+      topCap.position.set(0, closetH + 0.012, 0);
+      group.add(topCap);
+
+      const topReveal = new THREE.Mesh(new THREE.BoxGeometry(closetW - 0.02, 0.008, closetD - 0.02), darkMat);
+      topReveal.position.set(0, closetH - 0.004, 0);
+      group.add(topReveal);
+
+      // 3. Double Front Doors with Fine Central Reveal
+      const doorW = (closetW - 0.05) / 2;
+      const doorH = bodyH - 0.06;
+      const doorD = 0.024;
+      const doorFrontZ = closetD / 2 + doorD / 2;
+      const doorCenterY = plinthH + 0.03 + doorH / 2;
+
+      const doorBaseGeo = new THREE.BoxGeometry(doorW - 0.006, doorH, doorD);
+
+      const leftDoorBase = new THREE.Mesh(doorBaseGeo, walnutMat);
+      leftDoorBase.position.set(-doorW / 2 - 0.003, doorCenterY, doorFrontZ);
+      group.add(leftDoorBase);
+
+      const rightDoorBase = new THREE.Mesh(doorBaseGeo, walnutMat);
+      rightDoorBase.position.set(doorW / 2 + 0.003, doorCenterY, doorFrontZ);
+      group.add(rightDoorBase);
+
+      // 4. Lambrín Wood Fluting / Slats on Both Doors (10 Vertical Slats Per Door)
+      const slatCount = 10;
+      const slatW = 0.018;
+      const slatH = doorH - 0.04;
+      const slatD = 0.012;
+      const slatGeo = new THREE.BoxGeometry(slatW, slatH, slatD);
+      const slatZ = doorFrontZ + doorD / 2 + slatD / 2;
+
+      for (let i = 0; i < slatCount; i++) {
+        const sx = (-doorW - 0.003) + (i + 0.5) * (doorW / slatCount);
+        const slat = new THREE.Mesh(slatGeo, slatMat);
+        slat.position.set(sx, doorCenterY, slatZ);
+        group.add(slat);
+      }
+
+      for (let i = 0; i < slatCount; i++) {
+        const sx = 0.003 + (i + 0.5) * (doorW / slatCount);
+        const slat = new THREE.Mesh(slatGeo, slatMat);
+        slat.position.set(sx, doorCenterY, slatZ);
+        group.add(slat);
+      }
+
+      // 5. Signature Luxury Long Champagne Brass Pull Handles
+      const handleLength = 0.62;
+      const handleW = 0.014;
+      const handleD = 0.024;
+      const handleGeo = new THREE.BoxGeometry(handleW, handleLength, handleD);
+      const standoffGeo = new THREE.BoxGeometry(0.012, 0.018, 0.020);
+
+      const leftHandle = new THREE.Mesh(handleGeo, brassMat);
+      leftHandle.position.set(-0.022, doorCenterY, slatZ + slatD / 2 + handleD / 2 + 0.012);
+      group.add(leftHandle);
+
+      const rightHandle = new THREE.Mesh(handleGeo, brassMat);
+      rightHandle.position.set(0.022, doorCenterY, slatZ + slatD / 2 + handleD / 2 + 0.012);
+      group.add(rightHandle);
+
+      [-0.022, 0.022].forEach((hx) => {
+        [-handleLength / 2 + 0.05, handleLength / 2 - 0.05].forEach((hy) => {
+          const standoff = new THREE.Mesh(standoffGeo, brassMat);
+          standoff.position.set(hx, doorCenterY + hy, slatZ + slatD / 2 + 0.008);
+          group.add(standoff);
+        });
+      });
+
+      // 6. Architectural Brass Trim Inset
+      const trimGeo = new THREE.BoxGeometry(closetW, 0.008, 0.008);
+      const bottomTrim = new THREE.Mesh(trimGeo, brassMat);
+      bottomTrim.position.set(0, plinthH + 0.004, closetD / 2);
+      group.add(bottomTrim);
+
+      return group;
+    };
+
+    const closetGroup = buildArchitecturalCloset();
+    closetGroup.position.set(0, -3.8, 0);
+    closetGroup.scale.setScalar(0.001);
+    scene.add(closetGroup);
+    engine.pieces[2].group = closetGroup;
+
+    // 5c. Build Architectural Coffee Table with Lambrín Wood Fluting (Piece 3)
     const buildCoffeeTable = () => {
       const group = new THREE.Group();
 
@@ -217,7 +567,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     scene.add(tableGroup);
     engine.pieces[3].group = tableGroup;
 
-    // 6. Asynchronously Load GLB Models in Parallel with Atomic Promise.all
+    // 6. Asynchronously Load GLB Sofa Model (Piece 0)
     // Global in-memory cache for pristine, unmutated GLTF scenes so re-mounts are 0ms instant
     if (!window.__STUDIO_CAB_GLTF_CACHE) {
       window.__STUDIO_CAB_GLTF_CACHE = {};
@@ -265,9 +615,9 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
             if (isSofa) {
               const nameLower = (child.name || '').toLowerCase() + ' ' + (mat.name || '').toLowerCase();
               if (nameLower.includes('fabric')) {
-                // Warm champagne/ivory architectural velvet
-                mat.color.set(0xdfd3c3);
-                mat.roughness = 0.65;
+                // Bright, elegant ivory velvet that stands out crisp against the warm background
+                mat.color.set(0xf8f2e8);
+                mat.roughness = 0.52;
                 mat.metalness = 0.0;
               } else if (nameLower.includes('legs')) {
                 // Dark walnut wood
@@ -308,19 +658,14 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.pieces[pieceIdx].group = pivot;
     };
 
-    // Parallel atomic load: ALL 3 models are awaited together and added simultaneously
-    Promise.all([
-      loadSingleModel('/models/glam-velvet-sofa.glb').catch((err) => {
+    // Load Velvet Sofa (Piece 0)
+    loadSingleModel('/models/glam-velvet-sofa.glb')
+      .catch((err) => {
         console.warn('Fallback sofa', err);
         return loadSingleModel('/models/sheen-wood-sofa.glb');
-      }),
-      loadSingleModel('/models/sheen-chair.glb'),
-      loadSingleModel('/models/chair-damask.glb')
-    ])
-      .then(([sofaGltf, sheenGltf, damaskGltf]) => {
+      })
+      .then((sofaGltf) => {
         if (sofaGltf) setupModel(sofaGltf.scene.clone(true), 0, true);
-        if (sheenGltf) setupModel(sheenGltf.scene.clone(true), 1, false);
-        if (damaskGltf) setupModel(damaskGltf.scene.clone(true), 2, false);
         setLoading(false);
       })
       .catch((err) => {
@@ -345,8 +690,8 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.dragRotY += (engine.targetDragRotY - engine.dragRotY) * 0.08;
 
       camera.position.x = engine.mouseCurrentX * 0.25;
-      camera.position.y = (isMobile ? 0.65 : 0.54) - engine.mouseCurrentY * 0.15;
-      camera.lookAt(0, -0.05, 0);
+      camera.position.y = (isMobile ? 0.58 : 0.44) - engine.mouseCurrentY * 0.15;
+      camera.lookAt(0, 0.18, 0);
 
       // Subtle ambient hovering waves
       const hoverY0 = Math.sin(elapsed * 1.3) * 0.02;
@@ -409,7 +754,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
           const curY = startY + (targetY - startY) * ease;
 
           // Smooth rotational entrance
-          const rotOffset = idx === 1 ? 0.8 : idx === 2 ? -0.8 : 1.2;
+          const rotOffset = idx === 1 ? -0.45 : idx === 2 ? 0.45 : 1.2;
           const startRotY = piece.targetRot.y + rotOffset;
           const curRotY = startRotY + (piece.targetRot.y - startRotY) * ease + engine.dragRotY;
 
@@ -420,7 +765,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
           // Contact floor shadow stays permanent when assembled
           if (piece.shadow) {
             piece.shadow.position.set(piece.targetPos.x, groundY - 0.005, piece.targetPos.z);
-            piece.shadow.material.opacity = ease * (idx === 3 ? 0.32 : 0.36);
+            piece.shadow.material.opacity = ease * (idx === 3 ? 0.32 : idx === 2 ? 0.38 : 0.35);
           }
         }
       });
@@ -495,7 +840,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       {/* Loading Indicator */}
       <div className={`hero-3d-floating-loader ${loading ? '' : 'hidden'}`}>
         <div className="hero-3d-floating-spinner" />
-        <span className="hero-3d-floating-txt">Cargando Sala de Estar 3D...</span>
+        <span className="hero-3d-floating-txt">Cargando Espacio Comercial 3D...</span>
       </div>
     </div>
   );

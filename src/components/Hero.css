@@ -18,7 +18,10 @@
   overflow: hidden;
   padding-top: 100px;
   padding-bottom: 25px;
-  background-color: var(--colors--theme-white);
+  /* Warm architectural studio gradient: subtly deeper warm greige behind 3D furniture for white sofa contrast, seamlessly fading to #F7F2E2 at bottom */
+  background: 
+    radial-gradient(ellipse 85% 60% at 50% 46%, #E8E0CD 0%, #EFE8DA 48%, transparent 84%),
+    linear-gradient(180deg, var(--colors--theme-white) 0%, #EFE8DA 20%, #ECE4D1 45%, #EFE8DA 70%, var(--colors--theme-white) 92%, var(--colors--theme-white) 100%);
 }
 
 .hero-sticky-container {
@@ -194,7 +197,7 @@
 .hero-3d-living-room-stage {
   position: relative;
   width: 100%;
-  height: clamp(320px, 46vh, 480px);
+  height: clamp(340px, 48vh, 520px);
   border: none;
   background: transparent;
   overflow: visible;
