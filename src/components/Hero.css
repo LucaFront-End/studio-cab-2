@@ -1,17 +1,16 @@
 /* ============================================
-   SINGLE SCREEN HERO SECTION (COMPACT & TRIMMED)
+   HERO SECTION
    ============================================ */
 .home-hero-section {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  max-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow: hidden;
-  padding-top: clamp(58px, 7.2vh, 72px);
-  padding-bottom: clamp(10px, 1.6vh, 18px);
+  overflow: visible;
+  padding-top: clamp(68px, 7.8vh, 84px);
+  padding-bottom: clamp(16px, 2.2vh, 26px);
   /* Warm architectural studio gradient: seamlessly blending from #F7F2E2 through #E8E0CD to #F7F2E2 */
   background: 
     radial-gradient(ellipse 85% 60% at 50% 46%, #E8E0CD 0%, #EFE8DA 48%, transparent 84%),
@@ -89,7 +88,7 @@
   letter-spacing: 0.16em;
   color: var(--colors--theme-orange);
   text-align: center;
-  margin-bottom: clamp(2px, 0.5vh, 5px);
+  margin-bottom: clamp(4px, 0.8vh, 8px);
   text-transform: uppercase;
   opacity: 0;
   transform: translate3d(0, -8px, 0);
@@ -106,7 +105,7 @@
    HERO TITLE
    ============================================ */
 .hero-title-wrapper {
-  margin-bottom: clamp(2px, 0.7vh, 6px);
+  margin-bottom: clamp(4px, 0.8vh, 10px);
   position: relative;
   overflow: visible;
   z-index: 4;
@@ -122,11 +121,11 @@
   display: flex;
   position: relative;
   z-index: 2;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
 }
 
 .hero-title-char-outer {
-  font-size: clamp(32px, 4.2vw, 56px);
+  font-size: clamp(38px, 5.2vw, 70px);
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.015em;
@@ -173,13 +172,13 @@
 }
 
 /* ============================================
-   HERO 3D LIVING ROOM STAGE (RECORTADO / TRIMMED)
+   HERO 3D LIVING ROOM STAGE
    ============================================ */
 .hero-banner-outer-block {
   overflow: visible;
   width: 100%;
   margin-top: 0;
-  margin-bottom: clamp(4px, 1vh, 10px);
+  margin-bottom: clamp(8px, 1.4vh, 18px);
   position: relative;
   z-index: 2;
   opacity: 0;
@@ -195,8 +194,8 @@
 .hero-3d-living-room-stage {
   position: relative;
   width: 100%;
-  /* Recortado / Trimmed so it fits cleanly on standard laptop screens without pushing CTA below */
-  height: clamp(210px, 30vh, 285px);
+  /* Moderately trimmed height: keeps models large, grand, and spacious while freeing up just enough room for the CTA */
+  height: clamp(340px, 46vh, 480px);
   border: none;
   background: transparent;
   overflow: visible;
@@ -208,7 +207,7 @@
 /* Subtle, Luxury Living Room Assembly HUD */
 .hero-living-room-hud {
   position: absolute;
-  bottom: 2px;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -217,7 +216,7 @@
   background: rgba(255, 255, 255, 0.90);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 4px 14px;
+  padding: 5px 16px;
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -276,13 +275,13 @@
    ============================================ */
 .hero-content-block {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  grid-column-gap: clamp(20px, 3.5vw, 44px);
-  grid-row-gap: 8px;
-  align-items: center;
+  grid-template-columns: 1.2fr 1fr;
+  grid-column-gap: clamp(24px, 3.8vw, 48px);
+  grid-row-gap: 12px;
+  align-items: start;
   width: 100%;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: clamp(6px, 1.2vh, 16px);
+  margin-bottom: clamp(6px, 1.2vh, 14px);
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.35s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.35s;
@@ -299,9 +298,9 @@
 }
 
 .hero-content-left-block h2 {
-  font-size: clamp(17px, 1.6vw, 23px);
+  font-size: clamp(20px, 2vw, 28px);
   font-weight: 500;
-  line-height: 1.24;
+  line-height: 1.26;
   letter-spacing: -0.015em;
   color: var(--colors--theme-black);
   margin: 0;
@@ -315,11 +314,11 @@
 }
 
 .button-top-text {
-  font-size: clamp(12px, 0.92vw, 13.5px);
-  line-height: 1.42;
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.48;
   color: var(--colors--theme-gray);
   margin-top: 0;
-  margin-bottom: clamp(6px, 0.9vh, 9px);
+  margin-bottom: clamp(8px, 1.2vh, 14px);
 }
 
 /* Technical rectangular CTA button styling for the Hero */
@@ -331,7 +330,7 @@
   color: var(--colors--theme-black);
   background: transparent;
   border: 1px solid var(--color-border);
-  padding: 9px 20px;
+  padding: 12px 22px;
   border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
@@ -400,183 +399,159 @@
 }
 
 /* ============================================
-   RESPONSIVE MEDIA QUERIES (COMPACT FRAMING)
+   RESPONSIVE MEDIA QUERIES
    ============================================ */
 @media screen and (max-width: 991px) {
   .home-hero-section {
-    padding-top: clamp(64px, 7.5vh, 76px);
-    padding-bottom: 20px;
+    padding-top: clamp(72px, 8vh, 88px);
+    padding-bottom: 30px;
     height: auto;
     min-height: 100vh;
-    max-height: none;
   }
 
   .hero-top-eyebrow {
     font-size: 11px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   .hero-title-wrapper {
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
 
   .home-hero-title-block {
     justify-content: center;
     align-items: flex-end;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(32px, 5.5vw, 52px);
+    font-size: clamp(38px, 7vw, 64px);
   }
 
   .hero-banner-outer-block {
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
 
   .hero-3d-living-room-stage {
-    height: clamp(210px, 32vh, 280px);
+    height: clamp(300px, 42vh, 420px);
   }
 
   .hero-content-block {
     grid-column-gap: 20px;
-    grid-row-gap: 12px;
+    grid-row-gap: 16px;
     grid-template-columns: 1fr;
   }
 
   .hero-content-left-block h2 {
-    font-size: 22px;
+    font-size: 26px;
   }
 
   .button-top-text {
-    margin-bottom: 12px;
-    font-size: 13.5px;
+    margin-bottom: 18px;
+    font-size: 15px;
   }
 }
 
 @media screen and (max-width: 767px) {
   .home-hero-section {
-    padding-top: 68px;
-    padding-bottom: 28px;
+    padding-top: 72px;
+    padding-bottom: 36px;
     min-height: auto;
-    max-height: none;
     height: auto;
   }
 
   .hero-banner-outer-block {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .hero-3d-living-room-stage {
-    height: clamp(200px, 30vh, 250px);
+    height: clamp(260px, 38vh, 340px);
     width: 100%;
   }
 
   .hero-living-room-hud {
-    padding: 3px 10px;
-    gap: 6px;
+    padding: 4px 12px;
+    gap: 8px;
     bottom: 4px;
     max-width: 96%;
   }
 
   .hero-content-block {
     grid-template-columns: 1fr;
-    grid-row-gap: 10px;
-    margin-top: 6px;
-    margin-bottom: 6px;
+    grid-row-gap: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .hero-content-left-block h2 {
-    font-size: clamp(17px, 4.8vw, 22px);
-    line-height: 1.28;
+    font-size: clamp(18px, 5vw, 24px);
+    line-height: 1.3;
   }
 
   .button-top-text {
-    margin-bottom: 12px;
-    font-size: 13px;
+    margin-bottom: 14px;
+    font-size: 14px;
     line-height: 1.45;
   }
 
-  .hero-hud-step-badge {
-    font-size: 8px;
-    letter-spacing: 0.06em;
-  }
-
-  .hero-hud-dots {
-    gap: 4px;
-  }
-
-  .hero-dot-indicator {
-    width: 4px;
-    height: 4px;
-  }
-
   .hero-top-eyebrow {
-    font-size: 10px;
-    margin-bottom: 6px;
-  }
-
-  .hero-top-eyebrow .eyebrow-line {
-    display: block;
-  }
-
-  .hero-top-eyebrow .eyebrow-sep {
-    display: none;
+    font-size: 11px;
+    margin-bottom: 8px;
   }
 
   .hero-title-wrapper {
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(32px, 8.5vw, 46px);
+    font-size: clamp(36px, 10vw, 54px);
   }
 }
 
 @media screen and (max-width: 479px) {
   .home-hero-section {
-    padding-top: 64px;
-    padding-bottom: 24px;
+    padding-top: 68px;
+    padding-bottom: 28px;
   }
 
   .hero-top-eyebrow {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.10em;
     line-height: 1.4;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(30px, 9vw, 42px);
+    font-size: clamp(34px, 11vw, 48px);
   }
 }
 
 @media screen and (min-width: 1280px) {
   .hero-title-char-outer {
-    font-size: clamp(36px, 4.2vw, 58px);
+    font-size: clamp(44px, 5.4vw, 76px);
   }
 }
 
 @media screen and (min-width: 1440px) {
   .hero-title-wrapper {
-    margin-bottom: clamp(2px, 0.8vh, 8px);
+    margin-bottom: clamp(6px, 1vh, 12px);
   }
 
   .hero-title-char-outer {
-    font-size: clamp(38px, 4.4vw, 62px);
+    font-size: clamp(48px, 5.6vw, 80px);
   }
 
   .hero-content-block {
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
   }
 
   .button-top-text {
-    margin-bottom: clamp(6px, 1vh, 10px);
+    margin-bottom: clamp(10px, 1.4vh, 16px);
   }
 }
 
 @media screen and (min-width: 1920px) {
   .home-hero-section {
-    padding-top: clamp(68px, 8vh, 84px);
+    padding-top: clamp(80px, 9vh, 100px);
   }
 }
