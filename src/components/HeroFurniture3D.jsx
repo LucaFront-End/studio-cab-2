@@ -4,12 +4,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import './HeroFurniture3D.css';
 
-// Global cache for loaded GLTF scenes to ensure models are never missing and load instantly
-const MODEL_CACHE = {
-  sofa: null,
-  chairSheen: null,
-  chairOval: null
-};
 
 export default function HeroFurniture3D({ scrollProgress = 0 }) {
   const containerRef = useRef(null);
@@ -29,10 +23,10 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     // 2: Damask capitoné armchair (Left, angled towards center table)
     // 3: Fluted American walnut & brass coffee table (Center Middle)
     pieces: [
-      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.32, -1.15), startPos: new THREE.Vector3(0, -0.32, -0.15), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.38 },
-      { name: 'chairSheen', group: null, shadow: null, targetPos: new THREE.Vector3(1.68, -0.32, 0.08), targetRot: new THREE.Euler(0.04, -0.62, 0.02), scale: 1.22 },
-      { name: 'chairOval', group: null, shadow: null, targetPos: new THREE.Vector3(-1.68, -0.32, 0.08), targetRot: new THREE.Euler(0.04, 0.62, -0.02), scale: 1.22 },
-      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.32, 0.24), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.12 }
+      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.32, -1.35), startPos: new THREE.Vector3(0, -0.32, -0.15), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.48 },
+      { name: 'chairSheen', group: null, shadow: null, targetPos: new THREE.Vector3(1.95, -0.32, 0.05), targetRot: new THREE.Euler(0.04, -0.68, 0.02), scale: 1.32 },
+      { name: 'chairOval', group: null, shadow: null, targetPos: new THREE.Vector3(-1.95, -0.32, 0.05), targetRot: new THREE.Euler(0.04, 0.68, -0.02), scale: 1.32 },
+      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.32, 0.32), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.25 }
     ],
     scrollProgress: 0,
     currentProgress: 0,
@@ -64,28 +58,28 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
 
     // Mobile adjustments: separated non-colliding layout tailored for portrait viewports
     if (isMobile) {
-      engine.pieces[0].targetPos.set(0, -0.28, -0.95);
+      engine.pieces[0].targetPos.set(0, -0.28, -1.30);
       engine.pieces[0].startPos.set(0, -0.28, -0.20);
-      engine.pieces[0].scale = 0.95;
+      engine.pieces[0].scale = 1.05;
 
-      engine.pieces[1].targetPos.set(0.92, -0.28, -0.05);
+      engine.pieces[1].targetPos.set(1.02, -0.28, -0.05);
       engine.pieces[1].targetRot.set(0.04, -0.65, 0);
       engine.pieces[1].scale = 0.88;
 
-      engine.pieces[2].targetPos.set(-0.92, -0.28, -0.05);
+      engine.pieces[2].targetPos.set(-1.02, -0.28, -0.05);
       engine.pieces[2].targetRot.set(0.04, 0.65, 0);
       engine.pieces[2].scale = 0.88;
 
-      engine.pieces[3].targetPos.set(0, -0.28, 0.32);
+      engine.pieces[3].targetPos.set(0, -0.28, 0.38);
       engine.pieces[3].targetRot.set(0.02, 0.45, 0);
-      engine.pieces[3].scale = 0.82;
+      engine.pieces[3].scale = 0.86;
       engine.groundY = -0.28;
     }
 
     // 1. Scene & Perspective Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 40);
-    camera.position.set(0, isMobile ? 0.58 : 0.52, isMobile ? 5.2 : 4.15);
+    camera.position.set(0, isMobile ? 0.65 : 0.54, isMobile ? 5.8 : 4.35);
 
     // 2. Renderer with 100% Transparent Background & PBR Studio Settings
     const renderer = new THREE.WebGLRenderer({
@@ -153,10 +147,10 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       return mesh;
     };
 
-    engine.pieces[0].shadow = createShadowMesh(isMobile ? 2.5 : 3.4);
-    engine.pieces[1].shadow = createShadowMesh(isMobile ? 1.2 : 1.55);
-    engine.pieces[2].shadow = createShadowMesh(isMobile ? 1.2 : 1.55);
-    engine.pieces[3].shadow = createShadowMesh(isMobile ? 1.1 : 1.45);
+    engine.pieces[0].shadow = createShadowMesh(isMobile ? 2.8 : 3.6);
+    engine.pieces[1].shadow = createShadowMesh(isMobile ? 1.35 : 1.65);
+    engine.pieces[2].shadow = createShadowMesh(isMobile ? 1.35 : 1.65);
+    engine.pieces[3].shadow = createShadowMesh(isMobile ? 1.25 : 1.55);
 
     engine.scene = scene;
     engine.camera = camera;
@@ -223,15 +217,29 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     scene.add(tableGroup);
     engine.pieces[3].group = tableGroup;
 
-    // 6. Asynchronously Load GLB Models with caching & frustumCulled=false to prevent any missing pieces
-    const gltfLoader = new GLTFLoader();
-    let loadedCount = 1; // Table is already built
+    // 6. Asynchronously Load GLB Models in Parallel with Atomic Promise.all
+    // Global in-memory cache for pristine, unmutated GLTF scenes so re-mounts are 0ms instant
+    if (!window.__STUDIO_CAB_GLTF_CACHE) {
+      window.__STUDIO_CAB_GLTF_CACHE = {};
+    }
+    const CACHE = window.__STUDIO_CAB_GLTF_CACHE;
 
-    const checkReady = () => {
-      loadedCount++;
-      if (loadedCount >= 4) {
-        setLoading(false);
+    const loadSingleModel = (path) => {
+      if (CACHE[path]) {
+        return Promise.resolve(CACHE[path]);
       }
+      return new Promise((resolve, reject) => {
+        const loader = new GLTFLoader();
+        loader.load(
+          path,
+          (gltf) => {
+            CACHE[path] = gltf;
+            resolve(gltf);
+          },
+          undefined,
+          (err) => reject(err)
+        );
+      });
     };
 
     // Helper: Normalize & Add Model Group with true ground alignment and culling protections
@@ -244,12 +252,13 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
         } else if (child.isMesh) {
           // CRITICAL: Disable frustum culling to guarantee meshes never disappear unexpectedly
           child.frustumCulled = false;
+          child.visible = true;
 
           const mats = Array.isArray(child.material) ? child.material : [child.material];
           mats.forEach((mat) => {
             if (!mat) return;
             mat.side = THREE.DoubleSide; // Render both front & back faces
-            mat.envMapIntensity = 1.35;
+            mat.envMapIntensity = 1.45;
             mat.needsUpdate = true;
 
             // Material color refinement for the luxury curved velvet sofa
@@ -276,6 +285,12 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       });
       toRemove.forEach((c) => c.parent && c.parent.remove(c));
 
+      // Reset root transforms before measuring bounds to guarantee 100% deterministic geometry box
+      root.position.set(0, 0, 0);
+      root.rotation.set(0, 0, 0);
+      root.scale.set(1, 1, 1);
+      root.updateMatrixWorld(true);
+
       // Measure raw metric bounds
       const box = new THREE.Box3().setFromObject(root);
       const center = box.getCenter(new THREE.Vector3());
@@ -291,62 +306,27 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       scene.add(pivot);
 
       engine.pieces[pieceIdx].group = pivot;
-      checkReady();
     };
 
-    // Model 0: Glam Velvet Sofa
-    if (MODEL_CACHE.sofa) {
-      setupModel(MODEL_CACHE.sofa.clone(), 0, true);
-    } else {
-      gltfLoader.load(
-        '/models/glam-velvet-sofa.glb',
-        (gltf) => {
-          MODEL_CACHE.sofa = gltf.scene;
-          setupModel(gltf.scene, 0, true);
-        },
-        undefined,
-        (err) => {
-          console.warn('Fallback sofa', err);
-          gltfLoader.load('/models/sheen-wood-sofa.glb', (g2) => {
-            setupModel(g2.scene, 0, false);
-          });
-        }
-      );
-    }
-
-    // Model 1: Sheen Nordic Chair (Terracotta Mango Velvet & Oak)
-    if (MODEL_CACHE.chairSheen) {
-      setupModel(MODEL_CACHE.chairSheen.clone(), 1, false);
-    } else {
-      gltfLoader.load(
-        '/models/sheen-chair.glb',
-        (gltf) => {
-          MODEL_CACHE.chairSheen = gltf.scene;
-          setupModel(gltf.scene, 1, false);
-        },
-        undefined,
-        (err) => {
-          console.error('[HeroFurniture3D] Error loading sheen-chair:', err);
-        }
-      );
-    }
-
-    // Model 2: Capitoné Damask Armchair
-    if (MODEL_CACHE.chairOval) {
-      setupModel(MODEL_CACHE.chairOval.clone(), 2, false);
-    } else {
-      gltfLoader.load(
-        '/models/chair-damask.glb',
-        (gltf) => {
-          MODEL_CACHE.chairOval = gltf.scene;
-          setupModel(gltf.scene, 2, false);
-        },
-        undefined,
-        (err) => {
-          console.error('[HeroFurniture3D] Error loading chair-damask:', err);
-        }
-      );
-    }
+    // Parallel atomic load: ALL 3 models are awaited together and added simultaneously
+    Promise.all([
+      loadSingleModel('/models/glam-velvet-sofa.glb').catch((err) => {
+        console.warn('Fallback sofa', err);
+        return loadSingleModel('/models/sheen-wood-sofa.glb');
+      }),
+      loadSingleModel('/models/sheen-chair.glb'),
+      loadSingleModel('/models/chair-damask.glb')
+    ])
+      .then(([sofaGltf, sheenGltf, damaskGltf]) => {
+        if (sofaGltf) setupModel(sofaGltf.scene.clone(true), 0, true);
+        if (sheenGltf) setupModel(sheenGltf.scene.clone(true), 1, false);
+        if (damaskGltf) setupModel(damaskGltf.scene.clone(true), 2, false);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('[HeroFurniture3D] Critical model load error:', err);
+        setLoading(false);
+      });
 
     // 7. Animation Loop (Smooth 60FPS)
     const clock = new THREE.Clock();
@@ -355,8 +335,8 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.animId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
-      // Smooth scroll progress interpolation
-      engine.currentProgress += (engine.scrollProgress - engine.currentProgress) * 0.08;
+      // Smooth scroll progress interpolation (responsive & silky)
+      engine.currentProgress += (engine.scrollProgress - engine.currentProgress) * 0.12;
       const prog = engine.currentProgress;
 
       // Smooth cursor parallax & drag interpolation
@@ -365,7 +345,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.dragRotY += (engine.targetDragRotY - engine.dragRotY) * 0.08;
 
       camera.position.x = engine.mouseCurrentX * 0.25;
-      camera.position.y = (isMobile ? 0.58 : 0.52) - engine.mouseCurrentY * 0.15;
+      camera.position.y = (isMobile ? 0.65 : 0.54) - engine.mouseCurrentY * 0.15;
       camera.lookAt(0, -0.05, 0);
 
       // Subtle ambient hovering waves

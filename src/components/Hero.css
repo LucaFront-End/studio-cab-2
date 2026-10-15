@@ -22,6 +22,8 @@
 }
 
 .hero-sticky-container {
+  max-width: 1100px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -176,7 +178,7 @@
 .hero-banner-outer-block {
   overflow: visible;
   width: 100%;
-  margin-bottom: clamp(6px, 1.2vh, 14px);
+  margin-bottom: clamp(18px, 2.8vh, 32px);
   position: relative;
   z-index: 2;
   opacity: 0;
@@ -192,7 +194,7 @@
 .hero-3d-living-room-stage {
   position: relative;
   width: 100%;
-  height: clamp(360px, 50vh, 540px);
+  height: clamp(320px, 46vh, 480px);
   border: none;
   background: transparent;
   overflow: visible;
@@ -204,7 +206,7 @@
 /* Subtle, Luxury Living Room Assembly HUD */
 .hero-living-room-hud {
   position: absolute;
-  bottom: 4px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -271,13 +273,14 @@
    HERO CONTENT BLOCK
    ============================================ */
 .hero-content-block {
-  grid-column-gap: clamp(24px, 4vw, 65px);
-  grid-row-gap: 12px;
-  grid-template-rows: auto;
-  grid-template-columns: 1.15fr 1fr;
-  grid-auto-columns: 1fr;
-  place-items: center stretch;
   display: grid;
+  grid-template-columns: 1.22fr 1fr;
+  grid-column-gap: clamp(24px, 4vw, 56px);
+  grid-row-gap: 16px;
+  align-items: start;
+  width: 100%;
+  margin-top: clamp(8px, 1.6vh, 20px);
+  margin-bottom: clamp(6px, 1.2vh, 16px);
   opacity: 0;
   transform: skewY(5deg);
   transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s, transform 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
@@ -288,12 +291,18 @@
   transform: skewY(0deg);
 }
 
+.hero-content-left-block {
+  display: flex;
+  flex-direction: column;
+}
+
 .hero-content-left-block h2 {
-  font-size: clamp(20px, 2.1vw, 32px);
+  font-size: clamp(20px, 2.1vw, 30px);
   font-weight: 500;
-  line-height: 1.28;
-  letter-spacing: -0.01em;
+  line-height: 1.26;
+  letter-spacing: -0.015em;
   color: var(--colors--theme-black);
+  margin: 0;
 }
 
 .hero-content-right-block {
@@ -305,9 +314,10 @@
 
 .button-top-text {
   font-size: clamp(13px, 1.05vw, 15px);
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--colors--theme-gray);
-  margin-bottom: clamp(10px, 1.4vh, 18px);
+  margin-top: 0;
+  margin-bottom: clamp(10px, 1.4vh, 16px);
 }
 
 /* Technical rectangular CTA button styling for the Hero */
@@ -455,16 +465,38 @@
     height: 100vh;
   }
 
+  .hero-banner-outer-block {
+    margin-bottom: 20px;
+  }
+
   .hero-3d-living-room-stage {
-    height: clamp(280px, 42vh, 390px);
+    height: clamp(280px, 42vh, 400px);
     width: 100%;
   }
 
   .hero-living-room-hud {
     padding: 4px 12px;
     gap: 8px;
-    bottom: -4px;
+    bottom: 6px;
     max-width: 96%;
+  }
+
+  .hero-content-block {
+    grid-template-columns: 1fr;
+    grid-row-gap: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .hero-content-left-block h2 {
+    font-size: clamp(18px, 5vw, 24px);
+    line-height: 1.3;
+  }
+
+  .button-top-text {
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .hero-hud-step-badge {
