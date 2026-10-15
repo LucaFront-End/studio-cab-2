@@ -18,7 +18,7 @@
 }
 
 .hero-sticky-container {
-  max-width: 1140px;
+  max-width: 1280px;
   width: 100%;
   height: 100%;
   flex: 1;
@@ -195,8 +195,8 @@
 .hero-3d-living-room-stage {
   position: relative;
   width: 100%;
-  /* Moderately trimmed height: keeps models large and prominent while leaving comfortable room for navbar and CTA */
-  height: clamp(320px, 43vh, 460px);
+  /* Generous stage height: models look grand, airy, and prominent */
+  height: clamp(350px, 47vh, 500px);
   border: none;
   background: transparent;
   overflow: visible;

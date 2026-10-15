@@ -17,16 +17,16 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     animId: null,
     groundY: -0.40,
     // 4 Pieces of the Commercial Showroom ("Espacio Comercial")
-    // Full grand scale:
+    // Full grand scale with generous breathing room / air between elements:
     // 0: Curved velvet reception sofa (Center Back)
-    // 1: Commercial retail shelving unit (Right, angled towards center)
-    // 2: Architectural custom closet with fluted lambrín (Left, angled towards center)
+    // 1: Commercial retail shelving unit (Right, separated with ample air)
+    // 2: Architectural custom closet with fluted lambrín (Left, separated with ample air)
     // 3: Fluted American walnut & brass coffee table (Center Front)
     pieces: [
-      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.40, -1.45), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.50 },
-      { name: 'shelf', group: null, shadow: null, targetPos: new THREE.Vector3(2.10, -0.40, -0.10), targetRot: new THREE.Euler(0.04, -0.42, 0), scale: 1.20 },
-      { name: 'closet', group: null, shadow: null, targetPos: new THREE.Vector3(-2.10, -0.40, -0.10), targetRot: new THREE.Euler(0.04, 0.42, 0), scale: 1.20 },
-      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.40, 0.42), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.26 }
+      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.40, -1.50), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.70 },
+      { name: 'shelf', group: null, shadow: null, targetPos: new THREE.Vector3(2.70, -0.40, -0.15), targetRot: new THREE.Euler(0.04, -0.46, 0), scale: 1.35 },
+      { name: 'closet', group: null, shadow: null, targetPos: new THREE.Vector3(-2.70, -0.40, -0.15), targetRot: new THREE.Euler(0.04, 0.46, 0), scale: 1.35 },
+      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.40, 0.38), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.38 }
     ],
     isDragging: false,
     dragRotY: 0,
@@ -51,27 +51,27 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
 
     // Mobile adjustments: separated non-colliding layout tailored for portrait viewports
     if (isMobile) {
-      engine.pieces[0].targetPos.set(0, -0.34, -1.40);
-      engine.pieces[0].scale = 1.05;
+      engine.pieces[0].targetPos.set(0, -0.34, -1.45);
+      engine.pieces[0].scale = 1.15;
 
-      engine.pieces[1].targetPos.set(1.15, -0.34, -0.10);
-      engine.pieces[1].targetRot.set(0.04, -0.38, 0);
-      engine.pieces[1].scale = 0.84;
+      engine.pieces[1].targetPos.set(1.35, -0.34, -0.10);
+      engine.pieces[1].targetRot.set(0.04, -0.40, 0);
+      engine.pieces[1].scale = 0.92;
 
-      engine.pieces[2].targetPos.set(-1.15, -0.34, -0.10);
-      engine.pieces[2].targetRot.set(0.04, 0.38, 0);
-      engine.pieces[2].scale = 0.84;
+      engine.pieces[2].targetPos.set(-1.35, -0.34, -0.10);
+      engine.pieces[2].targetRot.set(0.04, 0.40, 0);
+      engine.pieces[2].scale = 0.92;
 
       engine.pieces[3].targetPos.set(0, -0.34, 0.44);
       engine.pieces[3].targetRot.set(0.02, 0.45, 0);
-      engine.pieces[3].scale = 0.88;
+      engine.pieces[3].scale = 0.95;
       engine.groundY = -0.34;
     }
 
     // 1. Scene & Perspective Camera with generous presence for large prominent models
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 40);
-    camera.position.set(0, isMobile ? 0.60 : 0.40, isMobile ? 6.2 : 4.70);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 40);
+    camera.position.set(0, isMobile ? 0.60 : 0.38, isMobile ? 6.4 : 4.60);
 
     // 2. Renderer with 100% Transparent Background & PBR Studio Settings
     const renderer = new THREE.WebGLRenderer({
@@ -139,10 +139,10 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       return mesh;
     };
 
-    engine.pieces[0].shadow = createShadowMesh(isMobile ? 2.8 : 3.6);
-    engine.pieces[1].shadow = createShadowMesh(isMobile ? 1.4 : 1.7);
-    engine.pieces[2].shadow = createShadowMesh(isMobile ? 1.6 : 1.9);
-    engine.pieces[3].shadow = createShadowMesh(isMobile ? 1.25 : 1.55);
+    engine.pieces[0].shadow = createShadowMesh(isMobile ? 3.0 : 4.0);
+    engine.pieces[1].shadow = createShadowMesh(isMobile ? 1.6 : 2.0);
+    engine.pieces[2].shadow = createShadowMesh(isMobile ? 1.8 : 2.2);
+    engine.pieces[3].shadow = createShadowMesh(isMobile ? 1.4 : 1.75);
 
     engine.scene = scene;
     engine.camera = camera;
@@ -684,7 +684,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.dragRotY += (engine.targetDragRotY - engine.dragRotY) * 0.08;
 
       camera.position.x = engine.mouseCurrentX * 0.25;
-      camera.position.y = (isMobile ? 0.60 : 0.40) - engine.mouseCurrentY * 0.15;
+      camera.position.y = (isMobile ? 0.60 : 0.38) - engine.mouseCurrentY * 0.15;
       camera.lookAt(0, 0.20, 0);
 
       // Subtle ambient hovering waves
