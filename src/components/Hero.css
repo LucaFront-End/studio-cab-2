@@ -1,12 +1,31 @@
 /* ============================================
-   HERO SECTION
+   STICKY SCROLL HERO SECTION
    ============================================ */
-.home-hero-section {
-  padding-top: 120px;
-  padding-bottom: 105px;
-  background-color: var(--colors--theme-white);
+.home-hero-sticky-track {
   position: relative;
+  height: 280vh; /* Smooth, comfortable scroll travel to assemble the 4 pieces */
+  background-color: var(--colors--theme-white);
+}
+
+.home-hero-sticky-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   overflow: hidden;
+  padding-top: 100px;
+  padding-bottom: 25px;
+  background-color: var(--colors--theme-white);
+}
+
+.hero-sticky-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Background blueprint grid pattern */
@@ -27,6 +46,8 @@
   display: flex;
   position: relative;
   z-index: 2;
+  height: 100%;
+  justify-content: space-between;
 }
 
 /* Technical frame indicators */
@@ -61,12 +82,12 @@
    EYEBROW TEXT
    ============================================ */
 .hero-top-eyebrow {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   color: var(--colors--theme-orange);
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: clamp(4px, 1vh, 10px);
   text-transform: uppercase;
   opacity: 0;
   transform: translate3d(0, -10px, 0);
@@ -83,9 +104,10 @@
    HERO TITLE
    ============================================ */
 .hero-title-wrapper {
-  margin-bottom: 50px;
+  margin-bottom: clamp(4px, 1vh, 12px);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 4;
   will-change: transform;
 }
 
@@ -102,7 +124,7 @@
 }
 
 .hero-title-char-outer {
-  font-size: clamp(35px, 9.5vw, 110px);
+  font-size: clamp(40px, 5.5vw, 76px);
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.015em;
@@ -149,12 +171,14 @@
 }
 
 /* ============================================
-   HERO BANNER VIDEO
+   HERO 3D LIVING ROOM STAGE
    ============================================ */
 .hero-banner-outer-block {
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
-  margin-bottom: 60px;
+  margin-bottom: clamp(6px, 1.2vh, 14px);
+  position: relative;
+  z-index: 2;
   opacity: 0;
   transform: skewY(5deg);
   transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s, transform 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
@@ -165,35 +189,94 @@
   transform: skewY(0deg);
 }
 
-.hero-banner-image-wrapper {
-  flex: none;
+.hero-3d-living-room-stage {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  aspect-ratio: 16 / 9; /* Expanded 16:9 ratio so video is not cropped */
-  border-radius: 16px;
-  border: 1px solid var(--color-border);
-  will-change: transform;
+  height: clamp(360px, 50vh, 540px);
+  border: none;
+  background: transparent;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero-banner-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  will-change: transform;
+/* Subtle, Luxury Living Room Assembly HUD */
+.hero-living-room-hud {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.hero-hud-step-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--colors--theme-black);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero-hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--colors--theme-orange);
+  animation: pulse-orange 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-orange {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.hero-hud-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-dot-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.hero-dot-indicator.active {
+  background: var(--colors--theme-orange);
+  transform: scale(1.25);
 }
 
 /* ============================================
    HERO CONTENT BLOCK
    ============================================ */
 .hero-content-block {
-  grid-column-gap: 65px;
-  grid-row-gap: 65px;
+  grid-column-gap: clamp(24px, 4vw, 65px);
+  grid-row-gap: 12px;
   grid-template-rows: auto;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
   grid-auto-columns: 1fr;
-  place-items: start stretch;
+  place-items: center stretch;
   display: grid;
   opacity: 0;
   transform: skewY(5deg);
@@ -206,9 +289,9 @@
 }
 
 .hero-content-left-block h2 {
-  font-size: 46px;
+  font-size: clamp(20px, 2.1vw, 32px);
   font-weight: 500;
-  line-height: 1.32;
+  line-height: 1.28;
   letter-spacing: -0.01em;
   color: var(--colors--theme-black);
 }
@@ -221,10 +304,10 @@
 }
 
 .button-top-text {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.45;
   color: var(--colors--theme-gray);
-  margin-bottom: 40px;
+  margin-bottom: clamp(10px, 1.4vh, 18px);
 }
 
 /* Technical rectangular CTA button styling for the Hero */
@@ -362,6 +445,42 @@
     padding-bottom: 40px;
   }
 
+  .home-hero-sticky-track {
+    height: 250vh;
+  }
+
+  .home-hero-sticky-viewport {
+    padding-top: 75px;
+    padding-bottom: 20px;
+    height: 100vh;
+  }
+
+  .hero-3d-living-room-stage {
+    height: clamp(280px, 42vh, 390px);
+    width: 100%;
+  }
+
+  .hero-living-room-hud {
+    padding: 4px 12px;
+    gap: 8px;
+    bottom: -4px;
+    max-width: 96%;
+  }
+
+  .hero-hud-step-badge {
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-hud-dots {
+    gap: 4px;
+  }
+
+  .hero-dot-indicator {
+    width: 5px;
+    height: 5px;
+  }
+
   .hero-top-eyebrow {
     font-size: 13px;
     font-weight: 800;
@@ -379,11 +498,11 @@
   }
 
   .hero-title-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .hero-title-char-outer {
-    font-size: clamp(48px, 13vw, 75px);
+    font-size: clamp(44px, 12vw, 70px);
   }
 }
 
@@ -412,17 +531,17 @@
 
 @media screen and (min-width: 1280px) {
   .hero-title-char-outer {
-    font-size: clamp(80px, 9.8vw, 125px);
+    font-size: clamp(52px, 5.8vw, 84px);
   }
 }
 
 @media screen and (min-width: 1440px) {
   .hero-title-wrapper {
-    margin-bottom: 60px;
+    margin-bottom: clamp(6px, 1.2vh, 16px);
   }
 
   .hero-title-char-outer {
-    font-size: clamp(100px, 9.8vw, 145px);
+    font-size: clamp(58px, 6.2vw, 92px);
   }
 
   .hero-content-block {
@@ -430,7 +549,7 @@
   }
 
   .button-top-text {
-    margin-bottom: 48px;
+    margin-bottom: clamp(12px, 1.8vh, 22px);
   }
 }
 
