@@ -15,7 +15,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     camera: null,
     renderer: null,
     animId: null,
-    groundY: -0.40,
+    groundY: -0.46,
     // 4 Pieces of the Commercial Showroom ("Espacio Comercial")
     // Full grand scale with generous breathing room / air between elements:
     // 0: Curved velvet reception sofa (Center Back)
@@ -23,10 +23,10 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     // 2: Architectural custom closet with fluted lambrín (Left, separated with ample air)
     // 3: Fluted American walnut & brass coffee table (Center Front)
     pieces: [
-      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.40, -1.50), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.70 },
-      { name: 'shelf', group: null, shadow: null, targetPos: new THREE.Vector3(2.70, -0.40, -0.15), targetRot: new THREE.Euler(0.04, -0.46, 0), scale: 1.35 },
-      { name: 'closet', group: null, shadow: null, targetPos: new THREE.Vector3(-2.70, -0.40, -0.15), targetRot: new THREE.Euler(0.04, 0.46, 0), scale: 1.35 },
-      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.40, 0.38), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.38 }
+      { name: 'sofa', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.46, -1.50), targetRot: new THREE.Euler(0.04, 0, 0), scale: 1.70 },
+      { name: 'shelf', group: null, shadow: null, targetPos: new THREE.Vector3(2.70, -0.46, -0.15), targetRot: new THREE.Euler(0.04, -0.46, 0), scale: 1.35 },
+      { name: 'closet', group: null, shadow: null, targetPos: new THREE.Vector3(-2.70, -0.46, -0.15), targetRot: new THREE.Euler(0.04, 0.46, 0), scale: 1.35 },
+      { name: 'table', group: null, shadow: null, targetPos: new THREE.Vector3(0, -0.46, 0.38), targetRot: new THREE.Euler(0.02, 0.45, 0), scale: 1.38 }
     ],
     isDragging: false,
     dragRotY: 0,
@@ -43,8 +43,9 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
+    const canvasExtraTop = 60;
     const width = container.clientWidth || window.innerWidth;
-    const height = container.clientHeight || 450;
+    const height = (container.clientHeight || 450) + canvasExtraTop;
     const engine = engineRef.current;
     window.__DEBUG_3D = engine;
     const isMobile = width < 768;
@@ -68,10 +69,10 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.groundY = -0.34;
     }
 
-    // 1. Scene & Perspective Camera with generous presence for large prominent models
+    // 1. Scene & Perspective Camera with generous top clearance preventing any clipping on rotate
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 40);
-    camera.position.set(0, isMobile ? 0.60 : 0.38, isMobile ? 6.4 : 4.60);
+    const camera = new THREE.PerspectiveCamera(43, width / height, 0.1, 40);
+    camera.position.set(0, isMobile ? 0.60 : 0.36, isMobile ? 6.4 : 4.65);
 
     // 2. Renderer with 100% Transparent Background & PBR Studio Settings
     const renderer = new THREE.WebGLRenderer({
@@ -684,8 +685,8 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
       engine.dragRotY += (engine.targetDragRotY - engine.dragRotY) * 0.08;
 
       camera.position.x = engine.mouseCurrentX * 0.25;
-      camera.position.y = (isMobile ? 0.60 : 0.38) - engine.mouseCurrentY * 0.15;
-      camera.lookAt(0, 0.20, 0);
+      camera.position.y = (isMobile ? 0.60 : 0.36) - engine.mouseCurrentY * 0.15;
+      camera.lookAt(0, 0.16, 0);
 
       // Subtle ambient hovering waves
       const hoverY0 = Math.sin(elapsed * 1.3) * 0.02;
@@ -717,8 +718,8 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
         // Premium architectural cubic ease-out
         const ease = 1 - Math.pow(1 - t, 3.2);
 
-        // Ascend smoothly from below the floor (-3.2) to ground level + hover
-        const startY = -3.2;
+        // Ascend smoothly from below the floor (-3.4) to ground level + hover
+        const startY = -3.4;
         const targetY = groundY + hovers[idx];
         const curY = startY + (targetY - startY) * ease;
 
@@ -748,7 +749,7 @@ export default function HeroFurniture3D({ scrollProgress = 0 }) {
     const handleResize = () => {
       if (!container || !renderer || !camera) return;
       const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || 450;
+      const h = (container.clientHeight || 450) + 60;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);

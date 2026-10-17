@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: visible;
-  padding-top: clamp(100px, 11vh, 116px);
+  padding-top: clamp(88px, 10vh, 102px);
   padding-bottom: clamp(14px, 1.8vh, 22px);
   /* Warm architectural studio gradient: seamlessly blending from #F7F2E2 through #E8E0CD to #F7F2E2 */
   background: 

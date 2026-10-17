@@ -13,15 +13,15 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-border);
-  padding: 24px 0;
-  transition: padding 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+  padding: 13px 0;
+  transition: padding 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
   box-sizing: border-box;
   overflow: visible;
 }
 
 /* Scrolled state (compact) */
 .header-scrolled {
-  padding: 14px 0;
+  padding: 9px 0;
   background-color: color-mix(in srgb, var(--colors--theme-white) 95%, transparent);
   box-shadow: 0 10px 30px color-mix(in srgb, var(--colors--theme-black) 2%, transparent);
 }
@@ -44,30 +44,26 @@
   align-items: center;
   z-index: 1010;
   text-decoration: none;
-  /* Reserve horizontal space for the logo so nav links don't overlap */
-  width: 200px;
-  height: 30px;
+  height: 46px;
+  width: auto;
 }
 
-/* Logo image */
+/* Logo image (Cropped of transparent margins, same prominent visible mark) */
 .header-logo-image {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  height: 120px;
+  height: 46px;
   width: auto;
   display: block;
   mix-blend-mode: multiply;
-  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  object-fit: contain;
+  transition: height 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
 }
 
 .header-logo-image:hover {
-  opacity: 0.8;
+  opacity: 0.82;
 }
 
 .header-scrolled .header-logo-image {
-  height: 85px;
+  height: 38px;
 }
 
 /* Desktop Nav links */
@@ -427,12 +423,12 @@
   }
 
   .header-logo-image {
-    width: 105px;
-    height: auto !important;
+    height: 40px !important;
+    width: auto !important;
   }
   
   .header-scrolled .header-logo-image {
-    width: 95px;
-    height: auto !important;
+    height: 34px !important;
+    width: auto !important;
   }
 }

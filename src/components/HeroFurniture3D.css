@@ -14,16 +14,18 @@
   justify-content: center;
 }
 
-/* Three.js Canvas */
+/* Three.js Canvas (Allows upward overflow into transparent hero space) */
 .hero-3d-floating-canvas {
   position: absolute;
-  inset: 0;
+  top: -60px;
+  left: 0;
   width: 100% !important;
-  height: 100% !important;
+  height: calc(100% + 60px) !important;
   display: block;
   pointer-events: auto;
   cursor: grab;
   background: transparent !important;
+  overflow: visible;
 }
 
 .hero-3d-floating-canvas:active {
